@@ -1,0 +1,60 @@
+.button {
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.button-hollow {
+    width: 80px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--function);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--function);
+    cursor: pointer;
+}
+
+.button-hollow:hover {
+    border: 1px solid var(--secondary-green);
+    color: var(--secondary-green);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.button-fill {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--function) !important;
+    border: 1px solid var(--function);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.button-fill:hover {
+    background-color: var(--secondary-green) !important;
+    border: 1px solid var(--secondary-green);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.button-pink {
+    width: 80px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--alert);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--alert);
+    cursor: pointer;
+}
+
+.button-pink:hover {
+    color: var(--alert-dark) !important;
+    border: 1px solid var(--alert-dark);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08);
+}

@@ -1,0 +1,17 @@
+.pill {
+    display: flex;
+    align-items: center;
+    max-width: calc(100% - 16px);
+    margin: auto;
+
+    & > div {
+        display: inline-flex;
+        background-color: #f3f3f4;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        color: #82878f;
+        text-align: center;
+        padding: 3px 14px;
+        margin: 8px auto;
+    }
+}

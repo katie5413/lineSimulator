@@ -1,0 +1,25 @@
+:root {
+    --black: #333;
+    --primary-main: #ff860d;
+    --primary-green: #4b6561;
+    --secondary-green: #508b82;
+    --light-green: #91b1b3;
+    --background: #ecfeff;
+    --mango: #fccb88;
+    --alert: #fc5c81;
+    --alert-dark: #f23a65;
+    --function: #ff860d;
+    --function-dark: #2a5f79;
+    --gray: #dfe9e9;
+    --dark-gray: #c4c4c4;
+    --gray-lighter: #eff4f4;
+    --light-gray: #f2f2f2;
+    --line-green: #c2f5a8;
+    --errorMsg: #b02e0c;
+}
+
+@font-face {
+    font-family: Cyber;
+    src: url('https://assets.codepen.io/605876/Blender-Pro-Bold.otf');
+    font-display: swap;
+}

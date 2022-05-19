@@ -1,0 +1,28 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+.loginForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.passCodeInput .container{
+    animation: none;
+    border: none;
+}
+
+#loginBtn{
+    --primary: #D26900;
+    --shadow-primary: #9F5000;
+}

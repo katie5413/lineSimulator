@@ -1,0 +1,446 @@
+/* stylelint-disable selector-class-pattern  */
+/* stylelint-disable value-no-vendor-prefix     */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Noto Sans JP', 'Noto Sans TC', sans-serif;
+}
+
+.bg {
+    padding: 16px;
+    padding-bottom: 120px;
+
+    @media screen and (max-width: 600px) {
+        padding: 8px;
+    }
+
+    .header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        gap: 16px;
+
+        & .roomName {
+            display: flex;
+            box-sizing: border-box;
+            align-items: center;
+            width: fit-content;
+            border-radius: 8px;
+            border: 1px solid var(--gray-lighter);
+            padding: 4px 8px;
+            height: 40px;
+
+            @media screen and (max-width: 600px) {
+                width: 100%;
+            }
+
+            h3 {
+                margin-right: 16px;
+                position: relative;
+                white-space: nowrap;
+
+                #roomCode {
+                    letter-spacing: 0.8;
+                }
+
+                #changeRoomName {
+                    font-family: 'Cyber', 'sans-serif';
+                }
+
+                &::after {
+                    position: absolute;
+                    content: ' ';
+                    height: 120%;
+                    width: 1px;
+                    top: 50%;
+                    right: -8px;
+                    transform: translateY(-50%);
+                    z-index: 2;
+                    background-color: var(--gray);
+                }
+            }
+
+            & > input {
+                font-size: 18px;
+                font-weight: bold;
+                line-height: 1.5;
+                color: var(--function) !important;
+                padding: 0;
+                width: auto;
+                border: none;
+                background-color: none;
+                outline: none;
+            }
+
+            &.edit {
+                height: 40px;
+                box-shadow: 0 0 2px 0 var(--mango), 0 0 3px 1px var(--mango);
+            }
+        }
+
+        & .mainCharacter {
+            display: flex;
+            width: fit-content;
+
+            @media screen and (max-width: 600px) {
+                width: 100%;
+            }
+
+            #character-avatar {
+                width: 50px;
+                border-radius: 50%;
+                margin-right: 16px;
+
+                @media screen and (max-width: 600px) {
+                    width: 40px;
+                }
+            }
+
+            .form__input {
+                .drop__container {
+                    height: 50px;
+
+                    @media screen and (max-width: 600px) {
+                        height: 40px;
+                    }
+
+                    input {
+                        height: 100%;
+                        outline: none;
+                    }
+
+                    .icon {
+                        top: 15px;
+
+                        @media screen and (max-width: 600px) {
+                            top: 12px;
+                        }
+                    }
+
+                    .line {
+                        top: 49px;
+
+                        @media screen and (max-width: 600px) {
+                            top: 39px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    & > .manageMember,
+    & > .manageContent,
+    & > .manageQuestion {
+        display: flex;
+        justify-content: space-between;
+        margin: 24px 0 8px;
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+
+            #saveContent {
+                flex-shrink: 0;
+                width: 80px;
+            }
+        }
+    }
+
+    h3 {
+        font-size: 16px;
+        color: var(--black);
+        margin: 8px 0;
+
+        @media screen and (max-width: 600px) {
+            font-size: 14px;
+        }
+    }
+
+    .toggleExpand {
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-left: 8px;
+            background-color: var(--mango);
+            border-radius: 50%;
+
+            img {
+                transition: all 0.5s ease;
+                transform: rotate(90deg);
+                width: 24px;
+            }
+        }
+
+        &.collapse {
+            span {
+                img {
+                    transform: rotate(270deg);
+                }
+            }
+        }
+    }
+
+    & > .memberArea {
+        position: relative;
+        display: flex;
+        border-radius: 8px;
+        background-color: oldlace;
+        padding: 8px;
+        margin-bottom: 16px;
+        gap: 8px;
+
+        &::after {
+            display: none;
+        }
+
+        &.active {
+            &::after {
+                display: block;
+                position: absolute;
+                content: ' ';
+                height: 94px;
+                border-radius: 0 8px 8px 0px;
+                width: 60px;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,fdf5e6+99&0+0,1+100 */
+                background: -moz-linear-gradient(
+                    left,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(253, 245, 230, 0.99) 99%,
+                    rgba(253, 245, 230, 1) 100%
+                ); /* FF3.6-15 */
+                background: -webkit-linear-gradient(
+                    left,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(253, 245, 230, 0.99) 99%,
+                    rgba(253, 245, 230, 1) 100%
+                ); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(
+                    to right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(253, 245, 230, 0.99) 99%,
+                    rgba(253, 245, 230, 1) 100%
+                ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#fdf5e6',GradientType=1 ); /* IE6-9 */
+            }
+        }
+
+        & > .members {
+            display: flex;
+            gap: 8px;
+            margin-left: 16px;
+            padding-right: 60px;
+            overflow-x: overlay;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            &::after {
+                position: absolute;
+                content: ' ';
+                height: 80%;
+                width: 2px;
+                top: 50%;
+                right: -12px;
+                transform: translateY(-50%);
+                z-index: 2;
+                background-color: white;
+            }
+
+            #addMember {
+                transition: all 0.3s ease;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: none;
+                cursor: pointer;
+                background-color: var(--mango);
+                margin: 4px;
+                flex-shrink: 0;
+
+                @media screen and (max-width: 600px) {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                & > img {
+                    width: auto;
+                }
+
+                &:hover {
+                    background-color: var(--secondary-green);
+                }
+            }
+        }
+    }
+
+    & > .messageArea {
+        position: relative;
+        border-radius: 8px;
+        transition: all 0.5s ease;
+
+        &.collapse {
+            height: 0;
+            overflow: hidden;
+        }
+
+        #message {
+            position: relative;
+            padding: 4px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 16px;
+        }
+
+        .addMsg {
+            display: flex;
+            align-items: center;
+            width: -webkit-fill-available;
+            padding: 16px;
+            gap: 16px;
+            background-color: oldlace;
+            border-radius: 8px;
+            margin-bottom: 16px;
+
+            .selectCharactor {
+                max-width: 120px;
+
+                .drop__container {
+                    width: max-content;
+                    max-width: 120px;
+
+                    .icon {
+                        transform: rotate(-90deg);
+                    }
+
+                    .select-items {
+                        top: unset;
+                        bottom: 100%;
+                        border-radius: 8px 8px 0 0;
+                    }
+
+                    &.active {
+                        &::before {
+                            top: 0;
+                            bottom: unset;
+                        }
+
+                        .icon {
+                            transform: rotate(90deg);
+                        }
+                        .select-items {
+                            box-shadow: 0 0 2px 0 var(--mango), 0 0 3px 1px var(--mango);
+                            border-bottom: none;
+                        }
+                        .select-selected {
+                            border-radius: 0 0 8px 8px;
+                        }
+                    }
+                }
+            }
+
+            .newMsg {
+                input {
+                    height: 100%;
+                }
+            }
+
+            #addMsgContent {
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    & > .questionArea {
+        position: relative;
+        border-radius: 8px;
+        transition: all 0.5s ease;
+
+        &.collapse {
+            height: 0;
+            overflow: hidden;
+        }
+
+        #question {
+            padding: 4px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 16px;
+        }
+
+        .addQuestion {
+            display: grid;
+            grid-template-columns: 80px 3fr 1fr 36px;
+            align-items: center;
+            width: -webkit-fill-available;
+            padding: 16px;
+            gap: 16px;
+            background-color: oldlace;
+            border-radius: 8px;
+            margin-bottom: 16px;
+
+            .selectAnswer {
+                .drop__container {
+                    .icon {
+                        transform: rotate(-90deg);
+                    }
+
+                    .select-items {
+                        top: unset;
+                        bottom: 100%;
+                        border-radius: 8px 8px 0 0;
+                    }
+
+                    &.active {
+                        &::before {
+                            top: 0;
+                            bottom: unset;
+                        }
+
+                        .icon {
+                            transform: rotate(90deg);
+                        }
+                        .select-items {
+                            box-shadow: 0 0 2px 0 var(--mango), 0 0 3px 1px var(--mango);
+                            border-bottom: none;
+                        }
+                        .select-selected {
+                            border-radius: 0 0 8px 8px;
+                        }
+                    }
+                }
+            }
+
+            .newQuestion {
+                input {
+                    height: 100%;
+                }
+            }
+
+            #addQuestionContent {
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+                border-radius: 50%;
+            }
+        }
+    }
+}
