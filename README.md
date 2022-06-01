@@ -24,7 +24,7 @@
 
 ## 主要技術
 
-前端：HTML/JS/sass
+前端：HTML/JS/scss
 
 後端：php/MySQL
 
@@ -35,7 +35,7 @@
 
 ├── Api 需要跟資料庫互動的程式 
 
-├── Backstage 後台編輯
+├── Backstage 後台編輯入口
 
 ├── Common 共用設定
 
@@ -45,7 +45,9 @@
 
 ├── Images 圖片
 
-├── New 新增會客室
+├── ManageRoom 編輯後台資料
+
+├── New 新增會客室入口
 
 ├── Room 檢視模式
 
@@ -53,7 +55,7 @@
 
 ├── index.js
 
-├── index.php 入口
+├── index.php 訪客入口
 
 ├── package.json
 
