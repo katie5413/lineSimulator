@@ -92,6 +92,12 @@ include "pdoInc.php";
                         NEW
                     </span>
                 </a>
+                <a class="cybrBtn third" type="button" href="Backstage/index.php">
+                    後台管理<span aria-hidden>_</span>
+                    <span aria-hidden class="cybrBtn_Tag">
+                        MANAGE
+                    </span>
+                </a>
             </div>
         </div>
     </div>

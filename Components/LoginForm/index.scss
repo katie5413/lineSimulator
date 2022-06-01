@@ -131,6 +131,8 @@
     }
 
     & > .btnOutsideArea {
+        display: flex;
+        gap: 24px;
         margin-top: 40px;
     }
 }

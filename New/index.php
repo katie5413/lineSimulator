@@ -10,7 +10,10 @@ include "../pdoInc.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" type="text/css" href="../Common/index.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" type="text/css" href="../Components/Button/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/TimeTunnel/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/CybrBtn/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/LoginForm/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/Input/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/ErrorMsg/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="index.css?v=<?php echo time(); ?>">
     <!-- Google Tag Manager -->
@@ -46,16 +49,24 @@ include "../pdoInc.php";
 </head>
 
 <body>
-    <div class="bg">
-        <div class="card_container">
-            <div id="addNewRoomForm" class="card_content">
-                <div id="code_area">
-                    <input class="code required" name="code1" value="" maxlength="1" type="text" readonly />
-                    <input class="code required" name="code2" value="" maxlength="1" type="text" readonly />
-                    <input class="code required" name="code3" value="" maxlength="1" type="text" readonly />
-                    <input class="code required" name="code4" value="" maxlength="1" type="text" readonly />
-                    <input class="code required" name="code5" value="" maxlength="1" type="text" readonly />
-                    <input class="code required" name="code6" value="" maxlength="1" type="text" readonly />
+    <div class="timeTunnel">
+        <img class="img" src="../Images/bg.png" alt="" />
+        <div class="cover" />
+    </div>
+
+    <div class="loginForm">
+        <div class="passCodeInput">
+            <div class="container">
+                <div class="typedStrings">
+                    超時空座談
+                </div>
+                <div class="passcodeArea">
+                    <input autoFocus type="text" maxLength="1" autocomplete="new-password" />
+                    <input type="text" maxLength="1" autocomplete="new-password" />
+                    <input type="text" maxLength="1" autocomplete="new-password" />
+                    <input type="text" maxLength="1" autocomplete="new-password" />
+                    <input type="text" maxLength="1" autocomplete="new-password" />
+                    <input type="text" maxLength="1" autocomplete="new-password" />
                 </div>
                 <div class="input_area">
                     <div class="input_field">
@@ -69,21 +80,43 @@ include "../pdoInc.php";
                         </button>
                     </div>
                     <div class="input_field">
-                        <input type=" password" id="passwordCheck" name="passwordCheck" class="password required" placeholder="再次輸入密碼" />
+                        <input type="password" id="passwordCheck" name="passwordCheck" class="password required" placeholder="再次輸入密碼" />
                     </div>
-                    <div class="errorMsg">
-                        <img class="icon" src="../Images/icon/error.svg" alt="error" />
-                        <span class="text">errorText</span>
-                    </div>
-                    <button id="addNewRoomBtn" class="button submit">建立新聊天室</button>
                 </div>
-                <div class="note">註：請務必熟記聊天室代碼與密碼</div>
+                <div class="errorMsg">
+                    <img class="icon" src="../Images/icon/error.svg" alt="error" />
+                    <span class="text">errorText</span>
+                </div>
+                <div class="btnArea">
+                    <button id="addNewRoomBtn" class="cybrBtn" type="button">
+                        創建新聊天室<span aria-hidden>_</span>
+                        <span aria-hidden class="cybrBtn_Tag">
+                            NEW
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="btnOutsideArea">
+                <a class="cybrBtn secondary" href="../Backstage/index.php">
+                    後台管理<span aria-hidden>_</span>
+                    <span aria-hidden class="cybrBtn_Tag">
+                        Manage
+                    </span>
+                </a>
+                <a class="cybrBtn third" type="button" href="../index.php">
+                    訪客模式<span aria-hidden>_</span>
+                    <span aria-hidden class="cybrBtn_Tag">
+                        Visitor
+                    </span>
+                </a>
             </div>
         </div>
     </div>
-    <script src="../Common/util.js"></script>
-    <script src="../Common/global.js"></script>
+    <script src="../Common/global.js?v=<?php echo time(); ?>"></script>
+    <script src="../Common/util.js?v=<?php echo time(); ?>"></script>
     <script src="../Dependencies/jquery/jquery.min.js"></script>
+    <script src="../Components/CybrBtn/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/ErrorMsg/index.js?v=<?php echo time(); ?>"></script>
     <script src="index.js?v=<?php echo time(); ?>"></script>
 </body>

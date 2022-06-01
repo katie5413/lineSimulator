@@ -18,138 +18,111 @@ body {
     font-display: swap;
 }
 
-.bg {
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+.loginForm {
     display: flex;
     align-items: center;
-    width: 100vw;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 
-    & > .card_container {
-        margin: auto;
-        max-width: 400px;
-        max-height: 50vh;
-        height: -webkit-fill-available;
-        width: -webkit-fill-available;
-        padding: 2rem;
+    & .input_area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8px;
+        padding-top: 8px;
 
-        & .card_content {
-            height: 100%;
-            padding: 16px;
+        & > .input_field {
+            width: -webkit-fill-available;
+            margin: 8px 0;
+            padding: 8px 4px;
+            border-radius: 8px;
+            border: 1px solid #d3d3d3;
+            background-color: white;
+        }
 
-            & #code_area {
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-between;
+        & input {
+            width: -webkit-fill-available;
+            font-size: 1rem;
+            height: 24px;
+            border: none;
+            outline: none;
+            margin-left: 8px;
 
-                & .code {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 50px;
-                    height: 50px;
-                    background-color: #fff;
-                    color: #72635c;
-                    margin: 4px;
-                    font-size: 2rem;
-                    padding: 12px;
-                    border: none;
-                    border-bottom: 2px solid #aca6a2;
-                    cursor: default;
-                    outline: none;
-
-                    @media screen and (max-width: 600px) {
-                        width: 30px;
-                        padding: 7px;
-                    }
-                }
-            }
-
-            & .input_area {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-top: 8px;
-                padding-top: 8px;
-
-                & > .input_field {
-                    width: -webkit-fill-available;
-                    margin: 8px 0;
-                    padding: 8px 4px;
-                    border-radius: 8px;
-                    border: 1px solid #d3d3d3;
-                }
-
-                & input {
-                    width: -webkit-fill-available;
-                    font-size: 1rem;
-                    height: 24px;
-                    border: none;
-                    outline: none;
-                    margin-left: 8px;
-
-                    &::placeholder {
-                        color: #d3d3d3;
-                    }
-                }
-
-                & > .input_with_peek {
-                    display: flex;
-                    position: relative;
-
-                    & input {
-                        width: calc(100% - 32px);
-                    }
-
-                    & img {
-                        position: absolute;
-                        width: 32px;
-                        height: 32px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        right: 8px;
-                        cursor: pointer;
-                    }
-
-                    & .peek {
-                        & > .open {
-                            display: none;
-                        }
-
-                        & > .close {
-                            display: block;
-                        }
-
-                        &.active {
-                            & > .open {
-                                display: block;
-                                height: 26px;
-                            }
-                            & > .close {
-                                display: none;
-                            }
-                        }
-                    }
-                }
-
-                & > .submit {
-                    margin-top: 8px;
-                    padding: 8px 12px;
-                    background-color: #00c300;
-                    width: -webkit-fill-available;
-                    border-radius: 8px;
-                    color: #fff;
-                    height: 48px;
-                    font-size: 1.2rem;
-
-                    &:hover {
-                        background-color: #01a501;
-                    }
-                }
-            }
-
-            & .note {
-                margin-top: 16px;
-                color: #929292;
+            &::placeholder {
+                color: #d3d3d3;
             }
         }
+
+        & > .input_with_peek {
+            display: flex;
+            position: relative;
+
+            & input {
+                width: calc(100% - 32px);
+            }
+
+            & img {
+                position: absolute;
+                width: 32px;
+                height: 32px;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 8px;
+                cursor: pointer;
+            }
+
+            & .peek {
+                border: none;
+                & > .open {
+                    display: none;
+                }
+
+                & > .close {
+                    display: block;
+                }
+
+                &.active {
+                    & > .open {
+                        display: block;
+                        height: 26px;
+                    }
+                    & > .close {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        & > .submit {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: #00c300;
+            width: -webkit-fill-available;
+            border-radius: 8px;
+            color: #fff;
+            height: 48px;
+            font-size: 1.2rem;
+
+            &:hover {
+                background-color: #01a501;
+            }
+        }
+    }
+
+    & .note {
+        margin-top: 16px;
+        color: #929292;
     }
 }

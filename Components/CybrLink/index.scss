@@ -105,6 +105,10 @@ body {
         --primary-hue: 260;
     }
 
+    &.third {
+        --primary-hue: 400;
+    }
+
     &:hover,
     &:focus {
         --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 0.8%));
