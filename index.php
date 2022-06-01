@@ -67,9 +67,6 @@ include "pdoInc.php";
                     <input type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
-                    <div class="form__input password">
-                        <input class="input" type="password" id="password" name="password" placeholder="密碼（選填：檢視模式不需密碼）" type="text" autocomplete="new-password" />
-                    </div>
                     <div class="errorMsg">
                         <img class="icon" src="Images/icon/error.svg" alt="error" />
                         <span class="text">errorText</span>
