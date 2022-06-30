@@ -61,58 +61,28 @@ $(document).ready(function () {
         const code = getCode();
         // 是否六碼
         if (code.length === 6) {
-            // 有輸入密碼？
-            if ($('#password').val().length != 0) {
-                console.log('enter password');
-                $.ajax({
-                    type: 'POST',
-                    url: `Api/getBackstage.php`,
-                    data: {
-                        code: code,
-                        password: $('#password').val(),
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data.status);
-                        switch (data.status) {
-                            case 'backstage':
-                                setTimeout(function () {
-                                    window.location.href = 'Backstage/index.php';
-                                }, 200);
-                                break;
-                            case 'wrongPass':
-                                showErrorMsg('密碼錯誤');
-                                break;
-                            default:
-                                showErrorMsg('房間不存在，請檢查後再輸入一次');
-                                break;
-                        }
-                    },
-                });
-            } else {
-                console.log('no password');
-                $.ajax({
-                    type: 'POST',
-                    url: `Api/getRoom.php`,
-                    dataType: 'json',
-                    data:{
-                        roomID: code,
-                    },
-                    success: function (data) {
-                        switch (data.status) {
-                            case 'success':
-                                setTimeout(function () {
-                                    window.location.href = 'Room/index.php';
-                                }, 200);
+            console.log('no password');
+            $.ajax({
+                type: 'POST',
+                url: `Api/getRoom.php`,
+                dataType: 'json',
+                data: {
+                    roomID: code,
+                },
+                success: function (data) {
+                    switch (data.status) {
+                        case 'success':
+                            setTimeout(function () {
+                                window.location.href = 'Room/index.php';
+                            }, 200);
 
-                                break;
-                            default:
-                                showErrorMsg('房間不存在，請檢查後再輸入一次');
-                                break;
-                        }
-                    },
-                });
-            }
+                            break;
+                        default:
+                            showErrorMsg('房間不存在，請檢查後再輸入一次');
+                            break;
+                    }
+                },
+            });
         } else {
             showErrorMsg('請輸入六碼英數字');
         }
