@@ -81,21 +81,6 @@ include "pdoInc.php";
                     </button>
                 </div>
             </div>
-
-            <div class="btnOutsideArea">
-                <a class="cybrBtn secondary" href="New/index.php">
-                    創建聊天室<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        NEW
-                    </span>
-                </a>
-                <a class="cybrBtn third" type="button" href="Backstage/index.php">
-                    後台管理<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        MANAGE
-                    </span>
-                </a>
-            </div>
         </div>
     </div>
     <script src="Common/global.js?v=<?php echo time(); ?>"></script>
