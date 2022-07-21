@@ -72,9 +72,10 @@ $(document).ready(function () {
                 success: function (data) {
                     switch (data.status) {
                         case 'success':
-                            setTimeout(function () {
-                                window.location.href = 'Room/index.php';
-                            }, 200);
+                            sendLoginLog();
+                            // setTimeout(function () {
+                            //     window.location.href = 'Room/index.php';
+                            // }, 200);
 
                             break;
                         default:
@@ -87,4 +88,15 @@ $(document).ready(function () {
             showErrorMsg('請輸入六碼英數字');
         }
     });
+
+    function sendLoginLog() {
+        $.ajax({
+            type: 'POST',
+            url: `Api/addLoginLog.php`,
+            dataType: 'json',
+            success: function (data) {
+                console.log('send log',data);
+            },
+        });
+    }
 });
