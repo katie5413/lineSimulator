@@ -6,7 +6,7 @@ $newRoomData = array();
 $newRoomData = array("status" => "404");
 
 // 檢查是否有代碼
-if (isset($_POST['code']) && isset($_POST['newRoomName'])) {
+if (isset($_POST['code']) && isset($_POST['newRoomName']) && isset($_POST['managerEmail'])) {
 
     // 先確認是否重複
     $findRoom = $dbh->prepare('SELECT id FROM room WHERE roomID = ?');
@@ -17,8 +17,8 @@ if (isset($_POST['code']) && isset($_POST['newRoomName'])) {
     } else {
         // 開一個新房間
         $password = hash('sha256', $_POST['password']);
-        $addRoom = $dbh->prepare('INSERT INTO room (roomID, roomName, roomPassword ) VALUES (?, ?, ?)');
-        $addRoom->execute(array($_POST['code'], $_POST['newRoomName'], $password));
+        $addRoom = $dbh->prepare('INSERT INTO room (roomID, roomName, managerEmail, roomPassword ) VALUES (?, ?, ?,?)');
+        $addRoom->execute(array($_POST['code'], $_POST['newRoomName'], $_POST['managerEmail'], $password));
 
         // 順便開一個存對話的 table
         $addRoomMsg = $dbh->prepare('INSERT INTO message (roomID ) VALUES (?)');

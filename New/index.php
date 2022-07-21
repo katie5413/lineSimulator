@@ -72,6 +72,9 @@ include "../pdoInc.php";
                     <div class="input_field">
                         <input type="text" id="newRoomName" name="newRoomName" class="name required" placeholder="請輸入聊天室名稱" />
                     </div>
+                    <div class="input_field">
+                        <input type="text" id="newRoomManagerEmail" name="newRoomManagerEmail" class="email required" placeholder="請輸入管理者信箱" />
+                    </div>
                     <div class="input_field input_with_peek">
                         <input type="password" id="password" name="password" class="password required" placeholder=" 請輸入密碼" />
                         <button id="peekPassword" class="button peek">

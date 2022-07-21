@@ -123,6 +123,7 @@ $(document).ready(function () {
                 url: `../Api/addRoom.php`,
                 data: {
                     code: newRoomId,
+                    managerEmail: $('#newRoomManagerEmail').val(),
                     newRoomName: $('#newRoomName').val(),
                     password: $('#password').val(),
                 },
