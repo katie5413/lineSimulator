@@ -73,9 +73,9 @@ $(document).ready(function () {
                     switch (data.status) {
                         case 'success':
                             sendLoginLog();
-                            // setTimeout(function () {
-                            //     window.location.href = 'Room/index.php';
-                            // }, 200);
+                            setTimeout(function () {
+                                window.location.href = 'Room/index.php';
+                            }, 200);
 
                             break;
                         default:
