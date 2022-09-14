@@ -123,7 +123,7 @@ include "../pdoInc.php";
         </div>
 
         <div class="manageContent">
-            <h3 id="contentDispalyArea" class="toggleExpand">聊天室內容<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
+            <h3 id="contentDisplayArea" class="toggleExpand">聊天室內容<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
         </div>
 
         <div class="messageArea">
@@ -155,7 +155,7 @@ include "../pdoInc.php";
         </div>
 
         <div class="manageQuestion">
-            <h3 id="questionDispalyArea" class="toggleExpand">聊天室題目<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
+            <h3 id="questionDisplayArea" class="toggleExpand">聊天室題目<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
         </div>
         <div class="questionArea">
             <div id="question"></div>

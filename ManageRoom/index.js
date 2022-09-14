@@ -296,15 +296,15 @@ $(document).ready(function () {
         $(this).toggleClass('collapse');
     });
 
-    $('#memberDispalyArea').click(function () {
+    $('#memberDisplayArea').click(function () {
         $('.memberArea').toggleClass('collapse');
     });
 
-    $('#contentDispalyArea').click(function () {
+    $('#contentDisplayArea').click(function () {
         $('.messageArea').toggleClass('collapse');
     });
 
-    $('#questionDispalyArea').click(function () {
+    $('#questionDisplayArea').click(function () {
         $('.questionArea').toggleClass('collapse');
     });
 
