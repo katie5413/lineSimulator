@@ -57,9 +57,7 @@ include "../pdoInc.php";
     <div class="loginForm">
         <div class="passCodeInput">
             <div class="container">
-                <div class="typedStrings">
-                    超時空座談
-                </div>
+                <img class="board" src="../Images/board.png" alt="" />
                 <div class="passcodeArea">
                     <input autoFocus type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
@@ -90,28 +88,16 @@ include "../pdoInc.php";
                     <img class="icon" src="../Images/icon/error.svg" alt="error" />
                     <span class="text">errorText</span>
                 </div>
-                <div class="btnArea">
-                    <button id="addNewRoomBtn" class="cybrBtn" type="button">
-                        創建新聊天室<span aria-hidden>_</span>
-                        <span aria-hidden class="cybrBtn_Tag">
-                            NEW
-                        </span>
-                    </button>
-                </div>
             </div>
-
-            <div class="btnOutsideArea">
-                <a class="cybrBtn secondary" href="../Backstage/index.php">
-                    後台管理<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        Manage
-                    </span>
+            <div class="btnArea">
+                <a class="entryBtn" type="button" href="../index.php">
+                    使用
                 </a>
-                <a class="cybrBtn third" type="button" href="../index.php">
-                    訪客模式<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        Visitor
-                    </span>
+                <button id="addNewRoomBtn" class="entryBtn" type="button">
+                    創建
+                </button>
+                <a class="entryBtn" type="button" href="../BackStage/index.php">
+                    編輯
                 </a>
             </div>
         </div>

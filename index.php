@@ -57,9 +57,7 @@ include "pdoInc.php";
     <div class="loginForm">
         <div class="passCodeInput">
             <div class="container">
-                <div class="typedStrings">
-                    超時空座談
-                </div>
+                <img class="board" src="Images/board.png" alt="" />
                 <div class="passcodeArea">
                     <input autoFocus type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
@@ -72,14 +70,11 @@ include "pdoInc.php";
                         <span class="text">errorText</span>
                     </div>
                 </div>
-                <div class="btnArea">
-                    <button id="loginBtn" class="cybrBtn" type="button">
-                        登入<span aria-hidden>_</span>
-                        <span aria-hidden class="cybrBtn_Tag">
-                            LOGIN
-                        </span>
-                    </button>
-                </div>
+            </div>
+            <div class="btnArea">
+                <button id="loginBtn" class="entryBtn" type="button">
+                    使用
+                </button>
             </div>
         </div>
     </div>

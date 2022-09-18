@@ -57,9 +57,7 @@ include "../pdoInc.php";
     <div class="loginForm">
         <div class="passCodeInput">
             <div class="container">
-                <div class="typedStrings">
-                    超時空座談
-                </div>
+                <img class="board" src="../Images/board.png" alt="" />
                 <div class="passcodeArea">
                     <input autoFocus type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
@@ -75,29 +73,18 @@ include "../pdoInc.php";
                         <span class="text">errorText</span>
                     </div>
                 </div>
-                <div class="btnArea">
-                    <button id="loginBtn" class="cybrBtn" type="button">
-                        後台登入<span aria-hidden>_</span>
-                        <span aria-hidden class="cybrBtn_Tag">
-                            Manage
-                        </span>
-                    </button>
-                </div>
             </div>
 
-            <div class="btnOutsideArea">
-                <a class="cybrBtn secondary" href="../New/index.php">
-                    創建聊天室<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        NEW
-                    </span>
+            <div class="btnArea">
+                <a class="entryBtn" type="button" href="../index.php">
+                    使用
                 </a>
-                <a class="cybrBtn third" type="button" href="../index.php">
-                    訪客模式<span aria-hidden>_</span>
-                    <span aria-hidden class="cybrBtn_Tag">
-                        Visitor
-                    </span>
+                <a class="entryBtn" type="button" href="../New/index.php">
+                    創建
                 </a>
+                <button id="loginBtn" class="entryBtn" type="button">
+                    編輯
+                </button>
             </div>
         </div>
     </div>

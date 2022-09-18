@@ -40,13 +40,11 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 8px;
-        padding-top: 8px;
 
         & > .input_field {
-            width: -webkit-fill-available;
-            margin: 8px 0;
-            padding: 8px 4px;
+            width: 80%;
+            margin: 8px 0 0;
+            padding: 4px;
             border-radius: 8px;
             border: 1px solid #d3d3d3;
             background-color: white;
