@@ -71,9 +71,9 @@ include "pdoInc.php";
                     </div>
                 </div>
             </div>
-            <div class="btnArea">
+            <div class="bottomBtnArea">
                 <button id="loginBtn" class="entryBtn" type="button">
-                    使用
+                    送出
                 </button>
             </div>
         </div>

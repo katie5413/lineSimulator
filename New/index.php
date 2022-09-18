@@ -91,14 +91,19 @@ include "../pdoInc.php";
             </div>
             <div class="btnArea">
                 <a class="entryBtn" type="button" href="../index.php">
-                    使用
+                    訪客
                 </a>
-                <button id="addNewRoomBtn" class="entryBtn" type="button">
+                <button class="entryBtn" type="button">
                     創建
                 </button>
-                <a class="entryBtn" type="button" href="../BackStage/index.php">
+                <a class="entryBtn" type="button" href="../Backstage/index.php">
                     編輯
                 </a>
+            </div>
+            <div class="bottomBtnArea">
+                <button id="addNewRoomBtn" class="entryBtn" type="button">
+                    送出
+                </button>
             </div>
         </div>
     </div>

@@ -95,7 +95,6 @@
                 }
             }
         }
-
     }
 
     & > .btnArea {
@@ -117,20 +116,21 @@
             color: white;
             font-size: 20px;
             border: 3px solid #ccc;
-            cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: not-allowed;
 
-            &:hover{
+            &:hover {
                 background-color: rgb(135, 48, 48);
             }
         }
 
-        a.entryBtn{
+        a.entryBtn {
+            cursor: pointer;
             background-color: rgb(66, 72, 184);
-            &:hover{
+            &:hover {
                 background-color: rgb(63, 48, 135);
             }
         }
@@ -139,6 +139,34 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+    }
+
+    & > .bottomBtnArea {
+        position: absolute;
+        bottom: 140px;
+        transform: translateX(-10px);
+
+        background-color: rgb(184, 66, 66);
+
+        border: 3px solid #ccc;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .entryBtn {
+            color: white;
+            font-size: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            width: 100px;
+            height: 40px;
+        }
+
+        &:hover {
+            background-color: rgb(135, 48, 48);
         }
     }
 }

@@ -82,8 +82,13 @@ include "../pdoInc.php";
                 <a class="entryBtn" type="button" href="../New/index.php">
                     創建
                 </a>
-                <button id="loginBtn" class="entryBtn" type="button">
+                <button class="entryBtn" type="button">
                     編輯
+                </button>
+            </div>
+            <div class="bottomBtnArea">
+                <button id="loginBtn" class="entryBtn" type="button">
+                    送出
                 </button>
             </div>
         </div>
