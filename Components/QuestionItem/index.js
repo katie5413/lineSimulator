@@ -12,6 +12,7 @@ const questionInputItemTemplate = `<div class="questionManageItem">
     <div class="drop__container">
         <input class="select-selected answerOption" type="text" placeholder="答案" autocomplete="off" value="{{answerText}}" select-id="{{answerID}}" />
         <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+        <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
         <div class="line"></div>
         <div class="select-items"></div>
     </div>
@@ -63,6 +64,7 @@ const questionItemTemplate = `<div class="questionItem">
         <div class="drop__container">
             <input class="select-selected answerOption" type="text" placeholder="請選擇" autocomplete="off" value="" select-id="" />
             <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+            <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
             <div class="line"></div>
             <div class="select-items"></div>
         </div>

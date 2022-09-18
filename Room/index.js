@@ -100,6 +100,7 @@ $(document).ready(function () {
                 $('#triggerMsgNext').on('click', function () {
                     if (currentMsgIndex < message.length - 1) {
                         currentMsgIndex++;
+                        playSound('bell');
 
                         let msgOwner = members.filter(
                             (person) => person.id == message[currentMsgIndex].who,
@@ -179,12 +180,15 @@ $(document).ready(function () {
 
                         if (valid) {
                             $('.congrats').addClass('active');
+                            playSound('correct');
                         } else {
                             $('.congrats').removeClass('active');
                             showErrorMsg('再檢查一下吧ＱＱ');
+                            playSound('incorrect');
                         }
                     } else {
                         showErrorMsg('有未作答的題目');
+                        playSound('incorrect');
                     }
                 });
 
@@ -206,6 +210,9 @@ $(document).ready(function () {
                     for (let i = 0; i < answer.length; i++) {
                         if (userAnswer[i] != answer[i]) {
                             valid = false;
+                            $('#question .questionItem').eq(i).find('input').addClass('alert');
+                        } else {
+                            $('#question .questionItem').eq(i).find('input').removeClass('alert');
                         }
                     }
                     return valid;
@@ -215,4 +222,21 @@ $(document).ready(function () {
             console.log(err);
         }
     })();
+
+    function playSound(type) {
+        let sound;
+        switch (type) {
+            case 'bell':
+                sound = new Audio('../sound/bell.mp3');
+                break;
+            case 'correct':
+                sound = new Audio('../sound/correct.mp3');
+                break;
+            case 'incorrect':
+                sound = new Audio('../sound/incorrect.mp3');
+                break;
+        }
+
+        sound.play();
+    }
 });

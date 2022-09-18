@@ -33,6 +33,7 @@ const msgInputItemTemplate = `<div class="msgManageItem">
         <div class="drop__container">
             <input class="select-selected msgCharactor" type="text" placeholder="角色" autocomplete="off" value="{{name}}" select-id="{{id}}" />
             <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+            <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
             <div class="line"></div>
             <div class="select-items"></div>
         </div>

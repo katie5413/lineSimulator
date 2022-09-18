@@ -109,9 +109,7 @@ include "../pdoInc.php";
                 <span class="text">errorText</span>
             </div>
             <div class="congrats">
-                <span>🥳</span>
                 <span class="text">你答對啦～</span>
-                <span>🎉</span>
             </div>
             <div class="function_button">
                 <button id="submitAnswer" class="button button-fill">提交</button>

@@ -92,6 +92,7 @@ include "../pdoInc.php";
                         ?>
 
                         <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+                        <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
                         <div class="line"></div>
                         <div class="select-items">
                             <?php
