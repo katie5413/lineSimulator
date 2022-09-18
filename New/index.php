@@ -74,7 +74,7 @@ include "../pdoInc.php";
                         <input type="text" id="newRoomManagerEmail" name="newRoomManagerEmail" class="email required" placeholder="請輸入管理者信箱" />
                     </div>
                     <div class="input_field input_with_peek">
-                        <input type="password" id="password" name="password" class="password required" placeholder=" 請輸入密碼" />
+                        <input type="password" id="password" name="password" class="password required" placeholder="請輸入密碼" />
                         <button id="peekPassword" class="button peek">
                             <img src="../Images/icon/eye.svg" class="open" alt="peek" active="false" />
                             <img src="../Images/icon/closeEye.svg" class="close" alt="close peek" active="true" />
