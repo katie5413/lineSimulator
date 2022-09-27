@@ -8,7 +8,7 @@ function generatePillMsg(props) {
     let members = [];
 
     let groupMember = '';
-    console.log(memberData.length);
+    console.log('共', memberData.length, '人');
 
     switch (memberData.length) {
         case 0:
@@ -17,8 +17,7 @@ function generatePillMsg(props) {
                 '<div>群組目前沒有人ＱＱ</div>',
             );
             break;
-        case 1:
-        case 2:
+        default:
             memberData.forEach((person) => {
                 members.push(person.name);
             });
@@ -30,18 +29,18 @@ function generatePillMsg(props) {
             // 最後一個逗號要去掉
             groupMember = groupMember.slice(0, groupMember.length - 1);
             break;
-        default:
-            members.push(memberData[0].name);
-            members.push(memberData[1].name);
-            for (person of members) {
-                groupMember += `${person}、`;
-            }
-            // 最後一個逗號要去掉
-            groupMember = groupMember.slice(0, groupMember.length - 1);
 
-            let personNum = memberData.length - 2;
-            groupMember += `與其他 ${personNum} 人`;
-            break;
+        // members.push(memberData[0].name);
+        // members.push(memberData[1].name);
+        // for (person of members) {
+        //     groupMember += `${person}、`;
+        // }
+        // // 最後一個逗號要去掉
+        // groupMember = groupMember.slice(0, groupMember.length - 1);
+
+        // let personNum = memberData.length - 2;
+        // groupMember += `與其他 ${personNum} 人`;
+        // break;
     }
 
     return generateHtml(template, {

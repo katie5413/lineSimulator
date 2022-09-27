@@ -79,13 +79,19 @@ $(document).ready(function () {
 
                             break;
                         default:
-                            showErrorMsg('房間不存在，請檢查後再輸入一次');
+                            showErrorMsg({
+                                target: $('.loginForm'),
+                                msg: '房間不存在，請檢查後再輸入一次',
+                            });
                             break;
                     }
                 },
             });
         } else {
-            showErrorMsg('請輸入六碼英數字');
+            showErrorMsg({
+                target: $('.loginForm'),
+                msg: '請輸入六碼英數字',
+            });
         }
     });
 
@@ -95,7 +101,7 @@ $(document).ready(function () {
             url: `Api/addLoginLog.php`,
             dataType: 'json',
             success: function (data) {
-                console.log('send log',data);
+                console.log('send log', data);
             },
         });
     }

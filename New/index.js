@@ -20,7 +20,6 @@ $(document).ready(function () {
             nextElement.focus();
 
             hideErrorMsg();
-            console.log('1');
 
             const code = getCode();
             if (code !== -1) {
@@ -38,10 +37,16 @@ $(document).ready(function () {
                         switch (data.status) {
                             case 'backstage':
                             case 'wrongPass':
-                                showErrorMsg('房間已存在，請更換代號');
+                                showErrorMsg({
+                                    target: $('.loginForm'),
+                                    msg: '房間已存在，請更換代號',
+                                });
                                 break;
                             default:
-                                showErrorMsg('房間可使用');
+                                showErrorMsg({
+                                    target: $('.loginForm'),
+                                    msg: '房間可使用',
+                                });
                                 break;
                         }
                     },
@@ -62,7 +67,6 @@ $(document).ready(function () {
             }
             //Backspace Key
             if (event.keyCode == 8 && event.metaKey) {
-                console.log('🐰🥚 FOUND!!! Cmd + Backspace = clear all');
                 for (innerElem of inputs) {
                     innerElem.value = '';
                 }
@@ -106,23 +110,38 @@ $(document).ready(function () {
             if (inputField.value.length === 0) {
                 // Usually show some kind of error message here
                 valid = false;
-                showErrorMsg('所有欄位皆為必填');
+                showErrorMsg({
+                    target: $('.loginForm'),
+                    msg: '所有欄位皆為必填',
+                });
             }
         }
 
         if ($('#password').val() !== $('#passwordCheck').val()) {
             valid = false;
-            showErrorMsg('兩次密碼不相符，請再檢查一次');
+            showErrorMsg({
+                target: $('.loginForm'),
+                msg: '兩次密碼不相符，請再檢查一次',
+            });
         }
 
         if (valid) {
             // Run $.ajax() here
 
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const mode = urlParams.get('mode');
+            let inputCode = newRoomId;
+
+            if (mode == 'admin') {
+                inputCode = getCode();
+            }
+
             $.ajax({
                 type: 'POST',
                 url: `../Api/addRoom.php`,
                 data: {
-                    code: newRoomId,
+                    code: inputCode,
                     managerEmail: $('#newRoomManagerEmail').val(),
                     newRoomName: $('#newRoomName').val(),
                     password: $('#password').val(),
@@ -138,10 +157,16 @@ $(document).ready(function () {
 
                             break;
                         case 'duplicate':
-                            showErrorMsg('該房間已存在，請再試一次');
+                            showErrorMsg({
+                                target: $('.loginForm'),
+                                msg: '該房間已存在，請再試一次',
+                            });
                             break;
                         default:
-                            showErrorMsg('網路錯誤，請再試一次');
+                            showErrorMsg({
+                                target: $('.loginForm'),
+                                msg: '網路錯誤，請再試一次',
+                            });
                             break;
                     }
                 },

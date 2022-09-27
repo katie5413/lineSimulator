@@ -35,7 +35,6 @@ function generateQuestionInputItem(props) {
             });
         }
 
-        console.log(props.questionData, props.answerID);
         for (i = 0; i < props.questionData.length; i++) {
             optionItemHTML += generateQuestionInputItemOption({
                 optionID: i + 1,

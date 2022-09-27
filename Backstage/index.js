@@ -81,19 +81,31 @@ $(document).ready(function () {
                                 }, 200);
                                 break;
                             case 'wrongPass':
-                                showErrorMsg('密碼錯誤');
+                                showErrorMsg({
+                                    target: $('.loginForm'),
+                                    msg: '密碼錯誤',
+                                });
                                 break;
                             default:
-                                showErrorMsg('房間不存在，請檢查後再輸入一次');
+                                showErrorMsg({
+                                    target: $('.loginForm'),
+                                    msg: '房間不存在，請檢查後再輸入一次',
+                                });
                                 break;
                         }
                     },
                 });
             } else {
-                showErrorMsg('請輸入密碼');
+                showErrorMsg({
+                    target: $('.loginForm'),
+                    msg: '請輸入密碼',
+                });
             }
         } else {
-            showErrorMsg('請輸入六碼英數字');
+            showErrorMsg({
+                target: $('.loginForm'),
+                msg: '請輸入六碼英數字',
+            });
         }
     });
 });

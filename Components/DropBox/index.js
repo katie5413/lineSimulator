@@ -7,7 +7,7 @@ $(document).on('click', '.drop__container', function () {
 
     $(this).toggleClass('active');
 
-    // 取消 errror
+    // 取消 error
     $(this).removeClass('error');
 
     var search = $(this).find('input.select-selected[type="text"]').val();

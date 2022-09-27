@@ -1,10 +1,10 @@
-const showErrorMsg = (msg) => {
-    const elm = document.querySelectorAll(`.errorMsg`);
-    elm[0].classList.add("active");
-    elm[0].getElementsByClassName("text")[0].innerText = msg;
-};
+function showErrorMsg({ target, msg }) {
+    let elm = target.find(`.errorMsg`);
+    elm.addClass('active');
+    elm.find('.text').text(msg);
+}
 
-const hideErrorMsg = () => {
-    const elm = document.querySelectorAll(`.errorMsg`);
-    elm[0].classList.remove("active");
-};
+function hideErrorMsg() {
+    let elm = $('.errorMsg');
+    elm.removeClass('active');
+}

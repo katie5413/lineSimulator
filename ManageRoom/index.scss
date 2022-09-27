@@ -136,6 +136,7 @@ body {
     }
 
     & > .manageMember,
+    & > .manageGallery,
     & > .manageContent,
     & > .manageQuestion {
         display: flex;
@@ -163,9 +164,20 @@ body {
         }
     }
 
+    .manageContent .rightArea {
+        display: flex;
+        gap: 8px;
+
+        .button {
+            flex-shrink: 0;
+            width: 80px;
+        }
+    }
+
     .toggleExpand {
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         span {
             margin-left: 8px;
@@ -181,6 +193,7 @@ body {
 
         &.collapse {
             span {
+                background-color: var(--secondary-green);
                 img {
                     transform: rotate(270deg);
                 }
@@ -287,6 +300,28 @@ body {
         }
     }
 
+    & > .galleryArea {
+        position: relative;
+        display: flex;
+        border-radius: 8px;
+        background-color: oldlace;
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 16px;
+
+        & > #images {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        &.collapse {
+            height: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+    }
+
     & > .messageArea {
         position: relative;
         border-radius: 8px;
@@ -316,7 +351,7 @@ body {
             border-radius: 8px;
             margin-bottom: 16px;
 
-            .selectCharactor {
+            .selectCharacter {
                 max-width: 120px;
 
                 .drop__container {
@@ -441,6 +476,147 @@ body {
                 flex-shrink: 0;
                 border-radius: 50%;
             }
+        }
+    }
+}
+
+.cropImageModal {
+    .modalWrapper {
+        .content {
+            .middle {
+                .img {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 16px auto;
+                }
+
+                .uploadImgArea {
+                    cursor: pointer;
+
+                    .image_submit {
+                        max-height: 300px;
+                    }
+                }
+
+                .cropImageResult {
+                    margin-top: 16px;
+
+                    .tmpUploadImg,
+                    .croppedImg {
+                        display: block;
+                        object-fit: cover;
+                        margin: auto;
+                        max-height: 300px;
+                    }
+                }
+
+                .container {
+                    margin: 20px auto;
+                    max-width: 640px;
+                }
+
+                img {
+                    max-width: 100%;
+                }
+            }
+
+            .bottom {
+                display: flex;
+                justify-content: space-between;
+
+                .button {
+                    width: 80px;
+                }
+
+                .function-button {
+                    display: flex;
+                    justify-content: flex-end;
+                    width: fit-content;
+                    gap: 16px;
+
+                    @media screen and (max-width: 600px) {
+                        gap: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    .reUpload_button,
+    .crop_button,
+    .delete_button,
+    .modalConfirm {
+        display: none;
+    }
+
+    &[action-type='add'] {
+        .delete_button {
+            display: none;
+        }
+    }
+
+    &[action-type='edit'] {
+        .delete_button {
+            display: block;
+        }
+    }
+
+    &[image-status='upload'] {
+        .uploadImgArea {
+            display: none !important;
+        }
+
+        .reUpload_button {
+            display: block !important;
+        }
+
+        .crop_button {
+            display: block !important;
+        }
+    }
+
+    &[image-status='crop'] {
+        .uploadImgArea {
+            display: none !important;
+        }
+
+        .reUpload_button {
+            display: block !important;
+        }
+
+        .modalConfirm {
+            display: block !important;
+        }
+    }
+}
+
+#addMsgModal {
+    &[content-type='text'] {
+        .textForm {
+            display: block;
+        }
+        .imageForm {
+            display: none;
+        }
+    }
+
+    &[content-type='image'] {
+        .textForm {
+            display: none;
+        }
+        .imageForm {
+            display: block;
+        }
+    }
+
+    .selectCharacter{
+        margin-bottom: 16px;
+    }
+
+    .buttonGroup{
+        button{
+            width: 80px;
         }
     }
 }

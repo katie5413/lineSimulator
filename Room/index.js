@@ -2,6 +2,7 @@ $(document).ready(function () {
     let members = [];
     let message = [];
     let question = [];
+    let images = [];
     let currentMsgIndex = -1;
     let mainCharacterID = 0;
 
@@ -88,15 +89,43 @@ $(document).ready(function () {
         });
     }
 
+    // 圖片
+    function fetchRoomImageStatus() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'GET',
+                url: `../Api/getRoomGallery.php`,
+                dataType: 'json',
+                success: function (data) {
+                    images = data;
+
+                    resolve(true);
+                },
+                fail: function (xhr, ajaxOptions, thrownError) {
+                    reject(false);
+                },
+            });
+        });
+    }
+
     // 確定都有拿到資料
     (async function () {
         try {
-            let valid1 = await fetchRoomMemberStatus();
-            let valid2 = await fetchRoomMsgStatus();
-            let valid3 = await fetchRoomMainPersonIDStatus();
-            let valid4 = await fetchRoomQuestionStatus();
+            let getMemberDone = await fetchRoomMemberStatus();
+            let getMsgDone = await fetchRoomMsgStatus();
+            let getMainPersonDone = await fetchRoomMainPersonIDStatus();
+            let getQuestionDone = await fetchRoomQuestionStatus();
+            let getImageDone = await fetchRoomImageStatus();
 
-            if (valid1 && valid2 && valid3 && valid4) {
+            if (
+                getMemberDone &&
+                getMsgDone &&
+                getMainPersonDone &&
+                getQuestionDone &&
+                getImageDone
+            ) {
+                console.log('images', images);
+                console.log('message', message);
                 $('#triggerMsgNext').on('click', function () {
                     if (currentMsgIndex < message.length - 1) {
                         currentMsgIndex++;
@@ -106,22 +135,43 @@ $(document).ready(function () {
                             (person) => person.id == message[currentMsgIndex].who,
                         )[0];
 
+                        let imageItem = null;
+
+                        let text = null;
+
+                        switch (message[currentMsgIndex].type) {
+                            case 'text':
+                                text = message[currentMsgIndex].text;
+                                break;
+                            case 'image':
+                                images.forEach((image) => {
+                                    if (image.id == message[currentMsgIndex].imageID) {
+                                        imageItem = image;
+                                    }
+                                });
+                                break;
+                        }
+
                         let key = generateUniqueId();
                         let name = msgOwner == null ? '沒有成員' : msgOwner.name;
-                        let text = message[currentMsgIndex].text;
 
                         $('#message').append(
                             generateMsgItem({
                                 key: key,
-                                name: msgOwner == null ? '沒有成員' : msgOwner.name,
-                                img: msgOwner == null ? null : msgOwner.img,
+                                type: message[currentMsgIndex].type,
+                                characterName: msgOwner == null ? '沒有成員' : msgOwner.name,
+                                characterImg: msgOwner == null ? null : msgOwner.img,
+                                msgImg: imageItem == null ? ' ' : imageItem.img,
+                                msgImgName: imageItem == null ? ' ' : imageItem.name,
                                 direction: message[currentMsgIndex].who == mainCharacterID ? 1 : 0,
                             }),
                         );
 
                         // 避免 XSS
                         $(`.messageItem[data-key="${key}"] .name`).text(name);
-                        $(`.messageItem[data-key="${key}"] .text`).text(text);
+                        if (message[currentMsgIndex].type == 'text') {
+                            $(`.messageItem[data-key="${key}"] .text`).text(text);
+                        }
 
                         $(`.messageItem[data-key="${key}"]`)[0].scrollIntoView();
 
@@ -183,11 +233,18 @@ $(document).ready(function () {
                             playSound('correct');
                         } else {
                             $('.congrats').removeClass('active');
-                            showErrorMsg('再檢查一下吧ＱＱ');
+
+                            showErrorMsg({
+                                target: $('.room_question'),
+                                msg: '再檢查一下吧ＱＱ',
+                            });
                             playSound('incorrect');
                         }
                     } else {
-                        showErrorMsg('有未作答的題目');
+                        showErrorMsg({
+                            target: $('.room_question'),
+                            msg: '有未作答的題目',
+                        });
                         playSound('incorrect');
                     }
                 });

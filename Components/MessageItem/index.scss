@@ -57,6 +57,12 @@
                 padding: 7px 11px 8px;
                 -webkit-user-select: text;
                 user-select: text;
+
+                .image {
+                    img {
+                        width: -webkit-fill-available;
+                    }
+                }
             }
         }
     }
@@ -123,8 +129,27 @@
 }
 
 .msgManageItem {
-    display: flex;
+    display: grid;
+    grid-template-columns: 20px 140px 140px 1fr;
     gap: 8px;
+
+    &.text {
+        .form__input[data-type='text'] {
+            display: block;
+        }
+        .form__input[data-type='image'] {
+            display: none;
+        }
+    }
+
+    &.image {
+        .form__input[data-type='image'] {
+            display: block;
+        }
+        .form__input[data-type='text'] {
+            display: none;
+        }
+    }
 
     .deleteMsgItem {
         width: fit-content;
@@ -135,20 +160,27 @@
     }
 
     .form__input {
-        &.drop {
-            width: max-content;
-        }
+        // &.drop {
+        //     width: max-content;
+        // }
 
         .content {
             font-size: 14px;
         }
 
         .drop__container {
-            .msgCharactor.alert {
-                color: var(--alert);
+            .select-selected {
+                &.alert {
+                    color: var(--alert);
+                }
             }
 
-            .option{
+            // .msgCharacter,
+            // .contentTypeOption {
+            //     max-width: 140px;
+            // }
+
+            .option {
                 padding: 8px 16px;
             }
         }

@@ -20,6 +20,8 @@ include "../pdoInc.php";
     <link rel="stylesheet" type="text/css" href="../Components/QuestionItem/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Input/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/ErrorMsg/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/GalleryItem/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/Modal/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="index.css?v=<?php echo time(); ?>">
     <!-- Google Tag Manager -->
     <script>
@@ -76,7 +78,7 @@ include "../pdoInc.php";
                 echo  '<img id="character-avatar" src="' . $setImg . '" />';
                 ?>
                 <div class="form__input">
-                    <div class="drop__container" id="selectMainCharactorArea">
+                    <div class="drop__container" id="selectMainCharacterArea">
                         <?php
                         $sth = $dbh->prepare('SELECT name FROM member WHERE id=? AND roomID=?');
                         $sth->execute(array($_SESSION['roomMainPersonID'], $_SESSION['roomOwner']));
@@ -88,7 +90,7 @@ include "../pdoInc.php";
                             $setName = $row['name'];
                             $setID = $row['id'];
                         }
-                        echo  '<input id="selectMainCharactor" name="imgName" class="select-selected" type="text" placeholder="請選擇視角" autocomplete="off" value="' . $setName . '" select-id="' . $_SESSION['roomMainPersonID'] . '"/>';
+                        echo  '<input id="selectMainCharacter" name="imgName" class="select-selected" type="text" placeholder="請選擇視角" autocomplete="off" value="' . $setName . '" select-id="' . $_SESSION['roomMainPersonID'] . '"/>';
                         ?>
 
                         <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
@@ -123,36 +125,42 @@ include "../pdoInc.php";
             <div class="members"></div>
         </div>
 
+        <div class="manageGallery">
+            <h3 id="galleryDisplayArea" class="toggleExpand">聊天室圖片<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
+            <div class="rightArea">
+                <button id="addGallery" action-type="add" action-target="image" class="button button-hollow openModal">
+                    新增
+                </button>
+            </div>
+        </div>
+
+        <div class="galleryArea">
+            <div id="images"></div>
+        </div>
+
         <div class="manageContent">
             <h3 id="contentDisplayArea" class="toggleExpand">聊天室內容<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
+            <div class="rightArea">
+                <div class="form__input drop">
+                    <div class="drop__container">
+                        <input class="select-selected newContentTypeOption" type="text" placeholder="請選擇內容類型" autocomplete="off" value="" select-id="" />
+                        <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+                        <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
+                        <div class="line"></div>
+                        <div class="select-items">
+                            <div class="option" value="text">文字</div>
+                            <div class="option" value="image">圖片</div>
+                        </div>
+                    </div>
+                </div>
+                <button action-type="add" action-target="content" class="button button-hollow openModal">
+                    新增
+                </button>
+            </div>
         </div>
 
         <div class="messageArea">
             <div id="message"></div>
-            <div class="addMsg">
-                <div class="selectCharactor">
-                    <div class="form__input">
-                        <div class="drop__container" id="selectMainCharactorArea">
-                            <input id="selectMsgCharactor" name="msgCharactor" class="select-selected" type="text" placeholder="角色" autocomplete="off" value="" select-id="" />
-                            <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
-                            <div class="line"></div>
-                            <div class="select-items">
-                                <?php
-                                $sth = $dbh->prepare('SELECT id, name FROM member WHERE roomID=?');
-                                $sth->execute(array($_SESSION['roomOwner']));
-                                while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                                    echo '<div class="option" value=' . $row['id'] . '>' . $row['name'] . '</div>';
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form__input newMsg">
-                    <input id="newMsgContent" class="input" type="text" name="newMsg" placeholder="對話" />
-                </div>
-                <button id="addMsgContent" type="submit" class="button button-fill"><img src="../Images/icon/send.svg" alt="send" class="icon"></button>
-            </div>
         </div>
 
         <div class="manageQuestion">
@@ -227,6 +235,118 @@ include "../pdoInc.php";
             </div>
         </div>
     </div>
+    <div id="galleryModal" class="modal cropImageModal" action-type="" image-status="init">
+        <div class="modalWrapper">
+            <div class="content">
+                <div class="top">
+                    <img class="icon" src="../Images/icon/edit-white.svg" />
+                    <div class="title">標題</div>
+                </div>
+                <div class="middle">
+                    <div class="form__input image_name mustFill">
+                        <div class="title">圖片名稱<span class="mustFillLabel">必填</span></div>
+                        <input class="input add_image_name" type="text" name="image_name" placeholder="請輸入圖片名稱" />
+                    </div>
+
+                    <input type="file" name="upload_gallery_img" id="upload_gallery_img" accept=".jpg, .jpeg, .png, .svg" hidden />
+                    <label for="upload_gallery_img">
+                        <div class="img uploadImgArea">
+                            <img class="image_submit" src="../Images/icon/upload.svg" alt="image_submit" />
+                        </div>
+                    </label>
+                    <div class="cropImageResult"></div>
+                </div>
+                <div class="errorMsg">
+                    <img class="icon" src="../Images/icon/error.svg" alt="error" />
+                    <span class="text">errorText</span>
+                </div>
+                <div class="bottom">
+                    <div class="function-button">
+                        <button type="submit" class="button button-pink delete_button">刪除圖片</button>
+                        <button class="button button-hollow reUpload_button">重新上傳</button>
+                    </div>
+                    <div class="function-button">
+                        <button class="button button-hollow crop_button">裁切</button>
+                    </div>
+                    <div class="buttonGroup">
+                        <button class="button button-hollow modalCancel">
+                            取消
+                        </button>
+                        <button class="button button-fill modalConfirm">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addMsgModal" class="modal" action-type="add" content-type="text">
+        <div class="modalWrapper">
+            <div class="content">
+                <div class="top">
+                    <img class="icon" src="../Images/icon/edit-white.svg" />
+                    <div class="title">標題</div>
+                </div>
+                <div class="middle">
+                    <div class="selectCharacter">
+                        <div class="form__input">
+                            <div class="title">角色<span class="mustFillLabel">必填</span></div>
+                            <div class="drop__container">
+                                <input class="select-selected" type="text" placeholder="請選擇角色" autocomplete="off" value="" select-id="" />
+                                <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+                                <div class="line"></div>
+                                <div class="select-items">
+                                    <?php
+                                    $sth = $dbh->prepare('SELECT id, name FROM member WHERE roomID=?');
+                                    $sth->execute(array($_SESSION['roomOwner']));
+                                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<div class="option" value=' . $row['id'] . '>' . $row['name'] . '</div>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="textForm">
+                        <div class="form__input newMsg">
+                            <div class="title">對話<span class="mustFillLabel">必填</span></div>
+                            <input class="input" type="text" name="newMsg" placeholder="請輸入對話" />
+                        </div>
+                    </div>
+                    <div class="imageForm">
+                        <div class="form__input newMsg">
+                            <div class="title">圖片<span class="mustFillLabel">必填</span></div>
+                            <div class="drop__container">
+                                <input class="select-selected" type="text" placeholder="請選擇圖片" autocomplete="off" value="" select-id="" />
+                                <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+                                <div class="line"></div>
+                                <div class="select-items">
+                                    <?php
+                                    $sth = $dbh->prepare('SELECT id, name FROM gallery WHERE roomID=?');
+                                    $sth->execute(array($_SESSION['roomOwner']));
+                                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<div class="option" value=' . $row['id'] . '>' . $row['name'] . '</div>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="errorMsg">
+                    <img class="icon" src="../Images/icon/error.svg" alt="error" />
+                    <span class="text">errorText</span>
+                </div>
+                <div class="bottom">
+                    <div class="buttonGroup">
+                        <button class="button button-hollow modalCancel">
+                            取消
+                        </button>
+                        <button class="button button-fill modalConfirm">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- <div id="questionTab" class="pop close">
         <div class="inner">
@@ -272,6 +392,8 @@ include "../pdoInc.php";
     <script src="../Components/MessageItem/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/QuestionItem/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/ErrorMsg/index.js?v=<?php echo time(); ?>"></script>
+    <script src="../Components/GalleryItem/index.js?v=<?php echo time(); ?>"></script>
+    <script src="../Components/Modal/index.js?v=<?php echo time(); ?>"></script>
     <script src="index.js?v=<?php echo time(); ?>"></script>
 </body>
 <!-- Google Tag Manager (noscript) -->

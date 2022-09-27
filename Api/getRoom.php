@@ -10,7 +10,18 @@ if (isset($_POST['roomID'])) {
     $findRoom->execute(array($_POST['roomID']));
     if ($roomItem = $findRoom->fetch(PDO::FETCH_ASSOC)) {
 
-        $roomData = array("status" => 'success', "roomName" => $roomItem['roomName']);
+        // getImage
+        $findRoomImage = $dbh->prepare('SELECT * FROM gallery WHERE roomID = ? ORDER BY id ASC');
+        $findRoomImage->execute(array($_SESSION['roomID']));
+
+        $images = array();
+        while ($galleryItem = $findRoomImage->fetch(PDO::FETCH_ASSOC)) {
+
+            $image = array();
+            $image = array("id" => $galleryItem["id"], "name" => $galleryItem['name'], "img" => $galleryItem['img']);
+
+            array_push($images, $image);
+        }
 
         // getMembers
         $findRoomMember = $dbh->prepare('SELECT * FROM member WHERE roomID = ? ORDER BY id ASC');
@@ -27,9 +38,6 @@ if (isset($_POST['roomID'])) {
             $roomMemberNumber++;
         }
 
-        $roomData = array("status" => 'success', "roomName" => $roomItem['roomName'], "roomMember" => $members);
-
-
         // getRoomInfo
         $findRoomMsg = $dbh->prepare('SELECT roomID, mainPersonID, content FROM message WHERE roomID = ?');
         $findRoomMsg->execute(array($_POST['roomID']));
@@ -38,24 +46,23 @@ if (isset($_POST['roomID'])) {
             $_SESSION['roomMainPersonID'] = $msgItem['mainPersonID'];
         }
 
-        $roomData = array("status" => 'success', "roomName" => $roomItem['roomName'], "roomMember" => $members, "roomMsg" => $msgItem['content'], "roomMainPersonID" => $msgItem['mainPersonID']);
-
-
         // getRoomQuestion
         $findRoomQuestion = $dbh->prepare('SELECT content FROM question WHERE roomID = ? ');
-        $findRoomQuestion->execute(array($_SESSION['roomID']));
+        $findRoomQuestion->execute(array($_POST['roomID']));
 
         if ($questionItem = $findRoomQuestion->fetch(PDO::FETCH_ASSOC)) {
             $_SESSION['roomQuestion'] = $questionItem['content'];
         }
 
-        $roomData = array("status" => 'success', "roomName" => $roomItem['roomName'], "roomMember" => $members, "roomMsg" => $msgItem['content'], "roomMainPersonID" => $msgItem['mainPersonID'], "roomQuestion" => $questionItem['content']);
+        $roomData = array("status" => 'success', "roomName" => $roomItem['roomName'], "roomImage" => $images, "roomMember" => $members, "roomMsg" => $msgItem['content'], "roomMainPersonID" => $msgItem['mainPersonID'], "roomQuestion" => $questionItem['content']);
 
         // 有找到才會放到 SESSION
         $_SESSION['roomID'] = $_POST['roomID'];
         $_SESSION['roomName'] = $roomItem['roomName'];
         $_SESSION['roomMemberNumber'] = $roomMemberNumber;
         $_SESSION['roomMember'] = $members;
+        $_SESSION['roomImage'] = $images;
+
         echo json_encode($roomData);
     } else {
         echo json_encode($roomData);

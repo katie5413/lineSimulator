@@ -23,3 +23,7 @@
     src: url('https://assets.codepen.io/605876/Blender-Pro-Bold.otf');
     font-display: swap;
 }
+
+html.disable-scroll {
+    overflow-y: hidden;
+}
