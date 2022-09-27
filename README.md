@@ -11,7 +11,7 @@
 
 正式網址：https://myheroes.tw/minigames/LineChat/index.php
 
-測試房號： 111111
+測試房號： TESTID
 
 #### 管理者
 
