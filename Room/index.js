@@ -182,6 +182,33 @@ $(document).ready(function () {
                         }
 
                         $('#triggerMsgPrev').addClass('active');
+
+                        $('.messageItem.image .text').on('click', function () {
+                            openModal({
+                                targetModal: $('#quickView'),
+                            });
+
+                            $('#quickView .content .middle img').attr(
+                                'src',
+                                $(this).find('img').attr('src'),
+                            );
+                        });
+
+                        $('#quickView').on('click', function (e) {
+                            let close = true;
+                            console.log();
+                            if (e.target == document.getElementById('quickView')) {
+                                closeModal();
+                            }
+                            // $('.modalWrapper').on('click', function () {
+                            //     close = false;
+                            //     console.log(close);
+                            // });
+                            // console.log(close);
+                            // if (close) {
+                            //     closeModal();
+                            // }
+                        });
                     }
                 });
                 $('#triggerMsgPrev').on('click', function () {

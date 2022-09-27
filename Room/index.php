@@ -14,6 +14,7 @@ include "../pdoInc.php";
     <link rel="stylesheet" type="text/css" href="../Components/PillMsg/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Button/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Notice/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/Modal/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/MessageItem/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/QuestionItem/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/ErrorMsg/index.css?v=<?php echo time(); ?>">
@@ -96,6 +97,16 @@ include "../pdoInc.php";
                 <img src="../Images/icon/start.svg" alt="next" />
             </button>
         </div>
+        <div id="quickView" class="modal">
+                <div class="modalWrapper">
+                    <!-- <img class="icon modalCancel" src="../Images/icon/close.svg" /> -->
+                    <div class="content">
+                        <div class="middle">
+                            <img src="../Images/ufo.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 
     <div class="room_question">
@@ -116,6 +127,8 @@ include "../pdoInc.php";
             </div>
         </div>
     </div>
+
+
     <script src="../Common/util.js"></script>
     <script src="../Common/global.js"></script>
     <script src="../Dependencies/jquery/jquery.min.js"></script>
@@ -123,6 +136,7 @@ include "../pdoInc.php";
     <script src="../Components/PillMsg/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/Notice/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/MessageItem/index.js?v=<?php echo time(); ?>"></script>
+    <script src="../Components/Modal/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/QuestionItem/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/ErrorMsg/index.js?v=<?php echo time(); ?>"></script>
     <script src="index.js?v=<?php echo time(); ?>"></script>

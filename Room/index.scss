@@ -267,3 +267,35 @@ body {
         }
     }
 }
+
+#quickView {
+    cursor: pointer;
+    .modalWrapper {
+        cursor: default;
+        max-width: calc(100% - 128px);
+        max-height: calc(100% - 64px);
+
+        .middle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+            img {
+                max-height: 80vh;
+                max-width: 100%;
+            }
+        }
+    }
+    .icon {
+        position: absolute;
+        right: -40px;
+        top: 0;
+        width: 32px;
+        cursor: pointer;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: var(--function);
+        }
+    }
+}

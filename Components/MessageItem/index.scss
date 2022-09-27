@@ -57,10 +57,20 @@
                 padding: 7px 11px 8px;
                 -webkit-user-select: text;
                 user-select: text;
+            }
+        }
+    }
+
+    &.image {
+        .content_box {
+            max-width: 30%;
+            .text {
+                cursor: pointer;
 
                 .image {
+                    width: 100%;
                     img {
-                        width: -webkit-fill-available;
+                        width: 100%;
                     }
                 }
             }
