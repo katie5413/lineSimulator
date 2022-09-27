@@ -32,6 +32,7 @@ if (isset($_POST['code']) && isset($_POST['newRoomName']) && isset($_POST['manag
         $_SESSION['roomID'] = $_POST['code'];
         $_SESSION['roomName'] = $_POST['newRoomName'];
         $_SESSION['roomOwner'] = $_POST['code'];
+        $_SESSION['roomMsg'] = null;
         $newRoomData = array("status" => "success", "code" => $_POST['code']);
     }
 }

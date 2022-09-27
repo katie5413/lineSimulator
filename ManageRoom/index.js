@@ -116,9 +116,12 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (data) {
                     const questionData = JSON.parse(data);
-                    questionData.forEach((questionItem) => {
-                        question.push(questionItem);
-                    });
+                    if (questionData!= null) {
+                        questionData.forEach((questionItem) => {
+                            question.push(questionItem);
+                        });
+                    }
+
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
@@ -176,89 +179,6 @@ $(document).ready(function () {
                 activeMemberList();
 
                 addMemberStep('init');
-
-                $('#addMember').click(function () {
-                    $('#memberTab').attr('mode', 'addMember');
-                    openPop({ tab: $('#memberTab') });
-                });
-
-                $('#submit_avatar').click(function () {
-                    let edit = $(this).hasClass('edit');
-
-                    let valid = true;
-                    if ($('#add_member_name').val().trim().length == 0) {
-                        valid = false;
-                        showErrorMsg({
-                            target: $('#memberTab'),
-                            msg: '請輸入成員名稱',
-                        });
-                    }
-
-                    if (valid) {
-                        if (edit) {
-                            $.ajax({
-                                type: 'POST',
-                                url: `../Api/addRoomMember.php`,
-                                data: {
-                                    id: $(this).attr('data-id'),
-                                    name: $('#add_member_name').val(),
-                                    img: $('#member_img').attr('src'),
-                                },
-                                dataType: 'json',
-                                success: function (data) {
-                                    console.log('edit', data);
-                                    // 自動儲存後重整
-                                    $('#saveContent').click();
-                                },
-                            });
-                        } else {
-                            $.ajax({
-                                type: 'POST',
-                                url: `../Api/addRoomMember.php`,
-                                data: {
-                                    name: $('#add_member_name').val(),
-                                    img: $('#member_img').attr('src'),
-                                },
-                                dataType: 'json',
-                                success: function (data) {
-                                    console.log('add', data);
-                                    // 自動儲存後重整
-                                    $('#saveContent').click();
-                                },
-                            });
-                        }
-
-                        addMemberStep('submit');
-                    }
-                });
-
-                $('#delete_avatar').click(function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: `../Api/deleteRoomMember.php`,
-                        data: {
-                            id: $(this).attr('data-id'),
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-                            console.log('delete', data);
-                            // 自動儲存後重整
-                            $('#saveContent').click();
-                        },
-                    });
-                });
-
-                function activeMemberList() {
-                    $('.person').click(function () {
-                        let data = {
-                            id: $(this).attr('data-id'),
-                            img: $(this).find('.img').attr('src'),
-                            name: $(this).find('span.name').text(),
-                        };
-                        $('#memberTab').attr('mode', 'editMember');
-                        openPop({ tab: $('#memberTab'), data });
-                    });
-                }
             }
 
             if (getImageDone) {
@@ -281,195 +201,6 @@ $(document).ready(function () {
                 }
 
                 activeGalleryItem();
-
-                $('#addGallery').click(function () {
-                    openModal({
-                        targetModal: $('#galleryModal'),
-                        modalTitle: '新增圖片',
-                        actionType: 'add',
-                    });
-                });
-
-                const targetModal = $('#galleryModal');
-
-                // 處理上傳的圖片
-
-                $('#upload_gallery_img').change(function () {
-                    let file = this.files[0];
-                    //用size属性判断文件大小不能超过1M ，前端直接判断的好处，免去服务器的压力。
-                    if (file.size > 1 * 1024 * 1024) {
-                        alert('Too Big! No more than 1MB');
-                    }
-
-                    let reader = new FileReader();
-                    reader.onload = function () {
-                        // 通过 reader.result 来访问生成的 base64 DataURL
-                        let base64 = reader.result;
-                        targetModal
-                            .find('.cropImageResult')
-                            .append(`<img class="tmpUploadImg" src="${base64}" alt="uploadImage">`);
-
-                        // switch status
-                        targetModal.attr('image-status', 'upload');
-
-                        let image = targetModal.find('.tmpUploadImg')[0];
-                        let button = targetModal.find('.crop_button')[0];
-
-                        var cropper = new Cropper(image, {
-                            ready: function (event) {
-                                // Zoom the image to its natural size
-                                // cropper.zoomTo(1);
-                            },
-                            crop: function (event) {},
-                            zoom: function (event) {
-                                // Keep the image in its natural size
-                                if (event.detail.oldRatio === 1) {
-                                    event.preventDefault();
-                                }
-                            },
-                        });
-
-                        button.onclick = function () {
-                            let croppedCanvas = cropper.getCroppedCanvas();
-
-                            targetModal.find('.cropImageResult').children().remove();
-                            targetModal
-                                .find('.cropImageResult')
-                                .append(
-                                    `<img class="croppedImg" src="${croppedCanvas.toDataURL()}" alt="croppedImg" />`,
-                                );
-                            // switch status
-                            targetModal.attr('image-status', 'crop');
-                        };
-                    };
-                    reader.readAsDataURL(file);
-                });
-
-                // 重新上傳
-                targetModal.find('.reUpload_button').click(function () {
-                    resetGalleryModal();
-                });
-
-                // 確認
-                targetModal.find('.modalConfirm').on('click', function () {
-                    const actionType = targetModal.attr('action-type');
-                    let valid = true;
-                    const imageName = targetModal.find('.add_image_name').val().trim();
-                    const imageSRC = targetModal.find('.croppedImg').attr('src');
-                    const updateImageID = targetModal.attr('data-id');
-
-                    if (imageName.length == 0) {
-                        valid = false;
-                        showErrorMsg({
-                            target: targetModal,
-                            msg: '請輸入圖片名稱',
-                        });
-                    }
-
-                    // 不用檢查是否上傳圖片，因為沒上傳圖片不會有按鈕
-
-                    if (valid) {
-                        switch (actionType) {
-                            case 'add':
-                                $.ajax({
-                                    type: 'POST',
-                                    url: `../Api/addRoomGallery.php`,
-                                    data: {
-                                        name: imageName,
-                                        img: imageSRC,
-                                    },
-                                    dataType: 'json',
-                                    success: function (data) {
-                                        console.log('add success', data);
-                                        // 自動儲存後重整
-                                        $('#saveContent').click();
-                                    },
-                                });
-
-                                break;
-                            case 'edit':
-                                $.ajax({
-                                    type: 'POST',
-                                    url: `../Api/addRoomGallery.php`,
-                                    data: {
-                                        id: updateImageID,
-                                        name: imageName,
-                                        img: imageSRC,
-                                    },
-                                    dataType: 'json',
-                                    success: function (data) {
-                                        console.log('edit success', data);
-                                        // 自動儲存後重整
-                                        $('#saveContent').click();
-                                    },
-                                });
-                                break;
-                        }
-
-                        resetGalleryModal();
-                        closeModal();
-                        targetModal.removeAttr('data-id');
-                    }
-                });
-
-                // 取消
-                targetModal.find('.modalCancel').on('click', function (e) {
-                    e.preventDefault();
-                    resetGalleryModal();
-                    closeModal();
-                    targetModal.removeAttr('data-id');
-                });
-
-                // 刪除
-                targetModal.find('.delete_button').on('click', function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: `../Api/deleteRoomGallery.php`,
-                        data: {
-                            id: targetModal.attr('data-id'),
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-                            console.log('delete', data);
-                            // 自動儲存後重整
-                            $('#saveContent').click();
-                        },
-                    });
-                });
-
-                function resetGalleryModal() {
-                    // 重置 gallery
-                    targetModal.attr('image-status', 'init');
-                    targetModal.find('.cropImageResult').children().remove();
-                }
-
-                function activeGalleryItem() {
-                    $('.galleryItem').on('click', function () {
-                        let data = {
-                            id: $(this).attr('data-id'),
-                            img: $(this).find('.img').attr('src'),
-                            name: $(this).find('span.name').text(),
-                        };
-                        const targetModal = $('#galleryModal');
-
-                        openModal({
-                            targetModal: targetModal,
-                            modalTitle: '編輯圖片',
-                            actionType: 'edit',
-                        });
-                        targetModal.attr('data-id', data.id);
-                        targetModal.attr('image-status', 'crop');
-                        targetModal.find('.add_image_name').val(data.name);
-
-                        if (data.img) {
-                            targetModal
-                                .find('.cropImageResult')
-                                .append(
-                                    `<img class="croppedImg" src="${data.img}" alt="croppedImg" />`,
-                                );
-                        }
-                    });
-                }
             }
 
             if (getMsgDone && getImageDone) {
@@ -531,137 +262,6 @@ $(document).ready(function () {
                         $('.msgCharacter').eq(i).addClass('alert');
                     }
                 }
-
-                function activeDeleteMsgItem() {
-                    $('.deleteMsgItem').on('click', function () {
-                        $(this).parent().remove();
-                    });
-                }
-
-                $('.openModal[action-target="content"][action-type="add"]').click(function () {
-                    let newContentTypeOption = $('.newContentTypeOption').attr('select-id');
-                    if (newContentTypeOption) {
-                        openModal({
-                            targetModal: $('#addMsgModal'),
-                            modalTitle: '新增對話內容',
-                            actionType: 'add',
-                        });
-
-                        // 設定內容類型
-                        $('#addMsgModal').attr('content-type', newContentTypeOption);
-
-                        // 新增對話
-                        $('#addMsgModal .modalConfirm').on('click', function () {
-                            const targetModal = $('#addMsgModal');
-                            const characterID = targetModal
-                                .find('.selectCharacter input')
-                                .attr('select-id');
-                            const characterName =
-                                targetModal.find('.selectCharacter input').val() || '沒有成員';
-                            const msgType = $('.newContentTypeOption').attr('select-id');
-
-                            const typeText = {
-                                text: '文字',
-                                image: '圖片',
-                            };
-
-                            let msgText = null;
-                            let msgImageID = null;
-                            let imageItem = null;
-
-                            let valid = true;
-                            let errorMsg = [];
-
-                            if (characterID.trim().length == 0) {
-                                valid = false;
-                                targetModal
-                                    .find('.selectCharacter .drop__container')
-                                    .addClass('error');
-                                errorMsg.push('請選擇角色');
-                                showErrorMsg({
-                                    target: targetModal,
-                                    msg: errorMsg.join('、'),
-                                });
-                            }
-
-                            switch (msgType) {
-                                case 'text':
-                                    msgText = targetModal.find('.newMsg input').val();
-
-                                    if (msgText.trim().length == 0) {
-                                        valid = false;
-                                        targetModal.find('.newMsg').addClass('error');
-
-                                        errorMsg.push('請輸入對話');
-
-                                        showErrorMsg({
-                                            target: targetModal,
-                                            msg: errorMsg.join('、'),
-                                        });
-                                    }
-                                    break;
-                                case 'image':
-                                    msgImageID = targetModal
-                                        .find('.imageForm input')
-                                        .attr('select-id');
-
-                                    imageItem = msgImageID
-                                        ? {
-                                              id: msgImageID,
-                                              name: $(
-                                                  `#images .galleryItem[data-id="${msgImageID}"] .name`,
-                                              ).text(),
-                                          }
-                                        : null;
-                                    if (msgImageID.trim().length == 0) {
-                                        valid = false;
-                                        targetModal.find('.newMsg').addClass('error');
-
-                                        errorMsg.push('請選擇圖片');
-
-                                        showErrorMsg({
-                                            target: targetModal,
-                                            msg: errorMsg.join('、'),
-                                        });
-                                    }
-                                    break;
-                            }
-
-                            if (valid) {
-                                $('#message').append(
-                                    generateMsgInputItem({
-                                        characterID: characterID,
-                                        characterName: characterName,
-                                        type: msgType,
-                                        typeText: typeText[msgType],
-                                        text: msgText,
-                                        imageID: imageItem == null ? ' ' : imageItem.id,
-                                        imageName: imageItem == null ? ' ' : imageItem.name,
-                                        memberData: members,
-                                        imageData: images,
-                                    }),
-                                );
-
-                                //  清空原本的內容類型
-                                $('.newContentTypeOption').removeAttr('select-id');
-                                $('.newContentTypeOption').val('');
-
-                                // 註冊刪除對話事件
-                                activeDeleteMsgItem();
-
-                                // 關閉 modal
-                                closeModal();
-                            }
-                        });
-
-                        // 刪除對話
-                        $('.deleteMsgItem').on('click', function () {
-                            $(this).parent().remove();
-                        });
-                    } else {
-                        alert('請先選擇內容類型');
-                    }
-                });
             }
 
             // 問題
@@ -680,96 +280,6 @@ $(document).ready(function () {
 
                     // 註冊刪除問題事件
                     activeDeleteQuestionItem();
-                }
-
-                $('#newQuestionContent').on('blur', function () {
-                    let selectValue = $('#newQuestionContent').val();
-                    let selection = selectValue.split(',');
-                    if (selection[selection.length - 1] == '') {
-                        selection.pop();
-                    }
-                    $('.selectAnswer .select-items .option').remove();
-
-                    const optionItemTemplate = `<div class="option" data-id="{{key}}" value="{{key}}">{{text}}</div>`;
-
-                    function generateOptionItem(props) {
-                        let template = optionItemTemplate;
-
-                        return generateHtml(template, {
-                            ...props,
-                        });
-                    }
-
-                    if (selection.length > 1) {
-                        // 至少兩個選項
-                        for (i = 0; i < selection.length; i++) {
-                            // 不得為空, key 不能為 0 ，所以要加一
-                            if (selection[i] != '') {
-                                $('.selectAnswer .select-items').append(
-                                    generateOptionItem({ key: i + 1, text: selection[i] }),
-                                );
-                            }
-                        }
-                    }
-                });
-                // 新增
-                $('#addQuestionContent').click(function () {
-                    let questionIndexName = $('#newQuestionIndexName').val();
-                    let answerID = $('#newQuestionContentAnswer').attr('select-id'); // 1, 2, 3 ... 因為 key 不能有 0
-                    let selectValue = $('#newQuestionContent').val();
-                    let selection = selectValue.split(',');
-                    if (selection[selection.length - 1] == '') {
-                        selection.pop();
-                    }
-                    let valid = true;
-
-                    if (questionIndexName.length < 0) {
-                        valid = true;
-                        $('#newQuestionIndexName').parent().addClass('error');
-                    }
-
-                    if (!answerID) {
-                        valid = false;
-                        $('#newQuestionContentAnswer').parent().addClass('error');
-                    }
-
-                    if (selection.length < 2) {
-                        valid = false;
-                        $('#newQuestionContent').parent().addClass('error');
-                    }
-
-                    if (valid) {
-                        $('#question').append(
-                            generateQuestionInputItem({
-                                questionIndex: questionIndexName,
-                                questionData: selection, // ['選項一','選項二'...]
-                                answerID: answerID,
-                            }),
-                        );
-                        //  清空原本的
-                        initAddQuestionForm();
-
-                        // 註冊刪除問題事件
-                        activeDeleteQuestionItem();
-                    }
-                });
-
-                function initAddQuestionForm() {
-                    $('#newQuestionIndexName').val(''); // 題號
-                    $('#newQuestionContent').val(''); // 選項
-                    $('#newQuestionContentAnswer').removeAttr('select-id'); // 答案號碼
-                    $('#newQuestionContentAnswer').val(''); // 答案
-                }
-
-                // 刪除問題
-                $('.deleteQuestionItem').on('click', function () {
-                    $(this).parent().remove();
-                });
-
-                function activeDeleteQuestionItem() {
-                    $('.deleteQuestionItem').on('click', function () {
-                        $(this).parent().remove();
-                    });
                 }
             }
         } catch (err) {
@@ -803,6 +313,507 @@ $(document).ready(function () {
     $('#questionDisplayArea').click(function () {
         $('.questionArea').toggleClass('collapse');
     });
+
+    // 角色
+    $('#addMember').click(function () {
+        $('#memberTab').attr('mode', 'addMember');
+        openPop({ tab: $('#memberTab') });
+    });
+
+    $('#submit_avatar').click(function () {
+        let edit = $(this).hasClass('edit');
+
+        let valid = true;
+        if ($('#add_member_name').val().trim().length == 0) {
+            valid = false;
+            showErrorMsg({
+                target: $('#memberTab'),
+                msg: '請輸入成員名稱',
+            });
+        }
+
+        if (valid) {
+            if (edit) {
+                $.ajax({
+                    type: 'POST',
+                    url: `../Api/addRoomMember.php`,
+                    data: {
+                        id: $(this).attr('data-id'),
+                        name: $('#add_member_name').val(),
+                        img: $('#member_img').attr('src'),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('edit', data);
+                        // 自動儲存後重整
+                        $('#saveContent').click();
+                    },
+                });
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: `../Api/addRoomMember.php`,
+                    data: {
+                        name: $('#add_member_name').val(),
+                        img: $('#member_img').attr('src'),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('add', data);
+                        // 自動儲存後重整
+                        $('#saveContent').click();
+                    },
+                });
+            }
+
+            addMemberStep('submit');
+        }
+    });
+
+    $('#delete_avatar').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: `../Api/deleteRoomMember.php`,
+            data: {
+                id: $(this).attr('data-id'),
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log('delete', data);
+                // 自動儲存後重整
+                $('#saveContent').click();
+            },
+        });
+    });
+
+    function activeMemberList() {
+        $('.person').click(function () {
+            let data = {
+                id: $(this).attr('data-id'),
+                img: $(this).find('.img').attr('src'),
+                name: $(this).find('span.name').text(),
+            };
+            $('#memberTab').attr('mode', 'editMember');
+            openPop({ tab: $('#memberTab'), data });
+        });
+    }
+
+    // 角色 end
+
+    // 圖片
+    $('#addGallery').click(function () {
+        openModal({
+            targetModal: $('#galleryModal'),
+            modalTitle: '新增圖片',
+            actionType: 'add',
+        });
+    });
+
+    // 處理上傳的圖片
+
+    $('#upload_gallery_img').change(function () {
+        let file = this.files[0];
+        //用size属性判断文件大小不能超过1M ，前端直接判断的好处，免去服务器的压力。
+        if (file.size > 1 * 1024 * 1024) {
+            alert('Too Big! No more than 1MB');
+        }
+
+        let reader = new FileReader();
+        reader.onload = function () {
+            // 通过 reader.result 来访问生成的 base64 DataURL
+            let base64 = reader.result;
+            $('#galleryModal')
+                .find('.cropImageResult')
+                .append(`<img class="tmpUploadImg" src="${base64}" alt="uploadImage">`);
+
+            // switch status
+            $('#galleryModal').attr('image-status', 'upload');
+
+            let image = $('#galleryModal').find('.tmpUploadImg')[0];
+            let button = $('#galleryModal').find('.crop_button')[0];
+
+            var cropper = new Cropper(image, {
+                ready: function (event) {
+                    // Zoom the image to its natural size
+                    // cropper.zoomTo(1);
+                },
+                crop: function (event) {},
+                zoom: function (event) {
+                    // Keep the image in its natural size
+                    if (event.detail.oldRatio === 1) {
+                        event.preventDefault();
+                    }
+                },
+            });
+
+            button.onclick = function () {
+                let croppedCanvas = cropper.getCroppedCanvas();
+
+                $('#galleryModal').find('.cropImageResult').children().remove();
+                $('#galleryModal')
+                    .find('.cropImageResult')
+                    .append(
+                        `<img class="croppedImg" src="${croppedCanvas.toDataURL()}" alt="croppedImg" />`,
+                    );
+                // switch status
+                $('#galleryModal').attr('image-status', 'crop');
+            };
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // 重新上傳
+    $('#galleryModal')
+        .find('.reUpload_button')
+        .click(function () {
+            resetGalleryModal();
+        });
+
+    // 確認
+    $('#galleryModal')
+        .find('.modalConfirm')
+        .on('click', function () {
+            const actionType = $('#galleryModal').attr('action-type');
+            let valid = true;
+            const imageName = $('#galleryModal').find('.add_image_name').val().trim();
+            const imageSRC = $('#galleryModal').find('.croppedImg').attr('src');
+            const updateImageID = $('#galleryModal').attr('data-id');
+
+            if (imageName.length == 0) {
+                valid = false;
+                showErrorMsg({
+                    target: $('#galleryModal'),
+                    msg: '請輸入圖片名稱',
+                });
+            }
+
+            // 不用檢查是否上傳圖片，因為沒上傳圖片不會有按鈕
+
+            if (valid) {
+                switch (actionType) {
+                    case 'add':
+                        $.ajax({
+                            type: 'POST',
+                            url: `../Api/addRoomGallery.php`,
+                            data: {
+                                name: imageName,
+                                img: imageSRC,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log('add success', data);
+                                // 自動儲存後重整
+                                $('#saveContent').click();
+                            },
+                        });
+
+                        break;
+                    case 'edit':
+                        $.ajax({
+                            type: 'POST',
+                            url: `../Api/addRoomGallery.php`,
+                            data: {
+                                id: updateImageID,
+                                name: imageName,
+                                img: imageSRC,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log('edit success', data);
+                                // 自動儲存後重整
+                                $('#saveContent').click();
+                            },
+                        });
+                        break;
+                }
+
+                resetGalleryModal();
+                closeModal();
+                $('#galleryModal').removeAttr('data-id');
+            }
+        });
+
+    // 取消
+    $('#galleryModal')
+        .find('.modalCancel')
+        .on('click', function (e) {
+            e.preventDefault();
+            resetGalleryModal();
+            closeModal();
+            $('#galleryModal').removeAttr('data-id');
+        });
+
+    // 刪除
+    $('#galleryModal')
+        .find('.delete_button')
+        .on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: `../Api/deleteRoomGallery.php`,
+                data: {
+                    id: $('#galleryModal').attr('data-id'),
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log('delete', data);
+                    // 自動儲存後重整
+                    $('#saveContent').click();
+                },
+            });
+        });
+
+    function resetGalleryModal() {
+        // 重置 gallery
+        $('#galleryModal').attr('image-status', 'init');
+        $('#galleryModal').find('.cropImageResult').children().remove();
+    }
+
+    function activeGalleryItem() {
+        $('.galleryItem').on('click', function () {
+            let data = {
+                id: $(this).attr('data-id'),
+                img: $(this).find('.img').attr('src'),
+                name: $(this).find('span.name').text(),
+            };
+
+            openModal({
+                targetModal: $('#galleryModal'),
+                modalTitle: '編輯圖片',
+                actionType: 'edit',
+            });
+            $('#galleryModal').attr('data-id', data.id);
+            $('#galleryModal').attr('image-status', 'crop');
+            $('#galleryModal').find('.add_image_name').val(data.name);
+
+            if (data.img) {
+                $('#galleryModal')
+                    .find('.cropImageResult')
+                    .append(`<img class="croppedImg" src="${data.img}" alt="croppedImg" />`);
+            }
+        });
+    }
+    // 圖片 end
+
+    // 對話
+
+    $('.openModal[action-target="content"][action-type="add"]').click(function () {
+        let newContentTypeOption = $('.newContentTypeOption').attr('select-id');
+        if (newContentTypeOption) {
+            openModal({
+                targetModal: $('#addMsgModal'),
+                modalTitle: '新增對話內容',
+                actionType: 'add',
+            });
+
+            // 設定內容類型
+            $('#addMsgModal').attr('content-type', newContentTypeOption);
+
+            // 新增對話
+            $('#addMsgModal .modalConfirm').on('click', function () {
+                const targetModal = $('#addMsgModal');
+                const characterID = targetModal.find('.selectCharacter input').attr('select-id');
+                const characterName =
+                    targetModal.find('.selectCharacter input').val() || '沒有成員';
+                const msgType = $('.newContentTypeOption').attr('select-id');
+
+                const typeText = {
+                    text: '文字',
+                    image: '圖片',
+                };
+
+                let msgText = null;
+                let msgImageID = null;
+                let imageItem = null;
+
+                let valid = true;
+                let errorMsg = [];
+
+                if (characterID.trim().length == 0) {
+                    valid = false;
+                    targetModal.find('.selectCharacter .drop__container').addClass('error');
+                    errorMsg.push('請選擇角色');
+                    showErrorMsg({
+                        target: targetModal,
+                        msg: errorMsg.join('、'),
+                    });
+                }
+
+                switch (msgType) {
+                    case 'text':
+                        msgText = targetModal.find('.newMsg input').val();
+
+                        if (msgText.trim().length == 0) {
+                            valid = false;
+                            targetModal.find('.newMsg').addClass('error');
+
+                            errorMsg.push('請輸入對話');
+
+                            showErrorMsg({
+                                target: targetModal,
+                                msg: errorMsg.join('、'),
+                            });
+                        }
+                        break;
+                    case 'image':
+                        msgImageID = targetModal.find('.imageForm input').attr('select-id');
+
+                        imageItem = msgImageID
+                            ? {
+                                  id: msgImageID,
+                                  name: $(
+                                      `#images .galleryItem[data-id="${msgImageID}"] .name`,
+                                  ).text(),
+                              }
+                            : null;
+                        if (msgImageID.trim().length == 0) {
+                            valid = false;
+                            targetModal.find('.newMsg').addClass('error');
+
+                            errorMsg.push('請選擇圖片');
+
+                            showErrorMsg({
+                                target: targetModal,
+                                msg: errorMsg.join('、'),
+                            });
+                        }
+                        break;
+                }
+
+                if (valid) {
+                    $('#message').append(
+                        generateMsgInputItem({
+                            characterID: characterID,
+                            characterName: characterName,
+                            type: msgType,
+                            typeText: typeText[msgType],
+                            text: msgText,
+                            imageID: imageItem == null ? ' ' : imageItem.id,
+                            imageName: imageItem == null ? ' ' : imageItem.name,
+                            memberData: members,
+                            imageData: images,
+                        }),
+                    );
+
+                    //  清空原本的內容類型
+                    $('.newContentTypeOption').removeAttr('select-id');
+                    $('.newContentTypeOption').val('');
+
+                    // 註冊刪除對話事件
+                    activeDeleteMsgItem();
+
+                    // 關閉 modal
+                    closeModal();
+                }
+            });
+
+            // 刪除對話
+            $('.deleteMsgItem').on('click', function () {
+                $(this).parent().remove();
+            });
+        } else {
+            alert('請先選擇內容類型');
+        }
+    });
+
+    function activeDeleteMsgItem() {
+        $('.deleteMsgItem').on('click', function () {
+            $(this).parent().remove();
+        });
+    }
+
+    // 對話 end
+
+    // 問題
+    $('#newQuestionContent').on('blur', function () {
+        let selectValue = $('#newQuestionContent').val();
+        let selection = selectValue.split(',');
+        if (selection[selection.length - 1] == '') {
+            selection.pop();
+        }
+        $('.selectAnswer .select-items .option').remove();
+
+        const optionItemTemplate = `<div class="option" data-id="{{key}}" value="{{key}}">{{text}}</div>`;
+
+        function generateOptionItem(props) {
+            let template = optionItemTemplate;
+
+            return generateHtml(template, {
+                ...props,
+            });
+        }
+
+        if (selection.length > 1) {
+            // 至少兩個選項
+            for (i = 0; i < selection.length; i++) {
+                // 不得為空, key 不能為 0 ，所以要加一
+                if (selection[i] != '') {
+                    $('.selectAnswer .select-items').append(
+                        generateOptionItem({ key: i + 1, text: selection[i] }),
+                    );
+                }
+            }
+        }
+    });
+    // 新增
+    $('#addQuestionContent').click(function () {
+        let questionIndexName = $('#newQuestionIndexName').val();
+        let answerID = $('#newQuestionContentAnswer').attr('select-id'); // 1, 2, 3 ... 因為 key 不能有 0
+        let selectValue = $('#newQuestionContent').val();
+        let selection = selectValue.split(',');
+        if (selection[selection.length - 1] == '') {
+            selection.pop();
+        }
+        let valid = true;
+
+        if (questionIndexName.length < 0) {
+            valid = true;
+            $('#newQuestionIndexName').parent().addClass('error');
+        }
+
+        if (!answerID) {
+            valid = false;
+            $('#newQuestionContentAnswer').parent().addClass('error');
+        }
+
+        if (selection.length < 2) {
+            valid = false;
+            $('#newQuestionContent').parent().addClass('error');
+        }
+
+        if (valid) {
+            $('#question').append(
+                generateQuestionInputItem({
+                    questionIndex: questionIndexName,
+                    questionData: selection, // ['選項一','選項二'...]
+                    answerID: answerID,
+                }),
+            );
+            //  清空原本的
+            initAddQuestionForm();
+
+            // 註冊刪除問題事件
+            activeDeleteQuestionItem();
+        }
+    });
+
+    function initAddQuestionForm() {
+        $('#newQuestionIndexName').val(''); // 題號
+        $('#newQuestionContent').val(''); // 選項
+        $('#newQuestionContentAnswer').removeAttr('select-id'); // 答案號碼
+        $('#newQuestionContentAnswer').val(''); // 答案
+    }
+
+    // 刪除問題
+    $('.deleteQuestionItem').on('click', function () {
+        $(this).parent().remove();
+    });
+
+    function activeDeleteQuestionItem() {
+        $('.deleteQuestionItem').on('click', function () {
+            $(this).parent().remove();
+        });
+    }
+    // 問題 end
 
     // 儲存
     $('#saveContent').on('click', function () {

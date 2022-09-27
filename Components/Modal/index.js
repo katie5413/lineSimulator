@@ -11,9 +11,10 @@ function openModal({ targetModal, modalTitle, actionType }) {
         targetModal.attr('action-type', actionType);
     }
 
-    targetModal.find('.mustFill input').on('click', function () {
-        hideErrorMsg();
-    });
+    $('.modal').find('.drop__container.error').removeClass('error');
+    $('.modal').find('.form__input.error').removeClass('error');
+
+    hideErrorMsg();
 }
 
 function closeModal() {
