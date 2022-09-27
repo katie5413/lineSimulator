@@ -879,9 +879,9 @@ $(document).ready(function () {
             },
             success: function (data) {
                 console.log(data);
-                // setTimeout(function () {
-                //     window.location.reload();
-                // }, 200);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 200);
             },
         });
     });
