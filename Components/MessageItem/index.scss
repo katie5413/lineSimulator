@@ -64,11 +64,17 @@
     &.image {
         .content_box {
             max-width: 30%;
+
+            @media screen and (max-width: 600px) {
+                max-width: 50%;
+            }
+
             .text {
                 cursor: pointer;
 
                 .image {
                     width: 100%;
+
                     img {
                         width: 100%;
                     }
