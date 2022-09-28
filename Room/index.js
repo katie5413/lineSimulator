@@ -141,6 +141,7 @@ $(document).ready(function () {
 
                         switch (message[currentMsgIndex].type) {
                             case 'text':
+                            case undefined:
                                 text = message[currentMsgIndex].text;
                                 break;
                             case 'image':
@@ -155,10 +156,15 @@ $(document).ready(function () {
                         let key = generateUniqueId();
                         let name = msgOwner == null ? '沒有成員' : msgOwner.name;
 
+                        console.log(message[currentMsgIndex].type == undefined);
+
                         $('#message').append(
                             generateMsgItem({
                                 key: key,
-                                type: message[currentMsgIndex].type,
+                                type:
+                                    message[currentMsgIndex].type == undefined
+                                        ? 'text'
+                                        : message[currentMsgIndex].type,
                                 characterName: msgOwner == null ? '沒有成員' : msgOwner.name,
                                 characterImg: msgOwner == null ? null : msgOwner.img,
                                 msgImg: imageItem == null ? ' ' : imageItem.img,
@@ -169,7 +175,10 @@ $(document).ready(function () {
 
                         // 避免 XSS
                         $(`.messageItem[data-key="${key}"] .name`).text(name);
-                        if (message[currentMsgIndex].type == 'text') {
+                        if (
+                            message[currentMsgIndex].type == 'text' ||
+                            message[currentMsgIndex].type == undefined
+                        ) {
                             $(`.messageItem[data-key="${key}"] .text`).text(text);
                         }
 
