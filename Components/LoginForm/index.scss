@@ -16,7 +16,7 @@
     min-height: 700px;
     min-width: 800px;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 768px) {
         min-width: unset;
     }
 
@@ -33,11 +33,11 @@
             z-index: -1;
         }
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 768px) {
             padding: 2rem 3rem 1rem 1rem;
         }
 
-        // @media screen and (max-width: 600px) {
+        // @media screen and (max-width: 768px) {
         //     padding: 2rem 1rem;
         // }
 
@@ -45,7 +45,7 @@
             text-align: center;
             margin: 24px 40px;
 
-            @media screen and (max-width: 600px) {
+            @media screen and (max-width: 768px) {
                 margin: 12px 20px;
             }
 
@@ -77,7 +77,7 @@
                 //     line-height: 1.5rem;
                 // }
 
-                @media screen and (max-width: 600px) {
+                @media screen and (max-width: 768px) {
                     width: 2rem;
                     height: 2rem;
                     margin: 3px;
@@ -167,7 +167,7 @@
             height: 40px;
         }
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 768px) {
             bottom: 260px;
 
             .entryBtn {
@@ -179,6 +179,30 @@
 
         &:hover {
             background-color: rgb(135, 48, 48);
+        }
+    }
+
+    &.student {
+        .container {
+            .board {
+                width: 120%;
+
+                @media screen and (max-width: 768px) {
+                    width: 130%;
+                }
+            }
+
+            .passcodeArea {
+                @media screen and (max-width: 768px) {
+                    margin: 0;
+                }
+            }
+        }
+        .bottomBtnArea {
+            margin-left: 30px;
+            @media screen and (max-width: 768px) {
+                margin-bottom: 12px;
+            }
         }
     }
 }

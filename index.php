@@ -55,9 +55,9 @@ include "pdoInc.php";
     </div>
 
     <div class="loginForm">
-        <div class="passCodeInput">
+        <div class="passCodeInput student">
             <div class="container">
-                <img class="board" src="Images/board.png" alt="" />
+                <img class="board" src="Images/board-student.png" alt="" />
                 <div class="passcodeArea">
                     <input autoFocus type="text" maxLength="1" autocomplete="new-password" />
                     <input type="text" maxLength="1" autocomplete="new-password" />
