@@ -142,6 +142,7 @@ $(document).ready(function () {
                         switch (message[currentMsgIndex].type) {
                             case 'text':
                             case undefined:
+                            case 'link':
                                 text = message[currentMsgIndex].text;
                                 break;
                             case 'image':
@@ -180,6 +181,13 @@ $(document).ready(function () {
                             message[currentMsgIndex].type == undefined
                         ) {
                             $(`.messageItem[data-key="${key}"] .text`).text(text);
+                        }
+
+                        if (
+                            message[currentMsgIndex].type == 'link'
+                        ) {
+                            $(`.messageItem[data-key="${key}"] .text a`).text(text);
+                            $(`.messageItem[data-key="${key}"] .text a`).attr('href',text);
                         }
 
                         $(`.messageItem[data-key="${key}"]`)[0].scrollIntoView();

@@ -150,6 +150,7 @@ include "../pdoInc.php";
                         <div class="select-items">
                             <div class="option" value="text">文字</div>
                             <div class="option" value="image">圖片</div>
+                            <div class="option" value="link">連結</div>
                         </div>
                     </div>
                 </div>
@@ -307,9 +308,15 @@ include "../pdoInc.php";
                         </div>
                     </div>
                     <div class="textForm">
-                        <div class="form__input newMsg">
+                        <div class="form__input newMsg text">
                             <div class="title">對話<span class="mustFillLabel">必填</span></div>
                             <input class="input" type="text" name="newMsg" placeholder="請輸入對話" />
+                        </div>
+                    </div>
+                    <div class="linkForm">
+                        <div class="form__input newMsg link">
+                            <div class="title">連結<span class="mustFillLabel">必填</span></div>
+                            <input class="input" type="text" name="newLink" placeholder="請輸入連結" />
                         </div>
                     </div>
                     <div class="imageForm">

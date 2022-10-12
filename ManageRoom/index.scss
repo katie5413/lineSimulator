@@ -596,13 +596,15 @@ body {
         .textForm {
             display: block;
         }
-        .imageForm {
+        .imageForm,
+        .linkForm {
             display: none;
         }
     }
 
     &[content-type='image'] {
-        .textForm {
+        .textForm,
+        .linkForm  {
             display: none;
         }
         .imageForm {
@@ -610,12 +612,22 @@ body {
         }
     }
 
-    .selectCharacter{
+    &[content-type='link'] {
+        .textForm,
+        .imageForm  {
+            display: none;
+        }
+        .linkForm {
+            display: block;
+        }
+    }
+
+    .selectCharacter {
         margin-bottom: 16px;
     }
 
-    .buttonGroup{
-        button{
+    .buttonGroup {
+        button {
             width: 80px;
         }
     }

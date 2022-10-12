@@ -158,6 +158,15 @@
         }
     }
 
+    &.link {
+        .form__input[data-type='text'] {
+            display: block;
+        }
+        .form__input[data-type='image'] {
+            display: none;
+        }
+    }
+
     &.image {
         .form__input[data-type='image'] {
             display: block;

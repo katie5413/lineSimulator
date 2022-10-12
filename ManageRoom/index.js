@@ -116,7 +116,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (data) {
                     const questionData = JSON.parse(data);
-                    if (questionData!= null) {
+                    if (questionData != null) {
                         questionData.forEach((questionItem) => {
                             question.push(questionItem);
                         });
@@ -222,6 +222,7 @@ $(document).ready(function () {
                             null: '文字',
                             text: '文字',
                             image: '圖片',
+                            link: '連結',
                         };
 
                         item.type = item.type == null ? 'text' : item.type;
@@ -619,6 +620,7 @@ $(document).ready(function () {
                 const typeText = {
                     text: '文字',
                     image: '圖片',
+                    link: '連結',
                 };
 
                 let msgText = null;
@@ -640,13 +642,28 @@ $(document).ready(function () {
 
                 switch (msgType) {
                     case 'text':
-                        msgText = targetModal.find('.newMsg input').val();
+                        msgText = targetModal.find('.newMsg input[name="newMsg"]').val();
 
                         if (msgText.trim().length == 0) {
                             valid = false;
                             targetModal.find('.newMsg').addClass('error');
 
                             errorMsg.push('請輸入對話');
+
+                            showErrorMsg({
+                                target: targetModal,
+                                msg: errorMsg.join('、'),
+                            });
+                        }
+                        break;
+                    case 'link':
+                        msgText = targetModal.find('.newMsg input[name="newLink"]').val();
+
+                        if (msgText.trim().length == 0) {
+                            valid = false;
+                            targetModal.find('.newMsg').addClass('error');
+
+                            errorMsg.push('請輸入連結');
 
                             showErrorMsg({
                                 target: targetModal,
@@ -837,7 +854,7 @@ $(document).ready(function () {
                     tmpData.imageID = imageID;
                 }
 
-                if (type == 'text') {
+                if (type == 'text' || type == 'link') {
                     tmpData.text = text;
                 }
 

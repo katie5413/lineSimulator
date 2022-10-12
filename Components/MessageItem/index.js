@@ -18,6 +18,13 @@ function generateMsgItem(props) {
         );
     }
 
+    if (props.type == 'link') {
+        template = template.replace(
+            '<div class="text"></div>',
+            '<div class="text"><a class="link" target="_blank"></a></div>',
+        );
+    }
+
     if (!props.characterImg) {
         var tmpName = props.characterName.substring(0, 1);
         template = template.replace(
