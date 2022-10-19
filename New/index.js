@@ -133,43 +133,48 @@ $(document).ready(function () {
             const mode = urlParams.get('mode');
             let inputCode = newRoomId;
 
-            if (mode == 'admin') {
+            if (mode == 'god') {
                 inputCode = getCode();
             }
 
-            $.ajax({
-                type: 'POST',
-                url: `../Api/addRoom.php`,
-                data: {
-                    code: inputCode,
-                    managerEmail: $('#newRoomManagerEmail').val(),
-                    newRoomName: $('#newRoomName').val(),
-                    password: $('#password').val(),
-                },
-                success: function (data) {
-                    const statusData = JSON.parse(data);
-                    console.log(statusData.status);
-                    switch (statusData.status) {
-                        case 'success':
-                            setTimeout(function () {
-                                window.location.href = '../ManageRoom/index.php';
-                            }, 200);
+            setTimeout(function () {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: `../Api/addRoom.php`,
+                        data: {
+                            code: inputCode,
+                            managerEmail: $('#newRoomManagerEmail').val(),
+                            newRoomName: $('#newRoomName').val(),
+                            password: $('#password').val(),
+                        },
+                        success: function (data) {
+                            const statusData = JSON.parse(data);
+                            console.log(statusData.status);
+                            switch (statusData.status) {
+                                case 'success':
+                                    setTimeout(function () {
+                                        window.location.href = '../ManageRoom/index.php';
+                                    }, 200);
 
-                            break;
-                        case 'duplicate':
-                            showErrorMsg({
-                                target: $('.loginForm'),
-                                msg: '該房間已存在，請再試一次',
-                            });
-                            break;
-                        default:
-                            showErrorMsg({
-                                target: $('.loginForm'),
-                                msg: '網路錯誤，請再試一次',
-                            });
-                            break;
-                    }
-                },
+                                    break;
+                                case 'duplicate':
+                                    showErrorMsg({
+                                        target: $('.loginForm'),
+                                        msg: '該房間已存在，請再試一次',
+                                    });
+                                    break;
+                                default:
+                                    showErrorMsg({
+                                        target: $('.loginForm'),
+                                        msg: '網路錯誤，請再試一次',
+                                    });
+                                    break;
+                            }
+                        },
+                    },
+                    1000,
+                );
             });
         } else {
             // Prevent the form from submitting
