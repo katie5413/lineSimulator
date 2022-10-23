@@ -1,7 +1,13 @@
 .questionManageItem {
     display: flex;
     gap: 8px;
+    border-radius: 8px;
 
+    &.drag {
+        opacity: 0.3;
+    }
+
+    .dragQuestionItem,
     .deleteQuestionItem {
         width: fit-content;
         padding: 0;

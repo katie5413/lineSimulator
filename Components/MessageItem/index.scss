@@ -146,8 +146,13 @@
 
 .msgManageItem {
     display: grid;
-    grid-template-columns: 20px 140px 140px 1fr;
+    grid-template-columns: 20px 20px 140px 140px 1fr;
     gap: 8px;
+    border-radius: 8px;
+
+    &.drag {
+        opacity: 0.3;
+    }
 
     &.text {
         .form__input[data-type='text'] {
@@ -176,6 +181,7 @@
         }
     }
 
+    .dragMsgItem,
     .deleteMsgItem {
         width: fit-content;
         padding: 0;

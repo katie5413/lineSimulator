@@ -1,4 +1,7 @@
-const questionInputItemTemplate = `<div class="questionManageItem">
+const questionInputItemTemplate = `<div class="questionManageItem" draggable="true" ondragstart="DragStartQA()"  ondragover="DragOverQA()">
+    <button class="button dragQuestionItem">
+        <img src="../Images/icon/drag.png" alt="drag" class="icon">
+    </button>
     <button class="button deleteQuestionItem">
         <img src="../Images/icon/delete.svg" alt="delete" class="icon">
     </button>
@@ -106,4 +109,23 @@ function activeQuestionItemFunction() {
     $('.questionItem .drop__container').click(() => {
         hideErrorMsg();
     });
+}
+
+let QARow;
+
+function DragStartQA() {
+    QARow = event.target.closest(`.questionManageItem`);
+    QARow.classList.add('drag');
+}
+
+function DragOverQA() {
+    event.preventDefault();
+
+    let target = transformToJQuery(event.target.closest(`.questionManageItem`));
+
+    let children = Array.from(target.parent().children());
+
+    if (children.indexOf(target) < children.indexOf(QARow)) target.after(QARow);
+    else target.before(QARow);
+    QARow.classList.remove('drag');
 }

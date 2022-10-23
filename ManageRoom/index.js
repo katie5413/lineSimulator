@@ -255,8 +255,8 @@ $(document).ready(function () {
                     });
                 }
 
-                // 註冊刪除對話事件
-                activeDeleteMsgItem();
+                // 註冊對話事件
+                activeMsgItem();
 
                 for (let i = 0; i < $('.msgCharacter').length; i++) {
                     if ($('.msgCharacter').eq(i).val() == '沒有成員') {
@@ -715,8 +715,8 @@ $(document).ready(function () {
                     $('.newContentTypeOption').removeAttr('select-id');
                     $('.newContentTypeOption').val('');
 
-                    // 註冊刪除對話事件
-                    activeDeleteMsgItem();
+                    // 註冊對話事件
+                    activeMsgItem();
 
                     // 關閉 modal
                     closeModal();
@@ -732,7 +732,7 @@ $(document).ready(function () {
         }
     });
 
-    function activeDeleteMsgItem() {
+    function activeMsgItem() {
         $('.deleteMsgItem').on('click', function () {
             $(this).parent().remove();
         });

@@ -39,7 +39,10 @@ function generateMsgItem(props) {
     });
 }
 
-const msgInputItemTemplate = `<div class="msgManageItem {{type}}" data-id={{index}}>
+const msgInputItemTemplate = `<div class="msgManageItem {{type}}" data-id={{index}} draggable="true" ondragstart="DragStartMsg()"  ondragover="DragOverMsg()">
+    <button class="button dragMsgItem">
+        <img src="../Images/icon/drag.png" alt="drag" class="icon">
+    </button>
     <button class="button deleteMsgItem">
         <img src="../Images/icon/delete.svg" alt="delete" class="icon">
     </button>
@@ -134,4 +137,26 @@ function generateMsgInputItem(props) {
     return generateHtml(template, {
         ...props,
     });
+}
+
+
+let msgRow;
+
+function DragStartMsg() {
+    msgRow = event.target.closest(`.msgManageItem`);
+    msgRow.classList.add('drag');
+}
+
+function DragOverMsg() {
+
+
+    event.preventDefault();
+
+    let target = transformToJQuery(event.target.closest(`.msgManageItem`));
+
+    let children = Array.from(target.parent().children());
+
+    if (children.indexOf(target) < children.indexOf(msgRow)) target.after(msgRow);
+    else target.before(msgRow);
+    msgRow.classList.remove('drag');
 }
