@@ -341,8 +341,9 @@ body {
             padding-bottom: 16px;
         }
 
-        .addMsg {
-            display: flex;
+        #addMsg {
+            display: grid;
+            grid-template-columns: 140px 140px 1fr 36px;
             align-items: center;
             width: -webkit-fill-available;
             padding: 16px;
@@ -350,6 +351,36 @@ body {
             background-color: oldlace;
             border-radius: 8px;
             margin-bottom: 16px;
+
+            &[content-type='text'] {
+                .textForm {
+                    display: block;
+                }
+                .imageForm,
+                .linkForm {
+                    display: none;
+                }
+            }
+
+            &[content-type='image'] {
+                .textForm,
+                .linkForm {
+                    display: none;
+                }
+                .imageForm {
+                    display: block;
+                }
+            }
+
+            &[content-type='link'] {
+                .textForm,
+                .imageForm {
+                    display: none;
+                }
+                .linkForm {
+                    display: block;
+                }
+            }
 
             .selectCharacter {
                 max-width: 120px;
@@ -388,10 +419,23 @@ body {
                 }
             }
 
-            .newMsg {
-                input {
-                    height: 100%;
+            .imageForm {
+                .upload {
+                    display: none;
                 }
+
+                &.upload{
+                    .default{
+                        display: none;
+                    }
+                    .upload{
+                        display: block;
+                    }
+                }
+            }
+
+            .openGalleryModal {
+                height: 40px;
             }
 
             #addMsgContent {
@@ -604,7 +648,7 @@ body {
 
     &[content-type='image'] {
         .textForm,
-        .linkForm  {
+        .linkForm {
             display: none;
         }
         .imageForm {
@@ -614,7 +658,7 @@ body {
 
     &[content-type='link'] {
         .textForm,
-        .imageForm  {
+        .imageForm {
             display: none;
         }
         .linkForm {

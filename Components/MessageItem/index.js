@@ -14,7 +14,7 @@ function generateMsgItem(props) {
     if (props.type == 'image') {
         template = template.replace(
             '<div class="text"></div>',
-            '<div class="text"><div class="image"><img src="{{msgImg}}" alt="{{msgImgName}}" /></div></div>',
+            '<div class="text"><div class="image"><img src="{{msgImg}}" /></div></div>',
         );
     }
 
@@ -64,20 +64,15 @@ const msgInputItemTemplate = `<div class="msgManageItem {{type}}" data-id={{inde
             <div class="select-items">
                 <div class="option" value="text">文字</div>
                 <div class="option" value="image">圖片</div>
+                <div class="option" value="link">連結</div>
             </div>
         </div>
     </div>
     <div class="form__input" data-type="text">
         <input class="input content" type="text" value="{{text}}" placeholder="對話" />
     </div>
-    <div class="form__input drop" data-type="image">
-        <div class="drop__container">
-            <input class="select-selected msgImage" type="text" placeholder="圖片" autocomplete="off" value="{{imageName}}" select-id="{{imageID}}" />
-            <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
-            <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
-            <div class="line"></div>
-            <div class="select-items selectImage"></div>
-        </div>
+    <div class="form__input" data-type="image">
+        <img class="image openGalleryModal msgImage" src="../Images/icon/upload.svg"/>
     </div>
 </div>`;
 
@@ -109,28 +104,10 @@ function generateMsgInputItem(props) {
         );
     }
 
-    if (props.imageData) {
-        let optionItemHTML = '';
-
-        function generateMsgInputItemOption(props) {
-            const msgInputItemOptionTemplate = `<div class="option" value="{{imageID}}">{{imageName}}</div>`;
-            let template = msgInputItemOptionTemplate;
-
-            return generateHtml(template, {
-                ...props,
-            });
-        }
-
-        for (var i = 0; i < props.imageData.length; i++) {
-            optionItemHTML += generateMsgInputItemOption({
-                imageID: props.imageData[i].id,
-                imageName: props.imageData[i].name,
-            });
-        }
-
+    if (props.imageSRC) {
         template = template.replace(
-            '<div class="select-items selectImage"></div>',
-            `<div class="select-items selectImage">${optionItemHTML}</div>`,
+            '../Images/icon/upload.svg',
+            props.imageSRC,
         );
     }
 

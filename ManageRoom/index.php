@@ -78,7 +78,7 @@ include "../pdoInc.php";
                 echo  '<img id="character-avatar" src="' . $setImg . '" />';
                 ?>
                 <div class="form__input">
-                    <div class="drop__container" id="selectMainCharacterArea">
+                    <div class="drop__container">
                         <?php
                         $sth = $dbh->prepare('SELECT name FROM member WHERE id=? AND roomID=?');
                         $sth->execute(array($_SESSION['roomMainPersonID'], $_SESSION['roomOwner']));
@@ -125,25 +125,34 @@ include "../pdoInc.php";
             <div class="members"></div>
         </div>
 
-        <div class="manageGallery">
-            <h3 id="galleryDisplayArea" class="toggleExpand">聊天室圖片<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
-            <div class="rightArea">
-                <button id="addGallery" action-type="add" action-target="image" class="button button-hollow openModal">
-                    新增
-                </button>
-            </div>
-        </div>
-
-        <div class="galleryArea">
-            <div id="images"></div>
-        </div>
-
         <div class="manageContent">
             <h3 id="contentDisplayArea" class="toggleExpand">聊天室內容<span><img src="../Images/icon/arrowRight.svg" alt="icon" class="icon"></span></h3>
-            <div class="rightArea">
-                <div class="form__input drop">
+        </div>
+
+        <div class="messageArea">
+            <div id="message"></div>
+            <div id="addMsg" content-type="text">
+                <div class="selectCharacter">
+                    <div class="form__input">
+                        <div class="drop__container">
+                            <input id="selectMsgCharacter" name="msgCharacter" class="select-selected" type="text" placeholder="角色" autocomplete="off" value="" select-id="" />
+                            <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
+                            <div class="line"></div>
+                            <div class="select-items">
+                                <?php
+                                $sth = $dbh->prepare('SELECT id, name FROM member WHERE roomID=?');
+                                $sth->execute(array($_SESSION['roomOwner']));
+                                while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<div class="option" value=' . $row['id'] . '>' . $row['name'] . '</div>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="selectType form__input drop">
                     <div class="drop__container">
-                        <input class="select-selected newContentTypeOption" type="text" placeholder="請選擇內容類型" autocomplete="off" value="" select-id="" />
+                        <input class="select-selected newContentTypeOption" type="text" placeholder="內容類型" autocomplete="off" value="" select-id="" />
                         <img src="../Images/icon/arrowRight.svg" alt="icon" class="icon">
                         <img src="../Images/icon/clear.svg" alt="icon" class="drop__clear" />
                         <div class="line"></div>
@@ -154,14 +163,28 @@ include "../pdoInc.php";
                         </div>
                     </div>
                 </div>
-                <button action-type="add" action-target="content" class="button button-hollow openModal">
-                    新增
-                </button>
-            </div>
-        </div>
+                <div class="textForm">
+                    <div class="form__input newMsg text">
+                        <input class="input" type="text" name="newMsg" placeholder="請輸入對話" />
+                    </div>
+                </div>
+                <div class="linkForm">
+                    <div class="form__input newMsg link">
+                        <input class="input" type="text" name="newLink" placeholder="請輸入連結" />
+                    </div>
+                </div>
+                <div class="imageForm">
+                    <div class="default">
+                        <img class="openGalleryModal image" src="../Images/icon/upload.svg" alt="image" />
 
-        <div class="messageArea">
-            <div id="message"></div>
+                    </div>
+                    <div class="upload">
+                        <img class="openGalleryModal image" src="../Images/icon/upload.svg" alt="image" />
+
+                    </div>
+                </div>
+                <button id="addMsgContent" type="submit" class="button button-fill"><img src="../Images/icon/send.svg" alt="send" class="icon"></button>
+            </div>
         </div>
 
         <div class="manageQuestion">
@@ -244,11 +267,6 @@ include "../pdoInc.php";
                     <div class="title">標題</div>
                 </div>
                 <div class="middle">
-                    <div class="form__input image_name mustFill">
-                        <div class="title">圖片名稱<span class="mustFillLabel">必填</span></div>
-                        <input class="input add_image_name" type="text" name="image_name" placeholder="請輸入圖片名稱" />
-                    </div>
-
                     <input type="file" name="upload_gallery_img" id="upload_gallery_img" accept=".jpg, .jpeg, .png, .svg" hidden />
                     <label for="upload_gallery_img">
                         <div class="img uploadImgArea">

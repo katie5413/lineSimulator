@@ -175,6 +175,10 @@
     &.image {
         .form__input[data-type='image'] {
             display: block;
+
+            img {
+                height: 40px;
+            }
         }
         .form__input[data-type='text'] {
             display: none;
@@ -191,10 +195,6 @@
     }
 
     .form__input {
-        // &.drop {
-        //     width: max-content;
-        // }
-
         .content {
             font-size: 14px;
         }
@@ -205,11 +205,6 @@
                     color: var(--alert);
                 }
             }
-
-            // .msgCharacter,
-            // .contentTypeOption {
-            //     max-width: 140px;
-            // }
 
             .option {
                 padding: 8px 16px;

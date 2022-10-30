@@ -2,7 +2,6 @@ $(document).ready(function () {
     let members = [];
     let message = [];
     let question = [];
-    let images = [];
     let mainCharacterID = 0;
 
     // 房間名
@@ -131,31 +130,11 @@ $(document).ready(function () {
         });
     }
 
-    // 圖片
-    function fetchRoomImageStatus() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: `../Api/getRoomGallery.php`,
-                dataType: 'json',
-                success: function (data) {
-                    images = data;
-
-                    resolve(true);
-                },
-                fail: function (xhr, ajaxOptions, thrownError) {
-                    reject(false);
-                },
-            });
-        });
-    }
-
     (async function () {
         try {
             let getMemberDone = await fetchRoomMemberStatus();
             let getMsgDone = await fetchRoomMsgStatus();
             let getQuestionDone = await fetchRoomQuestionStatus();
-            let getImageDone = await fetchRoomImageStatus();
 
             if (getMemberDone) {
                 console.log('members', members);
@@ -181,41 +160,11 @@ $(document).ready(function () {
                 addMemberStep('init');
             }
 
-            if (getImageDone) {
-                console.log('images', images);
-                $('#images').children().remove();
-
-                if (images.length == 0) {
-                    $('.galleryArea').removeClass('active');
-                } else {
-                    $('.galleryArea').addClass('active');
-                    images.forEach((item) => {
-                        $('#images').append(
-                            generateGalleryItem({
-                                id: item.id,
-                                img: item.img,
-                                name: item.name,
-                            }),
-                        );
-                    });
-                }
-
-                activeGalleryItem();
-            }
-
-            if (getMsgDone && getImageDone) {
+            if (getMsgDone) {
                 console.log('msg', message);
                 if (message != null) {
                     message.map((item, index) => {
                         let msgOwner = members.filter((person) => person.id == item.who)[0];
-                        let imageItem = item.imageID
-                            ? {
-                                  id: item.imageID,
-                                  name: $(
-                                      `#images .galleryItem[data-id="${item.imageID}"] .name`,
-                                  ).text(),
-                              }
-                            : null;
 
                         const typeText = {
                             undefined: '文字',
@@ -236,10 +185,8 @@ $(document).ready(function () {
                                 type: item.type,
                                 typeText: typeText[item.type],
                                 text: item.text,
-                                imageID: imageItem == null ? ' ' : imageItem.id,
-                                imageName: imageItem == null ? ' ' : imageItem.name,
+                                imageSRC: item.imageSRC,
                                 memberData: members,
-                                imageData: images,
                             }),
                         );
 
@@ -253,6 +200,8 @@ $(document).ready(function () {
                             $(this).closest('.msgManageItem').addClass($(this).attr('value'));
                         });
                     });
+
+                    activeGalleryItem();
                 }
 
                 // 註冊對話事件
@@ -402,13 +351,6 @@ $(document).ready(function () {
     // 角色 end
 
     // 圖片
-    $('#addGallery').click(function () {
-        openModal({
-            targetModal: $('#galleryModal'),
-            modalTitle: '新增圖片',
-            actionType: 'add',
-        });
-    });
 
     // 處理上傳的圖片
 
@@ -476,55 +418,24 @@ $(document).ready(function () {
         .on('click', function () {
             const actionType = $('#galleryModal').attr('action-type');
             let valid = true;
-            const imageName = $('#galleryModal').find('.add_image_name').val().trim();
             const imageSRC = $('#galleryModal').find('.croppedImg').attr('src');
             const updateImageID = $('#galleryModal').attr('data-id');
-
-            if (imageName.length == 0) {
-                valid = false;
-                showErrorMsg({
-                    target: $('#galleryModal'),
-                    msg: '請輸入圖片名稱',
-                });
-            }
 
             // 不用檢查是否上傳圖片，因為沒上傳圖片不會有按鈕
 
             if (valid) {
                 switch (actionType) {
                     case 'add':
-                        $.ajax({
-                            type: 'POST',
-                            url: `../Api/addRoomGallery.php`,
-                            data: {
-                                name: imageName,
-                                img: imageSRC,
-                            },
-                            dataType: 'json',
-                            success: function (data) {
-                                console.log('add success', data);
-                                // 自動儲存後重整
-                                $('#saveContent').click();
-                            },
-                        });
+                        $('#addMsg .imageForm').addClass('upload');
+                        $('#addMsg .imageForm .upload img').attr('src', imageSRC);
 
                         break;
                     case 'edit':
-                        $.ajax({
-                            type: 'POST',
-                            url: `../Api/addRoomGallery.php`,
-                            data: {
-                                id: updateImageID,
-                                name: imageName,
-                                img: imageSRC,
-                            },
-                            dataType: 'json',
-                            success: function (data) {
-                                console.log('edit success', data);
-                                // 自動儲存後重整
-                                $('#saveContent').click();
-                            },
-                        });
+                        const targetID = $(this).closest('.msgManageItem').attr('data-id');
+                        $(`.msgManageItem[data-id="${updateImageID}"]`)
+                            .find('.openGalleryModal')
+                            .attr('src', imageSRC);
+
                         break;
                 }
 
@@ -545,23 +456,23 @@ $(document).ready(function () {
         });
 
     // 刪除
-    $('#galleryModal')
-        .find('.delete_button')
-        .on('click', function () {
-            $.ajax({
-                type: 'POST',
-                url: `../Api/deleteRoomGallery.php`,
-                data: {
-                    id: $('#galleryModal').attr('data-id'),
-                },
-                dataType: 'json',
-                success: function (data) {
-                    console.log('delete', data);
-                    // 自動儲存後重整
-                    $('#saveContent').click();
-                },
-            });
-        });
+    // $('#galleryModal')
+    //     .find('.delete_button')
+    //     .on('click', function () {
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: `../Api/deleteRoomGallery.php`,
+    //             data: {
+    //                 id: $('#galleryModal').attr('data-id'),
+    //             },
+    //             dataType: 'json',
+    //             success: function (data) {
+    //                 console.log('delete', data);
+    //                 // 自動儲存後重整
+    //                 $('#saveContent').click();
+    //             },
+    //         });
+    //     });
 
     function resetGalleryModal() {
         // 重置 gallery
@@ -569,164 +480,163 @@ $(document).ready(function () {
         $('#galleryModal').find('.cropImageResult').children().remove();
     }
 
-    function activeGalleryItem() {
-        $('.galleryItem').on('click', function () {
-            let data = {
-                id: $(this).attr('data-id'),
-                img: $(this).find('.img').attr('src'),
-                name: $(this).find('span.name').text(),
-            };
+    function activeGalleryItem(id) {
+        if (id) {
+            $(`.msgManageItem[data-id="${id}"] .openGalleryModal`).click(function () {
+                const targetID = $(this).closest('.msgManageItem').attr('data-id');
+                const targetImageSRC = $(this).attr('src');
 
-            openModal({
-                targetModal: $('#galleryModal'),
-                modalTitle: '編輯圖片',
-                actionType: 'edit',
+                $('#galleryModal').attr('data-id', targetID);
+                $('#galleryModal').attr('image-status', 'crop');
+
+                openModal({
+                    targetModal: $('#galleryModal'),
+                    modalTitle: '編輯圖片',
+                    actionType: 'edit',
+                });
+
+                if (targetImageSRC) {
+                    $('#galleryModal')
+                        .find('.cropImageResult')
+                        .append(
+                            `<img class="croppedImg" src="${targetImageSRC}" alt="croppedImg" />`,
+                        );
+                }
             });
-            $('#galleryModal').attr('data-id', data.id);
-            $('#galleryModal').attr('image-status', 'crop');
-            $('#galleryModal').find('.add_image_name').val(data.name);
+        } else {
+            $('.msgManageItem .openGalleryModal').click(function () {
+                const targetID = $(this).closest('.msgManageItem').attr('data-id');
+                const targetImageSRC = $(this).attr('src');
 
-            if (data.img) {
-                $('#galleryModal')
-                    .find('.cropImageResult')
-                    .append(`<img class="croppedImg" src="${data.img}" alt="croppedImg" />`);
-            }
-        });
+                $('#galleryModal').attr('data-id', targetID);
+                $('#galleryModal').attr('image-status', 'crop');
+
+                openModal({
+                    targetModal: $('#galleryModal'),
+                    modalTitle: '編輯圖片',
+                    actionType: 'edit',
+                });
+
+                if (targetImageSRC) {
+                    $('#galleryModal')
+                        .find('.cropImageResult')
+                        .append(
+                            `<img class="croppedImg" src="${targetImageSRC}" alt="croppedImg" />`,
+                        );
+                }
+            });
+        }
+
+        console.log('activeGalleryItem');
     }
     // 圖片 end
 
     // 對話
 
-    $('.openModal[action-target="content"][action-type="add"]').click(function () {
-        let newContentTypeOption = $('.newContentTypeOption').attr('select-id');
-        if (newContentTypeOption) {
-            openModal({
-                targetModal: $('#addMsgModal'),
-                modalTitle: '新增對話內容',
-                actionType: 'add',
-            });
+    $('.selectType.form__input.drop .option').on('click', function () {
+        const newContentTypeOption = $(this).attr('value');
 
-            // 設定內容類型
-            $('#addMsgModal').attr('content-type', newContentTypeOption);
+        // 設定內容類型
+        $('#addMsg').attr('content-type', newContentTypeOption);
+    });
 
-            // 新增對話
-            $('#addMsgModal .modalConfirm').on('click', function () {
-                const targetModal = $('#addMsgModal');
-                const characterID = targetModal.find('.selectCharacter input').attr('select-id');
-                const characterName =
-                    targetModal.find('.selectCharacter input').val() || '沒有成員';
-                const msgType = $('.newContentTypeOption').attr('select-id');
+    $('.openGalleryModal').on('click', function () {
+        openModal({
+            targetModal: $('#galleryModal'),
+            modalTitle: '新增圖片',
+            actionType: 'add',
+        });
+    });
 
-                const typeText = {
-                    text: '文字',
-                    image: '圖片',
-                    link: '連結',
-                };
+    $('#addMsg #addMsgContent').click(function () {
+        const target = $('#addMsg');
+        const characterID = target.find('#selectMsgCharacter').attr('select-id');
+        const characterName = target.find('#selectMsgCharacter').val() || '沒有成員';
+        const msgType = target.find('.newContentTypeOption').attr('select-id');
 
-                let msgText = null;
-                let msgImageID = null;
-                let imageItem = null;
+        if (msgType) {
+            const typeText = {
+                text: '文字',
+                image: '圖片',
+                link: '連結',
+            };
 
-                let valid = true;
-                let errorMsg = [];
+            let msgText = null;
+            let msgImageSRC = null;
 
-                if (characterID.trim().length == 0) {
-                    valid = false;
-                    targetModal.find('.selectCharacter .drop__container').addClass('error');
-                    errorMsg.push('請選擇角色');
-                    showErrorMsg({
-                        target: targetModal,
-                        msg: errorMsg.join('、'),
-                    });
+            let valid = true;
+            let errorMsg = [];
+
+            if (characterID.trim().length == 0) {
+                valid = false;
+                target.find('.selectCharacter .drop__container').addClass('error');
+                alert('請選擇角色');
+            }
+            switch (msgType) {
+                case 'text':
+                    msgText = target.find('.newMsg input[name="newMsg"]').val();
+
+                    if (msgText.trim().length == 0) {
+                        valid = false;
+                        target.find('.newMsg').addClass('error');
+
+                        alert('請輸入對話');
+                    }
+                    break;
+                case 'link':
+                    msgText = target.find('.newMsg input[name="newLink"]').val();
+
+                    if (msgText.trim().length == 0) {
+                        valid = false;
+                        target.find('.newMsg').addClass('error');
+
+                        alert.push('請輸入連結');
+                    }
+                    break;
+                case 'image':
+                    msgImageSRC = target.find('.imageForm .upload img').attr('src');
+
+                    if (msgImageSRC == '../Images/icon/upload.svg') {
+                        valid = false;
+
+                        alert('請選擇圖片');
+                    }
+                    break;
+            }
+
+            if (valid) {
+                const uuid = generateUniqueId().slice(8);
+                $('#message').append(
+                    generateMsgInputItem({
+                        index: uuid,
+                        characterID: characterID,
+                        characterName: characterName,
+                        type: msgType,
+                        typeText: typeText[msgType],
+                        text: msgText,
+                        imageSRC: msgImageSRC,
+                        memberData: members,
+                    }),
+                );
+
+                // 清空角色
+                $('#selectMsgCharacter').val('');
+
+                //  清空原本的內容類型
+                $('.newContentTypeOption').removeAttr('select-id');
+                $('.newContentTypeOption').val('');
+
+                // 註冊對話事件
+                activeMsgItem();
+                activeGalleryItem(uuid);
+
+                if (msgType == 'image') {
+                    $('#addMsg .imageForm').removeClass('upload');
                 }
 
-                switch (msgType) {
-                    case 'text':
-                        msgText = targetModal.find('.newMsg input[name="newMsg"]').val();
-
-                        if (msgText.trim().length == 0) {
-                            valid = false;
-                            targetModal.find('.newMsg').addClass('error');
-
-                            errorMsg.push('請輸入對話');
-
-                            showErrorMsg({
-                                target: targetModal,
-                                msg: errorMsg.join('、'),
-                            });
-                        }
-                        break;
-                    case 'link':
-                        msgText = targetModal.find('.newMsg input[name="newLink"]').val();
-
-                        if (msgText.trim().length == 0) {
-                            valid = false;
-                            targetModal.find('.newMsg').addClass('error');
-
-                            errorMsg.push('請輸入連結');
-
-                            showErrorMsg({
-                                target: targetModal,
-                                msg: errorMsg.join('、'),
-                            });
-                        }
-                        break;
-                    case 'image':
-                        msgImageID = targetModal.find('.imageForm input').attr('select-id');
-
-                        imageItem = msgImageID
-                            ? {
-                                  id: msgImageID,
-                                  name: $(
-                                      `#images .galleryItem[data-id="${msgImageID}"] .name`,
-                                  ).text(),
-                              }
-                            : null;
-                        if (msgImageID.trim().length == 0) {
-                            valid = false;
-                            targetModal.find('.newMsg').addClass('error');
-
-                            errorMsg.push('請選擇圖片');
-
-                            showErrorMsg({
-                                target: targetModal,
-                                msg: errorMsg.join('、'),
-                            });
-                        }
-                        break;
-                }
-
-                if (valid) {
-                    $('#message').append(
-                        generateMsgInputItem({
-                            characterID: characterID,
-                            characterName: characterName,
-                            type: msgType,
-                            typeText: typeText[msgType],
-                            text: msgText,
-                            imageID: imageItem == null ? ' ' : imageItem.id,
-                            imageName: imageItem == null ? ' ' : imageItem.name,
-                            memberData: members,
-                            imageData: images,
-                        }),
-                    );
-
-                    //  清空原本的內容類型
-                    $('.newContentTypeOption').removeAttr('select-id');
-                    $('.newContentTypeOption').val('');
-
-                    // 註冊對話事件
-                    activeMsgItem();
-
-                    // 關閉 modal
-                    closeModal();
-                }
-            });
-
-            // 刪除對話
-            $('.deleteMsgItem').on('click', function () {
-                $(this).parent().remove();
-            });
+                // 關閉 modal
+                closeModal();
+            }
         } else {
             alert('請先選擇內容類型');
         }
@@ -842,18 +752,20 @@ $(document).ready(function () {
             const text = $('.msgManageItem').eq(i).find('.content').val();
             const type =
                 $('.msgManageItem').eq(i).find('.contentTypeOption').attr('select-id') || 'text';
-            const imageID = $('.msgManageItem').eq(i).find('.msgImage').attr('select-id') || -1;
+            const imageSRC =
+                $('.msgManageItem').eq(i).find('.msgImage').attr('src') ||
+                '../Images/icon/upload.svg';
+
+            let tmpData = {
+                who: id,
+                type,
+            };
+
+            if (type == 'image') {
+                tmpData.imageSRC = imageSRC;
+            }
 
             if (text.length > 0) {
-                let tmpData = {
-                    who: id,
-                    type,
-                };
-
-                if (type == 'image') {
-                    tmpData.imageID = imageID;
-                }
-
                 if (type == 'text' || type == 'link') {
                     tmpData.text = text;
                 }

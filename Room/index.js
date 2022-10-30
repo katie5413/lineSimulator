@@ -2,7 +2,6 @@ $(document).ready(function () {
     let members = [];
     let message = [];
     let question = [];
-    let images = [];
     let currentMsgIndex = -1;
     let mainCharacterID = 0;
 
@@ -89,25 +88,6 @@ $(document).ready(function () {
         });
     }
 
-    // 圖片
-    function fetchRoomImageStatus() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: `../Api/getRoomGallery.php`,
-                dataType: 'json',
-                success: function (data) {
-                    images = data;
-
-                    resolve(true);
-                },
-                fail: function (xhr, ajaxOptions, thrownError) {
-                    reject(false);
-                },
-            });
-        });
-    }
-
     // 確定都有拿到資料
     (async function () {
         try {
@@ -115,16 +95,8 @@ $(document).ready(function () {
             let getMsgDone = await fetchRoomMsgStatus();
             let getMainPersonDone = await fetchRoomMainPersonIDStatus();
             let getQuestionDone = await fetchRoomQuestionStatus();
-            let getImageDone = await fetchRoomImageStatus();
 
-            if (
-                getMemberDone &&
-                getMsgDone &&
-                getMainPersonDone &&
-                getQuestionDone &&
-                getImageDone
-            ) {
-                console.log('images', images);
+            if (getMemberDone && getMsgDone && getMainPersonDone && getQuestionDone) {
                 console.log('message', message);
                 $('#triggerMsgNext').on('click', function () {
                     if (currentMsgIndex < message.length - 1) {
@@ -146,11 +118,7 @@ $(document).ready(function () {
                                 text = message[currentMsgIndex].text;
                                 break;
                             case 'image':
-                                images.forEach((image) => {
-                                    if (image.id == message[currentMsgIndex].imageID) {
-                                        imageItem = image;
-                                    }
-                                });
+                                imageItem = message[currentMsgIndex].imageSRC;
                                 break;
                         }
 
@@ -168,8 +136,7 @@ $(document).ready(function () {
                                         : message[currentMsgIndex].type,
                                 characterName: msgOwner == null ? '沒有成員' : msgOwner.name,
                                 characterImg: msgOwner == null ? null : msgOwner.img,
-                                msgImg: imageItem == null ? ' ' : imageItem.img,
-                                msgImgName: imageItem == null ? ' ' : imageItem.name,
+                                msgImg: imageItem,
                                 direction: message[currentMsgIndex].who == mainCharacterID ? 1 : 0,
                             }),
                         );
@@ -183,11 +150,9 @@ $(document).ready(function () {
                             $(`.messageItem[data-key="${key}"] .text`).text(text);
                         }
 
-                        if (
-                            message[currentMsgIndex].type == 'link'
-                        ) {
+                        if (message[currentMsgIndex].type == 'link') {
                             $(`.messageItem[data-key="${key}"] .text a`).text(text);
-                            $(`.messageItem[data-key="${key}"] .text a`).attr('href',text);
+                            $(`.messageItem[data-key="${key}"] .text a`).attr('href', text);
                         }
 
                         $(`.messageItem[data-key="${key}"]`)[0].scrollIntoView();
@@ -213,18 +178,9 @@ $(document).ready(function () {
 
                         $('#quickView').on('click', function (e) {
                             let close = true;
-                            console.log();
                             if (e.target == document.getElementById('quickView')) {
                                 closeModal();
                             }
-                            // $('.modalWrapper').on('click', function () {
-                            //     close = false;
-                            //     console.log(close);
-                            // });
-                            // console.log(close);
-                            // if (close) {
-                            //     closeModal();
-                            // }
                         });
                     }
                 });
