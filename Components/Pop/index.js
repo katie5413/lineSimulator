@@ -77,9 +77,9 @@ function getRoundedCanvas(sourceCanvas) {
 // 上傳留言圖片
 $('#upload_member_img').change(function () {
     var file = this.files[0];
-    //用size属性判断文件大小不能超过1M ，前端直接判断的好处，免去服务器的压力。
-    if (file.size > 1 * 1024 * 1024) {
-        alert('Too Big! No more than 1MB');
+    //用size属性判断文件大小不能超过 600FB ，前端直接判断的好处，免去服务器的压力。
+    if (file.size > 1 * 1024 * 600) {
+        alert('Too Big! No more than 600KB');
     }
 
     addMemberStep('upload');
