@@ -88,6 +88,23 @@ $(document).ready(function () {
         });
     }
 
+    function playSound(type) {
+        let sound;
+        switch (type) {
+            case 'bell':
+                sound = new Audio('../sound/bell.mp3');
+                break;
+            case 'correct':
+                sound = new Audio('../sound/correct.mp3');
+                break;
+            case 'incorrect':
+                sound = new Audio('../sound/incorrect.mp3');
+                break;
+        }
+
+        sound.play();
+    }
+
     // 確定都有拿到資料
     (async function () {
         try {
@@ -98,6 +115,7 @@ $(document).ready(function () {
 
             if (getMemberDone && getMsgDone && getMainPersonDone && getQuestionDone) {
                 console.log('message', message);
+
                 $('#triggerMsgNext').on('click', function () {
                     if (currentMsgIndex < message.length - 1) {
                         currentMsgIndex++;
@@ -124,8 +142,6 @@ $(document).ready(function () {
 
                         let key = generateUniqueId();
                         let name = msgOwner == null ? '沒有成員' : msgOwner.name;
-
-                        console.log(message[currentMsgIndex].type == undefined);
 
                         $('#message').append(
                             generateMsgItem({
@@ -274,26 +290,12 @@ $(document).ready(function () {
                     }
                     return valid;
                 }
+
+                // first msg
+                $('#triggerMsgNext').click();
             }
         } catch (err) {
             console.log(err);
         }
     })();
-
-    function playSound(type) {
-        let sound;
-        switch (type) {
-            case 'bell':
-                sound = new Audio('../sound/bell.mp3');
-                break;
-            case 'correct':
-                sound = new Audio('../sound/correct.mp3');
-                break;
-            case 'incorrect':
-                sound = new Audio('../sound/incorrect.mp3');
-                break;
-        }
-
-        sound.play();
-    }
 });
