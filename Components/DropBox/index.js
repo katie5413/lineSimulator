@@ -10,27 +10,28 @@ $(document).on('click', '.drop__container', function () {
     // 取消 error
     $(this).removeClass('error');
 
-    var search = $(this).find('input.select-selected[type="text"]').val();
-    if (search.trim() != '') {
-        $(this)
-            .find('.select-items')
-            .children()
-            .each(function () {
-                if ($(this).text().toLowerCase().indexOf(search.toLowerCase()) == -1) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
-    } else {
-        $(this)
-            .find('.select-items')
-            .children()
-            .each(function () {
-                $(this).show();
-            });
-        $(this).find('.select-selected').attr('select-id', '');
-    }
+    // filter
+    // var search = $(this).find('input.select-selected[type="text"]').val();
+    // if (search.trim() != '') {
+    //     $(this)
+    //         .find('.select-items')
+    //         .children()
+    //         .each(function () {
+    //             if ($(this).text().toLowerCase().indexOf(search.toLowerCase()) == -1) {
+    //                 $(this).hide();
+    //             } else {
+    //                 $(this).show();
+    //             }
+    //         });
+    // } else {
+    //     $(this)
+    //         .find('.select-items')
+    //         .children()
+    //         .each(function () {
+    //             $(this).show();
+    //         });
+    //     $(this).find('.select-selected').attr('select-id', '');
+    // }
 });
 
 $(document).on('click', '.drop__container .option', function () {
@@ -51,33 +52,34 @@ $(document).on('click', '.drop__container .drop__clear', function (e) {
     $(this).parent().find('.select-selected').attr('select-id', '');
 });
 
-$(document).on(
-    'focus change paste keyup',
-    '.drop__container input.select-selected[type="text"]',
-    function () {
-        var search = $(this).val();
-        if (search.trim() != '') {
-            $(this)
-                .siblings('.select-items')
-                .children()
-                .each(function () {
-                    if ($(this).text().toLowerCase().indexOf(search.toLowerCase()) == -1) {
-                        $(this).hide();
-                    } else {
-                        $(this).show();
-                    }
-                });
-        } else {
-            $(this)
-                .siblings('.select-items')
-                .children()
-                .each(function () {
-                    $(this).show();
-                });
-            $(this).attr('select-id', '');
-        }
-    },
-);
+// filter
+// $(document).on(
+//     'focus change paste keyup',
+//     '.drop__container input.select-selected[type="text"]',
+//     function () {
+//         var search = $(this).val();
+//         if (search.trim() != '') {
+//             $(this)
+//                 .siblings('.select-items')
+//                 .children()
+//                 .each(function () {
+//                     if ($(this).text().toLowerCase().indexOf(search.toLowerCase()) == -1) {
+//                         $(this).hide();
+//                     } else {
+//                         $(this).show();
+//                     }
+//                 });
+//         } else {
+//             $(this)
+//                 .siblings('.select-items')
+//                 .children()
+//                 .each(function () {
+//                     $(this).show();
+//                 });
+//             $(this).attr('select-id', '');
+//         }
+//     },
+// );
 
 $(document).on('click', function (e) {
     if ($('.drop__container') !== e.target && !$('.drop__container').has(e.target).length) {

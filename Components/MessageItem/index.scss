@@ -175,6 +175,7 @@
     &.image {
         .form__input[data-type='image'] {
             display: block;
+            cursor: pointer;
 
             img {
                 height: 40px;

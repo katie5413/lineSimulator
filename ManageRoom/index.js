@@ -232,6 +232,10 @@ $(document).ready(function () {
                     activeDeleteQuestionItem();
                 }
             }
+
+            if (getMemberDone && getMsgDone && getQuestionDone) {
+                closeLoading();
+            }
         } catch (err) {
             console.log(err);
         }
@@ -626,6 +630,9 @@ $(document).ready(function () {
                 $('.newContentTypeOption').removeAttr('select-id');
                 $('.newContentTypeOption').val('');
 
+                // 清空對話
+                $('#addMsg .newMsg .input').val('');
+
                 // 註冊對話事件
                 activeMsgItem();
                 activeGalleryItem(uuid);
@@ -744,6 +751,8 @@ $(document).ready(function () {
 
     // 儲存
     $('#saveContent').on('click', function () {
+        activeLoading('saving');
+
         // 儲存對話內容
         let msgData = [];
 
@@ -785,6 +794,9 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
             },
+            fail: function (xhr, ajaxOptions, thrownError) {
+                reject(false);
+            },
         });
 
         // 儲存題目
@@ -819,9 +831,14 @@ $(document).ready(function () {
             },
             success: function (data) {
                 console.log(data);
+                activeLoading('success');
+
                 setTimeout(function () {
                     window.location.reload();
-                }, 200);
+                }, 800);
+            },
+            fail: function (xhr, ajaxOptions, thrownError) {
+                reject(false);
             },
         });
     });
