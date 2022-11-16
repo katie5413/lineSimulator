@@ -12,7 +12,7 @@
     },
     "scripts": {
         "sass": "node-sass -w sass -o css",
-        "start:watch": "(node-sass -w --output-style compressed Components -o Components) & (node-sass -w --output-style compressed Room -o Room) & (node-sass -w --output-style compressed New -o New) & (node-sass -w --output-style compressed Backstage -o Backstage) & (node-sass -w --output-style compressed ManageRoom -o ManageRoom)",
+        "start:watch": "(node-sass -w --output-style compressed Components -o Components) & (node-sass -w --output-style compressed Room -o Room) & (node-sass -w --output-style compressed New -o New) & (node-sass -w --output-style compressed Backstage -o Backstage) & (node-sass -w --output-style compressed ManageRoom -o ManageRoom) & (node-sass -w --output-style compressed Rank -o Rank)",
         "watch:component": "node-sass -w --output-style compressed Components -o Components",
         "watch:room": "node-sass -w --output-style compressed Room -o Room",
         "watch:new": "node-sass -w --output-style compressed New -o New",

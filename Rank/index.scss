@@ -1,0 +1,22 @@
+#rankTable {
+    padding: 16px;
+
+    thead {
+        td {
+            font-weight: 700;
+            color: #2c4ce9;
+        }
+    }
+
+    td {
+        padding: 4px 24px;
+        letter-spacing: 0.8px;
+    }
+}
+
+.table {
+    background-color: white;
+    max-height: 80vh;
+    overflow: scroll;
+    border-radius: 12px;
+}
