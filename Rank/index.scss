@@ -1,22 +1,51 @@
-#rankTable {
-    padding: 16px;
-
-    thead {
-        td {
-            font-weight: 700;
-            color: #2c4ce9;
-        }
-    }
-
-    td {
-        padding: 4px 24px;
-        letter-spacing: 0.8px;
-    }
+body {
+    padding: 0;
+    margin: 0;
 }
 
-.table {
+.tab {
+    position: relative;
     background-color: white;
-    max-height: 80vh;
-    overflow: scroll;
     border-radius: 12px;
+    padding: 24px;
+    width: 800px;
+
+    & > .sort {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        right: 24px;
+        top: 24px;
+
+        align-items: center;
+        color: #d3d3d3;
+        font-size: 14px;
+        gap: 12px;
+
+        &.active {
+            display: flex;
+        }
+
+        & > button {
+            border: none;
+            background-color: transparent;
+            padding: 10px 12px;
+            color: #d3d3d3;
+            cursor: pointer;
+            border: 1px solid transparent;
+
+            &.active {
+                color: var(--function-dark);
+                font-weight: bold;
+                border: 1px solid var(--function-dark);
+                border-radius: 8px;
+            }
+        }
+
+        & > .bar {
+            background-color: var(--dark-gray);
+            height: 24px;
+            width: 1px;
+        }
+    }
 }

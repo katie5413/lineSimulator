@@ -3,7 +3,7 @@ session_start();
 include('../pdoInc.php');
 
 // getRoomRank
-$findRoomRank = $dbh->prepare('SELECT loginLog.roomID, room.managerEmail, room.roomName, COUNT(*) as times FROM loginLog LEFT JOIN room ON loginLog.roomID = room.roomID GROUP BY room.roomID ORDER BY times DESC');
+$findRoomRank = $dbh->prepare('SELECT loginLog.roomID, room.managerEmail, room.roomName, room.id as createTime, COUNT(*) as times FROM loginLog LEFT JOIN room ON loginLog.roomID = room.roomID GROUP BY room.roomID ORDER BY loginLog.roomID ASC');
 $findRoomRank->execute();
 
 $res = array();
