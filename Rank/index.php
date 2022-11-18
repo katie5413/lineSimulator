@@ -62,7 +62,7 @@ include "../pdoInc.php";
     <div class="tab">
         <div class="sort">
             <p>僅列出使用次數大於 1，並依</p>
-            <button class="sort-btn active" type="build-time">建立時間</button>
+            <button class="sort-btn active" type="build-time">最新建立</button>
             <div class="bar"></div>
             <button class="sort-btn" type="times">人氣</button>
             <p>排序</p>
