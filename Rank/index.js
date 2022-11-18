@@ -93,10 +93,10 @@ $(document).ready(function () {
                 const type = $(this).attr('type');
                 switch (type) {
                     case 'build-time':
-                        rankTable.order([1, 'asc']).draw();
+                        rankTable.order([0, 'asc']).draw();
                         break;
                     case 'times':
-                        rankTable.order([2, 'asc']).draw();
+                        rankTable.order([4, 'desc']).draw();
                         break;
                 }
             }
