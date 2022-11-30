@@ -13,6 +13,8 @@ $(document).ready(function () {
         $('.roomName.form__input.edit').removeClass('edit');
     });
 
+    closeLoading();
+
     const initRoomName = $('#changeRoomName').val();
 
     // 改房間名
@@ -135,6 +137,7 @@ $(document).ready(function () {
             let getMemberDone = await fetchRoomMemberStatus();
             let getMsgDone = await fetchRoomMsgStatus();
             let getQuestionDone = await fetchRoomQuestionStatus();
+
 
             if (getMemberDone) {
                 console.log('members', members);
