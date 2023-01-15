@@ -68,6 +68,9 @@ include "../pdoInc.php";
         <div class="text success">
             儲存成功，稍後刷新頁面
         </div>
+        <div class="text fail">
+            儲存失敗
+        </div>
     </div>
     <div class="bg">
 
@@ -113,9 +116,12 @@ include "../pdoInc.php";
                             <?php
                             $sth = $dbh->prepare('SELECT id, name FROM member WHERE roomID=?');
                             $sth->execute(array($_SESSION['roomOwner']));
+                            $memberNum = 0;
                             while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<div class="option" value=' . $row['id'] . '>' . $row['name'] . '</div>';
+                                $memberNum++;
                             }
+                            $_SESSION['roomMemberNumber'] = $memberNum;
                             ?>
                         </div>
                     </div>

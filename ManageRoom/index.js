@@ -138,7 +138,6 @@ $(document).ready(function () {
             let getMsgDone = await fetchRoomMsgStatus();
             let getQuestionDone = await fetchRoomQuestionStatus();
 
-
             if (getMemberDone) {
                 console.log('members', members);
                 // Member
@@ -365,51 +364,51 @@ $(document).ready(function () {
         let file = this.files[0];
         //用size属性判断文件大小不能超过1M ，前端直接判断的好处，免去服务器的压力。
         if (file.size > 1 * 1024 * 1024) {
-            alert('Too Big! No more than 1MB');
-        }
-
-        let reader = new FileReader();
-        reader.onload = function () {
-            // 通过 reader.result 来访问生成的 base64 DataURL
-            let base64 = reader.result;
-            $('#galleryModal')
-                .find('.cropImageResult')
-                .append(`<img class="tmpUploadImg" src="${base64}" alt="uploadImage">`);
-
-            // switch status
-            $('#galleryModal').attr('image-status', 'upload');
-
-            let image = $('#galleryModal').find('.tmpUploadImg')[0];
-            let button = $('#galleryModal').find('.crop_button')[0];
-
-            var cropper = new Cropper(image, {
-                ready: function (event) {
-                    // Zoom the image to its natural size
-                    // cropper.zoomTo(1);
-                },
-                crop: function (event) {},
-                zoom: function (event) {
-                    // Keep the image in its natural size
-                    if (event.detail.oldRatio === 1) {
-                        event.preventDefault();
-                    }
-                },
-            });
-
-            button.onclick = function () {
-                let croppedCanvas = cropper.getCroppedCanvas();
-
-                $('#galleryModal').find('.cropImageResult').children().remove();
+            alert('圖片不可大於 1MB');
+        } else {
+            let reader = new FileReader();
+            reader.onload = function () {
+                // 通过 reader.result 来访问生成的 base64 DataURL
+                let base64 = reader.result;
                 $('#galleryModal')
                     .find('.cropImageResult')
-                    .append(
-                        `<img class="croppedImg" src="${croppedCanvas.toDataURL()}" alt="croppedImg" />`,
-                    );
+                    .append(`<img class="tmpUploadImg" src="${base64}" alt="uploadImage">`);
+
                 // switch status
-                $('#galleryModal').attr('image-status', 'crop');
+                $('#galleryModal').attr('image-status', 'upload');
+
+                let image = $('#galleryModal').find('.tmpUploadImg')[0];
+                let button = $('#galleryModal').find('.crop_button')[0];
+
+                var cropper = new Cropper(image, {
+                    ready: function (event) {
+                        // Zoom the image to its natural size
+                        // cropper.zoomTo(1);
+                    },
+                    crop: function (event) {},
+                    zoom: function (event) {
+                        // Keep the image in its natural size
+                        if (event.detail.oldRatio === 1) {
+                            event.preventDefault();
+                        }
+                    },
+                });
+
+                button.onclick = function () {
+                    let croppedCanvas = cropper.getCroppedCanvas();
+
+                    $('#galleryModal').find('.cropImageResult').children().remove();
+                    $('#galleryModal')
+                        .find('.cropImageResult')
+                        .append(
+                            `<img class="croppedImg" src="${croppedCanvas.toDataURL()}" alt="croppedImg" />`,
+                        );
+                    // switch status
+                    $('#galleryModal').attr('image-status', 'crop');
+                };
             };
-        };
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        }
     });
 
     // 重新上傳
@@ -756,93 +755,128 @@ $(document).ready(function () {
     $('#saveContent').on('click', function () {
         activeLoading('saving');
 
-        // 儲存對話內容
-        let msgData = [];
+        (async function () {
+            try {
+                let checkContent = await checkContentSave();
+                let checkQuestion = await checkQuestionSave();
 
-        for (let i = 0; i < $('.msgManageItem').length; i++) {
-            const id = $('.msgManageItem').eq(i).find('.msgCharacter').attr('select-id') || -1;
-            const text = $('.msgManageItem').eq(i).find('.content').val();
-            const type =
-                $('.msgManageItem').eq(i).find('.contentTypeOption').attr('select-id') || 'text';
-            const imageSRC =
-                $('.msgManageItem').eq(i).find('.msgImage').attr('src') ||
-                '../Images/icon/upload.svg';
+                if (checkContent && checkQuestion) {
+                    activeLoading('success');
 
-            let tmpData = {
-                who: id,
-                type,
-            };
-
-            if (type == 'image') {
-                tmpData.imageSRC = imageSRC;
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            } catch (err) {
+                console.log(err);
+                activeLoading('fail');
+                
+                setTimeout(() => {
+                    alert('儲存失敗，聊天室內容過大，請壓縮圖片後再試一次');
+                    closeLoading();
+                }, 1000);
+                
             }
+        })();
+    });
 
-            if (text.length > 0) {
-                if (type == 'text' || type == 'link') {
-                    tmpData.text = text;
+    function checkContentSave() {
+        return new Promise((resolve, reject) => {
+            // 儲存對話內容
+            let msgData = [];
+
+            for (let i = 0; i < $('.msgManageItem').length; i++) {
+                const id = $('.msgManageItem').eq(i).find('.msgCharacter').attr('select-id') || -1;
+                const text = $('.msgManageItem').eq(i).find('.content').val();
+                const type =
+                    $('.msgManageItem').eq(i).find('.contentTypeOption').attr('select-id') ||
+                    'text';
+                const imageSRC =
+                    $('.msgManageItem').eq(i).find('.msgImage').attr('src') ||
+                    '../Images/icon/upload.svg';
+
+                let tmpData = {
+                    who: id,
+                    type,
+                };
+
+                if (type == 'image') {
+                    tmpData.imageSRC = imageSRC;
                 }
 
-                msgData.push(tmpData);
-            }
-        }
-        console.log(msgData);
+                if (text.length > 0) {
+                    if (type == 'text' || type == 'link') {
+                        tmpData.text = text;
+                    }
 
-        $.ajax({
-            type: 'POST',
-            url: `../Api/updateRoomContent.php`,
-            dataType: 'json',
-            data: {
-                content: JSON.stringify(msgData),
-            },
-            success: function (data) {
-                console.log(data);
-            },
-            fail: function (xhr, ajaxOptions, thrownError) {
-                reject(false);
-            },
+                    msgData.push(tmpData);
+                }
+            }
+            console.log(msgData);
+
+            $.ajax({
+                type: 'POST',
+                url: `../Api/updateRoomContent.php`,
+                dataType: 'json',
+                data: {
+                    content: JSON.stringify(msgData),
+                },
+                success: function (data) {
+                    console.log(data);
+                    resolve(true);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr, ajaxOptions, thrownError);
+                    reject(false);
+                },
+            });
         });
+    }
 
-        // 儲存題目
-        let questionData = [];
+    function checkQuestionSave() {
+        return new Promise((resolve, reject) => {
+            // 儲存題目
+            let questionData = [];
 
-        for (let i = 0; i < $('.questionManageItem').length; i++) {
-            let questionIndexName = $('.questionManageItem').eq(i).find('.questionIndexName').val();
-            let answerID =
-                $('.questionManageItem').eq(i).find('.answerOption').attr('select-id') || -1;
-            let options = $('.questionManageItem').eq(i).find('.content').val();
-            let selection = options.split(',');
-            if (selection[selection.length - 1] == '') {
-                selection.pop();
+            for (let i = 0; i < $('.questionManageItem').length; i++) {
+                let questionIndexName = $('.questionManageItem')
+                    .eq(i)
+                    .find('.questionIndexName')
+                    .val();
+                let answerID =
+                    $('.questionManageItem').eq(i).find('.answerOption').attr('select-id') || -1;
+                let options = $('.questionManageItem').eq(i).find('.content').val();
+                let selection = options.split(',');
+                if (selection[selection.length - 1] == '') {
+                    selection.pop();
+                }
+
+                if (selection.length > 0) {
+                    let tmpData = {
+                        indexName: questionIndexName,
+                        options: selection,
+                        answerID,
+                    };
+                    questionData.push(tmpData);
+                }
             }
 
-            if (selection.length > 0) {
-                let tmpData = {
-                    indexName: questionIndexName,
-                    options: selection,
-                    answerID,
-                };
-                questionData.push(tmpData);
-            }
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: `../Api/updateRoomQuestion.php`,
-            dataType: 'json',
-            data: {
-                content: JSON.stringify(questionData),
-            },
-            success: function (data) {
-                console.log(data);
-                activeLoading('success');
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 800);
-            },
-            fail: function (xhr, ajaxOptions, thrownError) {
-                reject(false);
-            },
+            $.ajax({
+                type: 'POST',
+                url: `../Api/updateRoomQuestion.php`,
+                dataType: 'json',
+                data: {
+                    content: JSON.stringify(questionData),
+                },
+                success: function (data) {
+                    console.log(data);
+                    resolve(true);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr, ajaxOptions, thrownError);
+                    reject(false);
+                },
+            });
         });
-    });
+    }
 });

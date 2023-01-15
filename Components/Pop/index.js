@@ -77,54 +77,54 @@ function getRoundedCanvas(sourceCanvas) {
 // 上傳留言圖片
 $('#upload_member_img').change(function () {
     var file = this.files[0];
-    //用size属性判断文件大小不能超过 600FB ，前端直接判断的好处，免去服务器的压力。
+    //用size属性判断文件大小不能超过 600KB ，前端直接判断的好处，免去服务器的压力。
     if (file.size > 1 * 1024 * 600) {
-        alert('Too Big! No more than 600KB');
-    }
+        alert('圖片不可大於 600KB');
+    } else {
+        addMemberStep('upload');
 
-    addMemberStep('upload');
+        var reader = new FileReader();
+        reader.onload = function () {
+            // 通过 reader.result 来访问生成的 base64 DataURL
+            var base64 = reader.result;
+            $('#member__img_area').hide();
+            $('#result').append(`<img id="member_img" src="${base64}" alt="avatar">`);
 
-    var reader = new FileReader();
-    reader.onload = function () {
-        // 通过 reader.result 来访问生成的 base64 DataURL
-        var base64 = reader.result;
-        $('#member__img_area').hide();
-        $('#result').append(`<img id="member_img" src="${base64}" alt="avatar">`);
+            var image = document.getElementById('member_img');
+            var button = document.getElementById('crop_button');
+            var cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1,
+                ready: function () {
+                    croppable = true;
+                },
+            });
 
-        var image = document.getElementById('member_img');
-        var button = document.getElementById('crop_button');
-        var cropper = new Cropper(image, {
-            aspectRatio: 1,
-            viewMode: 1,
-            ready: function () {
-                croppable = true;
-            },
-        });
+            button.onclick = function () {
+                var croppedCanvas;
+                var roundedCanvas;
 
-        button.onclick = function () {
-            var croppedCanvas;
-            var roundedCanvas;
+                if (!croppable) {
+                    return;
+                }
 
-            if (!croppable) {
-                return;
-            }
+                // Crop
+                croppedCanvas = cropper.getCroppedCanvas();
 
-            // Crop
-            croppedCanvas = cropper.getCroppedCanvas();
+                // Round
+                roundedCanvas = getRoundedCanvas(croppedCanvas);
 
-            // Round
-            roundedCanvas = getRoundedCanvas(croppedCanvas);
+                // Show
+                $('#result').children().remove();
+                $('#result').append(
+                    `<img id="member_img" src="${roundedCanvas.toDataURL()}" alt="avatar" />`,
+                );
 
-            // Show
-            $('#result').children().remove();
-            $('#result').append(
-                `<img id="member_img" src="${roundedCanvas.toDataURL()}" alt="avatar" />`,
-            );
-
-            addMemberStep('crop');
+                addMemberStep('crop');
+            };
         };
-    };
-    reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+    }
 
     // $('#uploadAvatar').click();
 });

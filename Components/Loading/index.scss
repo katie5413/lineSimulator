@@ -45,6 +45,12 @@
             display: block;
         }
     }
+
+    &[type='fail'] {
+        .text.fail {
+            display: block;
+        }
+    }
 }
 
 @keyframes spin {
