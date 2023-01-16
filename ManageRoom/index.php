@@ -133,6 +133,7 @@ include "../pdoInc.php";
         <div class="manageMember">
             <h3>聊天室成員(<?php echo $_SESSION['roomMemberNumber'] ?>)</h3>
             <div class="buttons">
+                <button id="share" class="button button-hollow">複製連結</button>
                 <button id="watch" class="button button-hollow">檢視模式</button>
                 <button id="saveContent" class="button button-fill">儲存</button>
             </div>

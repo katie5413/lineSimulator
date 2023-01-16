@@ -9,7 +9,7 @@ $(document).ready(function () {
     if (roomID) {
         if (roomID.length == 6) {
             for (let i = 0; i < 6; i++) {
-                inputs[i].value = roomID[i];
+                inputs[i].value = roomID[i].toUpperCase();
             }
         }
         $('#loginBtn').focus();

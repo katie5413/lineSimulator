@@ -270,6 +270,19 @@ $(document).ready(function () {
         }, 200);
     });
 
+    $('#share').on('click', function () {
+        let dummy = document.createElement('input'),
+            text = window.location.href;
+
+        document.body.appendChild(dummy);
+        const shareLink = text.concat(`?roomCode=${roomID}`).replace('/ManageRoom','');
+        dummy.value = shareLink;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        alert('複製成功！');
+    });
+
     // toggleExpand
     $('.toggleExpand').click(function () {
         $(this).toggleClass('collapse');
