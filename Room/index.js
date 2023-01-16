@@ -2,6 +2,8 @@ $(document).ready(function () {
     let roomID;
     const windowID = generateUniqueId().slice(0, 10);
 
+    activeLoading('init');
+
     const fetchRoomID = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -181,6 +183,7 @@ $(document).ready(function () {
                 let getQuestionDone = await fetchRoomQuestionStatus();
 
                 if (getMemberDone && getMsgDone && getMainPersonDone && getQuestionDone) {
+                    closeLoading();
                     $('#triggerMsgNext').on('click', function () {
                         if (currentMsgIndex < message.length - 1) {
                             currentMsgIndex++;

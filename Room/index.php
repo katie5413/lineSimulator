@@ -18,6 +18,7 @@ include "../pdoInc.php";
     <link rel="stylesheet" type="text/css" href="../Components/MessageItem/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/QuestionItem/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/ErrorMsg/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/Loading/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="index.css?v=<?php echo time(); ?>">
     <!-- Google Tag Manager -->
     <script>
@@ -53,6 +54,21 @@ include "../pdoInc.php";
 </head>
 
 <body>
+    <div id="loaderWrapper" class="active" type="init">
+        <div class="loader"></div>
+        <div class="text init">
+            初始化中，請稍等
+        </div>
+        <div class="text saving">
+            儲存中
+        </div>
+        <div class="text success">
+            儲存成功，稍後刷新頁面
+        </div>
+        <div class="text fail">
+            儲存失敗
+        </div>
+    </div>
     <div class="room_bg">
         <div class="room_content_overlay">
         </div>
@@ -140,6 +156,7 @@ include "../pdoInc.php";
     <script src="../Components/Modal/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/QuestionItem/index.js?v=<?php echo time(); ?>"></script>
     <script src="../Components/ErrorMsg/index.js?v=<?php echo time(); ?>"></script>
+    <script src="../Components/Loading/index.js?v=<?php echo time(); ?>"></script>
     <script src="index.js?v=<?php echo time(); ?>"></script>
 </body>
 <!-- Google Tag Manager (noscript) -->
