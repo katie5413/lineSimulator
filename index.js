@@ -1,8 +1,22 @@
 $(document).ready(function () {
     // 輸入房間代碼
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const roomID = urlParams.get('roomCode');
 
     const inputs = document.querySelectorAll('.passcodeArea > input');
-    inputs[0].focus();
+
+    if (roomID) {
+        if (roomID.length == 6) {
+            for (let i = 0; i < 6; i++) {
+                inputs[i].value = roomID[i];
+            }
+        }
+        $('#loginBtn').focus();
+    } else {
+        inputs[0].focus();
+    }
+
     for (elem of inputs) {
         elem.addEventListener('input', function () {
             const value = this.value;
@@ -75,7 +89,7 @@ $(document).ready(function () {
                             sendLoginLog(code);
 
                             setTimeout(function () {
-                                window.location.href = `Room/index.php?roomCode=${code}`;
+                                window.location.href = `Room/index.php`;
                             }, 200);
 
                             break;
