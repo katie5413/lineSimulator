@@ -3,6 +3,7 @@ $(document).ready(function () {
     let message = [];
     let question = [];
     let mainCharacterID = 0;
+    activeLoading('init')
 
     // 房間名
     $('.roomName.form__input').click(function () {
@@ -12,8 +13,6 @@ $(document).ready(function () {
     $('#changeRoomName').blur(function () {
         $('.roomName.form__input.edit').removeClass('edit');
     });
-
-    closeLoading();
 
     const initRoomName = $('#changeRoomName').val();
 
@@ -237,6 +236,7 @@ $(document).ready(function () {
 
             if (getMemberDone && getMsgDone && getQuestionDone) {
                 closeLoading();
+                console.log('載入完成');
             }
         } catch (err) {
             console.log(err);

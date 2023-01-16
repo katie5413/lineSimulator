@@ -60,7 +60,7 @@ include "../pdoInc.php";
     <div id="loaderWrapper" class="active" type="init">
         <div class="loader"></div>
         <div class="text init">
-            初始化中
+            初始化中，請稍等
         </div>
         <div class="text saving">
             儲存中
