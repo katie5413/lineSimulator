@@ -45,6 +45,7 @@ include "../pdoInc.php";
 
         gtag('config', 'G-8DB50MGVFV');
     </script>
+    <title>超時空座談｜排行榜</title>
 </head>
 
 <body>

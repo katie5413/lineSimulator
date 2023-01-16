@@ -49,6 +49,7 @@ include "../pdoInc.php";
 
         gtag('config', 'G-8DB50MGVFV');
     </script>
+    <title>超時空座談｜房間</title>
 </head>
 
 <body>
