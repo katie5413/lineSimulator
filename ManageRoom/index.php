@@ -63,15 +63,6 @@ include "../pdoInc.php";
         <div class="text init">
             初始化中，請稍等
         </div>
-        <div class="text saving">
-            儲存中
-        </div>
-        <div class="text success">
-            儲存成功，稍後刷新頁面
-        </div>
-        <div class="text fail">
-            儲存失敗
-        </div>
     </div>
     <div class="bg">
 
