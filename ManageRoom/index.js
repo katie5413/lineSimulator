@@ -1,9 +1,10 @@
 $(document).ready(function () {
+    const roomID = document.getElementById('roomID').textContent;
     let members = [];
     let message = [];
     let question = [];
     let mainCharacterID = 0;
-    activeLoading('init')
+    activeLoading('init');
 
     // 房間名
     $('.roomName.form__input').click(function () {
@@ -35,6 +36,7 @@ $(document).ready(function () {
             url: `../Api/updateRoomName.php`,
             data: {
                 name: $('#changeRoomName').val(),
+                roomID,
             },
             dataType: 'json',
             success: function (data) {
@@ -55,6 +57,7 @@ $(document).ready(function () {
             url: `../Api/updateRoomMainPerson.php`,
             data: {
                 personID: $(this).attr('value'),
+                roomID,
             },
             dataType: 'json',
             success: function (data) {
@@ -297,6 +300,7 @@ $(document).ready(function () {
                         id: $(this).attr('data-id'),
                         name: $('#add_member_name').val(),
                         img: $('#member_img').attr('src'),
+                        roomID,
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -312,6 +316,7 @@ $(document).ready(function () {
                     data: {
                         name: $('#add_member_name').val(),
                         img: $('#member_img').attr('src'),
+                        roomID,
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -332,6 +337,7 @@ $(document).ready(function () {
             url: `../Api/deleteRoomMember.php`,
             data: {
                 id: $(this).attr('data-id'),
+                roomID,
             },
             dataType: 'json',
             success: function (data) {
@@ -770,12 +776,11 @@ $(document).ready(function () {
             } catch (err) {
                 console.log(err);
                 activeLoading('fail');
-                
+
                 setTimeout(() => {
                     alert('儲存失敗，聊天室內容過大，請壓縮圖片後再試一次');
                     closeLoading();
                 }, 1000);
-                
             }
         })();
     });
@@ -820,6 +825,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: {
                     content: JSON.stringify(msgData),
+                    roomID,
                 },
                 success: function (data) {
                     console.log(data);
@@ -867,6 +873,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: {
                     content: JSON.stringify(questionData),
+                    roomID,
                 },
                 success: function (data) {
                     console.log(data);

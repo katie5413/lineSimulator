@@ -6,17 +6,18 @@ $newMemberData = array();
 $newMemberData = array("status" => "404");
 
 // 檢查是否有代碼
-if (isset($_POST['id']) && isset($_SESSION['roomOwner'])) {
+if (isset($_POST['id']) && isset($_POST['roomID'])) {
+    $roomID = $_POST['roomID'];
 
     $deleteMember = $dbh->prepare('DELETE FROM member WHERE id=? and roomID=?');
-    $deleteMember->execute(array($_POST['id'], $_SESSION['roomOwner']));
+    $deleteMember->execute(array($_POST['id'], $roomID));
 
 
     $newMemberData = array("status" => "success", "id" => $_POST['id']);
 
     // getMembers
     $findRoomMember = $dbh->prepare('SELECT * FROM member WHERE roomID = ? ORDER BY id ASC');
-    $findRoomMember->execute(array($_SESSION['roomOwner']));
+    $findRoomMember->execute(array($roomID));
 
     $roomMemberNumber = 0;
     $members = array();

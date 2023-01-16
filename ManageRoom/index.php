@@ -76,7 +76,7 @@ include "../pdoInc.php";
 
         <div class="header">
             <div class="roomName active form__input">
-                <h3># <span id="roomCode"><?php echo $_SESSION['roomOwner'] ?></span></h3>
+                <h3># <span id="roomID"><?php echo $_SESSION['roomOwner'] ?></span></h3>
                 <input id="changeRoomName" name="roomName" value="<?php echo $_SESSION['roomName'] ?>" />
             </div>
             <div class="mainCharacter">
