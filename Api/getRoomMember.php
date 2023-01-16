@@ -1,8 +1,8 @@
 <?php
 session_start();
 include('../pdoInc.php');
-if (isset($_SESSION['roomID'])) {
-    $roomID = $_SESSION['roomID'];
+if (isset($_POST['roomID'])) {
+    $roomID = $_POST['roomID'];
     // getMembers
     $findRoomMember = $dbh->prepare('SELECT * FROM member WHERE roomID = ? ORDER BY id ASC');
     $findRoomMember->execute(array($roomID));

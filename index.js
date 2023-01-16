@@ -72,9 +72,10 @@ $(document).ready(function () {
                 success: function (data) {
                     switch (data.status) {
                         case 'success':
-                            sendLoginLog();
+                            sendLoginLog(code);
+
                             setTimeout(function () {
-                                window.location.href = 'Room/index.php';
+                                window.location.href = `Room/index.php?roomCode=${code}`;
                             }, 200);
 
                             break;
@@ -95,10 +96,13 @@ $(document).ready(function () {
         }
     });
 
-    function sendLoginLog() {
+    function sendLoginLog(code) {
         $.ajax({
             type: 'POST',
             url: `Api/addLoginLog.php`,
+            data: {
+                roomID: code,
+            },
             dataType: 'json',
             success: function (data) {
                 console.log('send log', data);

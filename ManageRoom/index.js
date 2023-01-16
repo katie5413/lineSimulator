@@ -17,20 +17,7 @@ $(document).ready(function () {
 
     const initRoomName = $('#changeRoomName').val();
 
-    // 改房間名
-    $(document).click(function (e) {
-        if (
-            $('.roomName.form__input') !== e.target &&
-            !$('.roomName.form__input').has(e.target).length
-        ) {
-            $('.roomName.form__input').removeClass('edit');
-            if (initRoomName !== $('#changeRoomName').val()) {
-                changeRoomName();
-            }
-        }
-    });
-
-    function changeRoomName() {
+    const changeRoomName = () => {
         $.ajax({
             type: 'POST',
             url: `../Api/updateRoomName.php`,
@@ -43,7 +30,20 @@ $(document).ready(function () {
                 console.log('editRoomName', data);
             },
         });
-    }
+    };
+
+    // 改房間名
+    $(document).click(function (e) {
+        if (
+            $('.roomName.form__input') !== e.target &&
+            !$('.roomName.form__input').has(e.target).length
+        ) {
+            $('.roomName.form__input').removeClass('edit');
+            if (initRoomName !== $('#changeRoomName').val()) {
+                changeRoomName();
+            }
+        }
+    });
 
     // 選擇視角
     $(document).on('click', '.mainCharacter .drop__container .option', function () {
@@ -69,54 +69,70 @@ $(document).ready(function () {
     });
 
     // 成員名單
-    function fetchRoomMemberStatus() {
+    const fetchRoomMemberStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomMember.php`,
                 dataType: 'json',
+                data: {
+                    roomID,
+                },
                 success: function (memberData) {
                     members = memberData;
-
+                    console.log('載入成員成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入成員失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
     // 對話
-    function fetchRoomMsgStatus() {
+    const fetchRoomMsgStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomMsg.php`,
                 dataType: 'json',
+                data: {
+                    roomID,
+                },
                 success: function (msgData) {
                     const messageData = JSON.parse(msgData);
-                    messageData.forEach((msg) => {
-                        message.push(msg);
-                    });
 
-                    message = messageData;
+                    // 創建時沒有內容，會是 null ，因此會報錯
+                    if (messageData != null) {
+                        messageData.forEach((msg) => {
+                            message.push(msg);
+                        });
+                        message = messageData;
+                    }
+
+                    console.log('載入對話成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入對話失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
     // 問題
-    function fetchRoomQuestionStatus() {
+    const fetchRoomQuestionStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomQuestion.php`,
                 dataType: 'json',
+                data: {
+                    roomID,
+                },
                 success: function (data) {
                     const questionData = JSON.parse(data);
                     if (questionData != null) {
@@ -125,14 +141,16 @@ $(document).ready(function () {
                         });
                     }
 
+                    console.log('載入題目成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入題目失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
     (async function () {
         try {
