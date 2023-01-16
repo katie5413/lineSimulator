@@ -1,4 +1,33 @@
 $(document).ready(function () {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const roomID = urlParams.get('roomCode');
+    const windowID = generateUniqueId().slice(0, 10);
+
+    // 先檢查是否存在
+    $.ajax({
+        type: 'POST',
+        url: `../Api/checkRoomExist.php`,
+        data: {
+            roomID,
+        },
+        dataType: 'json',
+        success: function (res) {
+            console.log('res', res.status);
+
+            if (res.status != 'exist') {
+                alert('房間不存在');
+
+                window.location.href = '../index.php';
+            } else {
+                dataLayer.push({ event: 'enterRoom', roomID: roomID, windowID: windowID });
+            }
+        },
+        fail: function (xhr, ajaxOptions, thrownError) {
+            console.log('伺服器錯誤');
+        },
+    });
+
     let members = [];
     let message = [];
     let question = [];
@@ -10,85 +39,118 @@ $(document).ready(function () {
     });
 
     // show pillMsg
-    function fetchRoomMemberStatus() {
+    const fetchRoomMemberStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomMember.php`,
+                data: {
+                    roomID,
+                },
                 dataType: 'json',
                 success: function (memberData) {
-                    members = memberData;
+                    console.log('member', memberData);
 
-                    $('#message').append(generatePillMsg({ member: members }));
+                    if (memberData.length > 0) {
+                        members = memberData;
+                        $('#message').append(generatePillMsg({ member: members }));
+                    }
+
+                    console.log('載入成員成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入成員失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
-    function fetchRoomMsgStatus() {
+    const fetchRoomMsgStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomMsg.php`,
+                data: {
+                    roomID,
+                },
                 dataType: 'json',
                 success: function (msgData) {
-                    const messageData = JSON.parse(msgData);
-                    messageData.forEach((msg) => {
-                        message.push(msg);
-                    });
+                    const messageData = msgData.length > 0 ? JSON.parse(msgData) : null;
 
-                    message = messageData;
+                    console.log('message', messageData);
+
+                    // 創建時沒有內容，會是 null ，因此會報錯
+                    if (messageData != null) {
+                        messageData.forEach((msg) => {
+                            message.push(msg);
+                        });
+                        message = messageData;
+                    }
+
+                    console.log('載入對話成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入對話失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
-    function fetchRoomQuestionStatus() {
+    const fetchRoomQuestionStatus = () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomQuestion.php`,
+                data: {
+                    roomID,
+                },
                 dataType: 'json',
                 success: function (data) {
                     const questionData = JSON.parse(data);
-                    questionData.forEach((questionItem) => {
-                        question.push(questionItem);
-                    });
+                    console.log('question', questionData);
+                    if (questionData != null) {
+                        questionData.forEach((questionItem) => {
+                            question.push(questionItem);
+                        });
+                    }
+                    console.log('載入題目成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入題目失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
-    function fetchRoomMainPersonIDStatus() {
+    const fetchRoomMainPersonIDStatus = () => {
         return new Promise((resolve, reject) => {
             // get mainCharacterID
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `../Api/getRoomMainPersonID.php`,
+                data: {
+                    roomID,
+                },
                 success: function (id) {
                     mainCharacterID = id;
+                    console.log('載入角色視角成功');
                     resolve(true);
                 },
                 fail: function (xhr, ajaxOptions, thrownError) {
+                    console.log('載入角色視角失敗');
                     reject(false);
                 },
             });
         });
-    }
+    };
 
-    function playSound(type) {
+    const playSound = (type) => {
         let sound;
         switch (type) {
             case 'bell':
@@ -103,7 +165,7 @@ $(document).ready(function () {
         }
 
         sound.play();
-    }
+    };
 
     // 確定都有拿到資料
     (async function () {
@@ -114,11 +176,11 @@ $(document).ready(function () {
             let getQuestionDone = await fetchRoomQuestionStatus();
 
             if (getMemberDone && getMsgDone && getMainPersonDone && getQuestionDone) {
-                console.log('message', message);
-
                 $('#triggerMsgNext').on('click', function () {
                     if (currentMsgIndex < message.length - 1) {
                         currentMsgIndex++;
+                        dataLayer.push({ event: 'nextMsg', roomID: roomID, windowID: windowID });
+
                         playSound('bell');
 
                         let msgOwner = members.filter(
@@ -206,6 +268,8 @@ $(document).ready(function () {
 
                         $('#message .messageItem').last().remove();
 
+                        dataLayer.push({ event: 'preMsg', roomID: roomID, windowID: windowID });
+
                         if (currentMsgIndex == -1) {
                             $('#triggerMsgPrev').removeClass('active');
                         } else {
@@ -243,10 +307,20 @@ $(document).ready(function () {
                     console.log(userAnswer.length, answer.length);
                     if (userAnswer.length == answer.length) {
                         let valid = checkAnswer(userAnswer, answer);
+                        dataLayer.push({
+                            event: 'submitAnswer',
+                            roomID: roomID,
+                            windowID: windowID,
+                        });
 
                         if (valid) {
                             $('.congrats').addClass('active');
                             playSound('correct');
+                            dataLayer.push({
+                                event: 'correct',
+                                roomID: roomID,
+                                windowID: windowID,
+                            });
                         } else {
                             $('.congrats').removeClass('active');
 
@@ -255,6 +329,12 @@ $(document).ready(function () {
                                 msg: '再檢查一下吧ＱＱ',
                             });
                             playSound('incorrect');
+                            dataLayer.push({
+                                event: 'incorrect',
+                                roomID: roomID,
+                                windowID: windowID,
+                                answer: userAnswer,
+                            });
                         }
                     } else {
                         showErrorMsg({
@@ -262,6 +342,12 @@ $(document).ready(function () {
                             msg: '有未作答的題目',
                         });
                         playSound('incorrect');
+
+                        dataLayer.push({
+                            event: 'notAllFill',
+                            roomID: roomID,
+                            windowID: windowID,
+                        });
                     }
                 });
 

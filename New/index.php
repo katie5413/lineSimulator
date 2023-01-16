@@ -31,11 +31,11 @@ include "../pdoInc.php";
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-TWGQMN8');
+        })(window, document, 'script', 'dataLayer', 'GTM-MNWLVHK');
     </script>
     <!-- End Google Tag Manager -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CMZ45H5BZ4"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DB50MGVFV"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -44,7 +44,7 @@ include "../pdoInc.php";
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-CMZ45H5BZ4');
+        gtag('config', 'G-8DB50MGVFV');
     </script>
 </head>
 
@@ -115,7 +115,7 @@ include "../pdoInc.php";
     <script src="index.js?v=<?php echo time(); ?>"></script>
 </body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWGQMN8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNWLVHK" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 </html>
