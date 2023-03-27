@@ -9,6 +9,7 @@ body {
     border-radius: 12px;
     padding: 24px;
     width: 800px;
+    height: 70%;
 
     & > .sort {
         display: none;
@@ -47,5 +48,9 @@ body {
             height: 24px;
             width: 1px;
         }
+    }
+
+    & > .table__container {
+        height: 100%;
     }
 }
