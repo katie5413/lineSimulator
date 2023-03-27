@@ -26,10 +26,10 @@ $(document).ready(function () {
                             generateRankDataTr({
                                 index: i + 1,
                                 id: rank[i].id,
+                                name: rank[i].name,
                                 managerEmail: `${
                                     rank[i].managerEmail ? encodeEmail(rank[i].managerEmail) : '無'
                                 }`,
-                                name: rank[i].name,
                                 time: rank[i].times,
                             }),
                         );
@@ -48,9 +48,9 @@ $(document).ready(function () {
         let rankDataTrTemplate = `
         <tr>
             <td>{{index}}</td>
-            <td>{{id}}</td>
-            <td>{{managerEmail}}</td>
+            <td><a href="../index.php?roomCode={{id}}" target="_blank">{{id}}</a></td>
             <td>{{name}}</td>
+            <td>{{managerEmail}}</td>
             <td>{{time}}</td>
         </tr>
         `;
@@ -68,6 +68,7 @@ $(document).ready(function () {
             scrollX: true,
             paging: true,
             searching: true,
+            iDisplayLength: 100,
             language: {
                 lengthMenu: '每頁顯示 _MENU_ 筆',
                 zeroRecords: '沒有資料',

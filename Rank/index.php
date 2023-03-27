@@ -62,11 +62,9 @@ include "../pdoInc.php";
 
     <div class="tab">
         <div class="sort">
-            <p>僅列出使用次數大於 1，並依</p>
             <button class="sort-btn active" type="build-time">最新建立</button>
             <div class="bar"></div>
-            <button class="sort-btn" type="times">人氣</button>
-            <p>排序</p>
+            <button class="sort-btn" type="times">最高人氣</button>
         </div>
         <div class="table__container">
             <table id="rankTable" class="stripe" style="width: 100%">
@@ -74,8 +72,8 @@ include "../pdoInc.php";
                     <tr>
                         <th>#</th>
                         <th>ID</th>
-                        <th>信箱</th>
                         <th>房間名稱</th>
+                        <th>信箱</th>
                         <th>使用人次</th>
                     </tr>
                 </thead>
