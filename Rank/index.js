@@ -28,7 +28,7 @@ $(document).ready(function () {
                                 id: rank[i].id,
                                 name: rank[i].name,
                                 managerEmail: `${
-                                    rank[i].managerEmail ? encodeEmail(rank[i].managerEmail) : '無'
+                                    rank[i].managerEmail ? rank[i].managerEmail : '無'
                                 }`,
                                 time: rank[i].times,
                             }),
@@ -81,7 +81,23 @@ $(document).ready(function () {
                     previous: '<img src="../Images/icon/arrow-left.svg">',
                 },
             },
+            columnDefs: [
+                { width: '5%', targets: 0, orderable: false, searchable: false },
+                { width: '30%', targets: 2 },
+                { width: '30%', targets: 3 },
+            ],
         });
+
+        rankTable
+            .on('order.dt search.dt', function () {
+                rankTable
+                    .column(0, { search: 'applied', order: 'applied' })
+                    .nodes()
+                    .each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+            })
+            .draw();
 
         rankTable.columns.adjust().draw();
         sortPosition();
