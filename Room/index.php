@@ -13,6 +13,7 @@ include "../pdoInc.php";
     <link rel="stylesheet" type="text/css" href="../Components/DropBox/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/PillMsg/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Button/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../Components/Input/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Notice/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/Modal/index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="../Components/MessageItem/index.css?v=<?php echo time(); ?>">
@@ -115,15 +116,15 @@ include "../pdoInc.php";
             </button>
         </div>
         <div id="quickView" class="modal">
-                <div class="modalWrapper">
-                    <!-- <img class="icon modalCancel" src="../Images/icon/close.svg" /> -->
-                    <div class="content">
-                        <div class="middle">
-                            <img src="../Images/ufo.png" />
-                        </div>
+            <div class="modalWrapper">
+                <!-- <img class="icon modalCancel" src="../Images/icon/close.svg" /> -->
+                <div class="content">
+                    <div class="middle">
+                        <img src="../Images/ufo.png" />
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 
     <div class="room_question">
@@ -131,13 +132,17 @@ include "../pdoInc.php";
             <div class="blockTitle">作答區
                 <img id="closeQA" src="../Images/icon/close.svg" alt="close">
             </div>
+            <div class="form__input">
+                <input id="submitName" class="input" type="text" value="" placeholder="暱稱（選填）" />
+            </div>
             <div id="question"></div>
             <div class="errorMsg">
                 <img class="icon" src="../Images/icon/error.svg" alt="error" />
                 <span class="text">errorText</span>
             </div>
             <div class="congrats">
-                <span class="text">你答對啦～</span>
+                <div class="text"><span></span>答對啦～</div>
+                <div class="time">作答時間：<span></span></div>
             </div>
             <div class="function_button">
                 <button id="submitAnswer" class="button button-fill">提交</button>

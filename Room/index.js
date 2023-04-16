@@ -181,9 +181,45 @@ $(document).ready(function () {
                 let getMsgDone = await fetchRoomMsgStatus();
                 let getMainPersonDone = await fetchRoomMainPersonIDStatus();
                 let getQuestionDone = await fetchRoomQuestionStatus();
+                const startTime = new Date();
+
+                function showRecord() {
+                    // 將兩個時間轉換成 JavaScript 的 Date 物件
+                    const date1 = startTime;
+                    const date2 = new Date();
+
+                    // 取得兩個 Date 物件的時間戳記
+                    const timestamp1 = date1.getTime();
+                    const timestamp2 = date2.getTime();
+
+                    const minutes = 60;
+                    const hours = 60 * 24;
+
+                    // 計算毫秒差
+                    const diffSeconds = (Math.round((timestamp2 - timestamp1) / 1000) * 10) / 10;
+
+                    const totalHours = Math.floor(diffSeconds / hours);
+                    const formattedHours = totalHours > 9 ? totalHours : `0${totalHours}`;
+
+                    const totalMinutes = Math.floor(diffSeconds / minutes);
+                    const formattedMinutes = totalMinutes > 9 ? totalMinutes : `0${totalMinutes}`;
+                    const totalSeconds = diffSeconds - minutes * totalMinutes;
+                    const formattedSeconds = totalSeconds > 9 ? totalSeconds : `0${totalSeconds}`;
+
+                    const formattedTime =
+                        totalHours === 0
+                            ? `${formattedMinutes}:${formattedSeconds}`
+                            : `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+                    const name = $('#submitName').val();
+                    $('.congrats .text span').text(name);
+                    $('.congrats .time span').text(formattedTime);
+                    $('#submitAnswer').hide();
+                }
 
                 if (getMemberDone && getMsgDone && getMainPersonDone && getQuestionDone) {
                     closeLoading();
+                    console.log('start:', startTime.toDateString());
                     $('#triggerMsgNext').on('click', function () {
                         if (currentMsgIndex < message.length - 1) {
                             currentMsgIndex++;
@@ -334,6 +370,8 @@ $(document).ready(function () {
                                     roomID: roomID,
                                     windowID: windowID,
                                 });
+
+                                showRecord();
                             } else {
                                 $('.congrats').removeClass('active');
 
