@@ -143,6 +143,7 @@ include "../pdoInc.php";
             <div class="congrats">
                 <div class="text"><span></span>答對啦～</div>
                 <div class="time">作答時間：<span></span></div>
+                <div class="submitTimes">作答次數：<span></span></div>
             </div>
             <div class="function_button">
                 <button id="submitAnswer" class="button button-fill">提交</button>

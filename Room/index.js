@@ -182,6 +182,7 @@ $(document).ready(function () {
                 let getMainPersonDone = await fetchRoomMainPersonIDStatus();
                 let getQuestionDone = await fetchRoomQuestionStatus();
                 const startTime = new Date();
+                let submittedTimes = 0; // 提交次數
 
                 function showRecord() {
                     // 將兩個時間轉換成 JavaScript 的 Date 物件
@@ -214,6 +215,8 @@ $(document).ready(function () {
                     const name = $('#submitName').val();
                     $('.congrats .text span').text(name);
                     $('.congrats .time span').text(formattedTime);
+                    $('.congrats .submitTimes span').text(submittedTimes);
+
                     $('#submitAnswer').hide();
                 }
 
@@ -353,6 +356,9 @@ $(document).ready(function () {
 
                     $('#submitAnswer').click(() => {
                         let userAnswer = getAnswer();
+
+                        // 累積提交次數
+                        submittedTimes++;
 
                         if (userAnswer.length == answer.length) {
                             let valid = checkAnswer(userAnswer, answer);
