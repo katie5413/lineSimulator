@@ -63,6 +63,9 @@ include "../pdoInc.php";
         <div class="text init">
             初始化中，請稍等
         </div>
+        <div class="text success">
+            初始化中，請稍等
+        </div>
     </div>
     <div class="bg">
 
@@ -120,6 +123,7 @@ include "../pdoInc.php";
                 </div>
             </div>
         </div>
+        <p>註：圖片不可大於 800KB </p>
 
         <div class="manageMember">
             <h3>聊天室成員(<?php echo $_SESSION['roomMemberNumber'] ?>)</h3>

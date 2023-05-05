@@ -1,4 +1,6 @@
 <?php
+/* 20230505 改成進去房間才拿資料，節省載入時間，暫時不會用到這支 */
+
 session_start();
 include('../pdoInc.php');
 $roomData = array();

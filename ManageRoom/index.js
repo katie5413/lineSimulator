@@ -798,11 +798,11 @@ $(document).ready(function () {
                 let checkQuestion = await checkQuestionSave();
 
                 if (checkContent && checkQuestion) {
-                    activeLoading('success');
+                    alert('儲存成功');
 
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
+                    activeLoading("success");
+
+                    closeLoading();
                 }
             } catch (err) {
                 console.log(err);

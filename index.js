@@ -78,7 +78,7 @@ $(document).ready(function () {
             console.log('no password');
             $.ajax({
                 type: 'POST',
-                url: `Api/getRoom.php`,
+                url: `Api/checkRoomExist.php`,
                 dataType: 'json',
                 data: {
                     roomID: code,
