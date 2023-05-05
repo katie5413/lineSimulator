@@ -399,9 +399,9 @@ $(document).ready(function () {
 
     $('#upload_gallery_img').change(function () {
         let file = this.files[0];
-        //用size属性判断文件大小不能超过1M ，前端直接判断的好处，免去服务器的压力。
-        if (file.size > 1 * 1024 * 1024) {
-            alert('圖片不可大於 1MB');
+        //用size属性判断文件大小不能超过800KB ，前端直接判断的好处，免去服务器的压力。
+        if (file.size > 1 * 1024 * 800) {
+            alert('圖片不可大於 800KB');
         } else {
             let reader = new FileReader();
             reader.onload = function () {
