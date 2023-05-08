@@ -11,6 +11,8 @@
 
 正式網址：https://myheroes.tw/minigames/LineChat/index.php?roomCode=TESTID
 
+排行榜（作品分享）：https://myheroes.tw/minigames/LineChat/Rank/index.php
+
 測試房號： TESTID
 
 後台網址：https://myheroes.tw/minigames/LineChat/Backstage/index.php
@@ -60,6 +62,8 @@
 ├── New 新增會客室入口
 
 ├── Room 檢視模式
+
+├── Rank 排行榜，檢視目前已開通房號的使用狀況
 
 ├── index.css
 
