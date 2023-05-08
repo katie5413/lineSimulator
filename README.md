@@ -9,9 +9,14 @@
 
 這裡僅作版控
 
-正式網址：https://myheroes.tw/minigames/LineChat/index.php
+正式網址：https://myheroes.tw/minigames/LineChat/index.php?roomCode=TESTID
 
 測試房號： TESTID
+
+後台網址：https://myheroes.tw/minigames/LineChat/Backstage/index.php
+
+測試房號密碼：1
+
 
 #### 管理者
 
@@ -27,6 +32,11 @@
 前端：HTML/JS/scss
 
 後端：php/MySQL
+
+## 特色
+- 學生免註冊登入直接使用，節省操作時間
+- 提供遊戲化閱讀文本媒介
+- 管理者可以在後台一鍵分享連結
 
 
 ## 架構
