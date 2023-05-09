@@ -102,7 +102,10 @@ $(document).ready(function () {
                     roomID,
                 },
                 success: function (msgData) {
-                    const messageData = JSON.parse(msgData);
+                        console.log(msgData, msgData.length);
+                        const messageData = msgData.length > 0 ? JSON.parse(msgData) : null;
+
+                        console.log('message', messageData);
 
                     // 創建時沒有內容，會是 null ，因此會報錯
                     if (messageData != null) {
