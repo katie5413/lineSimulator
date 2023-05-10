@@ -86,8 +86,8 @@ $(document).ready(function () {
                     },
                     dataType: 'json',
                     success: function (msgData) {
-                        console.log(msgData, msgData.length);
-                        const messageData = msgData.length > 0 ? JSON.parse(msgData) : null;
+                        console.log('msgData', msgData);
+                        const messageData = msgData !== null ? JSON.parse(msgData) : null;
 
                         console.log('message', messageData);
 

@@ -102,8 +102,8 @@ $(document).ready(function () {
                     roomID,
                 },
                 success: function (msgData) {
-                        console.log(msgData, msgData.length);
-                        const messageData = msgData.length > 0 ? JSON.parse(msgData) : null;
+                        console.log('msgData', msgData);
+                        const messageData = msgData !== null ? JSON.parse(msgData) : null;
 
                         console.log('message', messageData);
 
@@ -801,7 +801,7 @@ $(document).ready(function () {
                 let checkQuestion = await checkQuestionSave();
 
                 if (checkContent && checkQuestion) {
-                    alert('儲存成功');
+                    openPop({ tab: $('#noticeTab'), data:  '儲存成功，請重整後繼續編輯'});
 
                     activeLoading("success");
 
@@ -812,7 +812,7 @@ $(document).ready(function () {
                 activeLoading('fail');
 
                 setTimeout(() => {
-                    alert('儲存失敗，聊天室內容過大，請壓縮圖片後再試一次');
+                    openPop({ tab: $('#noticeTab'), data:  '儲存失敗，聊天室內容過大，請壓縮圖片後再試一次'});
                     closeLoading();
                 }, 1000);
             }

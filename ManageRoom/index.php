@@ -275,6 +275,22 @@ include "../pdoInc.php";
             </div>
         </div>
     </div>
+    <div id="noticeTab" class="pop close" mode="notice">
+        <div class="inner">
+            <div class="top">
+                <div class="title">
+                    <img class="header__icon" src="../Images/icon/member.svg" alt="icon">
+                    <span>提醒</span>
+                </div>
+                <div class="close">
+                    <img src="../Images/icon/close.svg" alt="close" />
+                </div>
+            </div>
+            <div class="content">
+                {{text}}
+            </div>
+        </div>
+    </div>
     <div id="galleryModal" class="modal cropImageModal" action-type="" image-status="init">
         <div class="modalWrapper">
             <div class="content">

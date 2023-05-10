@@ -46,6 +46,9 @@ function openPop({ tab, data }) {
             $('#result').append(`<img id="member_img" src="${data.img}" alt="avatar">`);
         }
     }
+    if(mode === 'notice'){
+        tab.find('.inner .content').text(data);
+    }
     $('body').addClass('fixed');
 }
 
