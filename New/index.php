@@ -103,7 +103,7 @@ include "../pdoInc.php";
             </div>
             <div class="bottomBtnArea">
                 <button id="addNewRoomBtn" class="entryBtn" type="button">
-                    送出
+                    登入
                 </button>
             </div>
         </div>
