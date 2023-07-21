@@ -76,7 +76,7 @@ include "../pdoInc.php";
         <div class="room_header">
             <div class="room_header_left">
                 <img id="backBtn" src="../Images/icon/arrowBack.svg" alt="back" />
-                <div class="room_name"><?php echo $_SESSION['roomName']; ?>（<?php echo $_SESSION['roomMemberNumber']; ?>）</div>
+                <div class="room_name"><?php echo $_SESSION['roomName']; ?><span id="totalMember"><span></div>
             </div>
             <div class="room_header_right">
                 <img src="../Images/icon/search.svg" alt="search" />

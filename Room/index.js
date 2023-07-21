@@ -60,6 +60,8 @@ $(document).ready(function () {
                     success: function (memberData) {
                         console.log('member', memberData);
 
+                        $("#totalMember").text(`（${memberData.length}）`)
+
                         if (memberData.length > 0) {
                             members = memberData;
                             $('#message').append(generatePillMsg({ member: members }));
@@ -86,7 +88,6 @@ $(document).ready(function () {
                     },
                     dataType: 'json',
                     success: function (msgData) {
-                        console.log('msgData', msgData);
                         const messageData = msgData !== null ? JSON.parse(msgData) : null;
 
                         console.log('message', messageData);
