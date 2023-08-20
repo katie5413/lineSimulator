@@ -91,7 +91,7 @@ include "../pdoInc.php";
                 <div class="form__input">
                     <div class="drop__container">
                         <?php
-                        $sth = $dbh->prepare('SELECT name FROM member WHERE id=? AND roomID=?');
+                        $sth = $dbh->prepare('SELECT id, name FROM member WHERE id=? AND roomID=?');
                         $sth->execute(array($_SESSION['roomMainPersonID'], $_SESSION['roomOwner']));
 
                         $setName = '';
