@@ -86,6 +86,7 @@ $(document).ready(function () {
                 { width: '30%', targets: 2 },
                 { width: '30%', targets: 3 },
             ],
+            order: [[4, 'desc']]
         });
 
         rankTable

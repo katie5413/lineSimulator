@@ -62,9 +62,9 @@ include "../pdoInc.php";
 
     <div class="tab">
         <div class="sort">
-            <button class="sort-btn active" type="build-time">最新建立</button>
+            <button class="sort-btn" type="build-time">最新建立</button>
             <div class="bar"></div>
-            <button class="sort-btn" type="times">最高人氣</button>
+            <button class="sort-btn active" type="times">最高人氣</button>
         </div>
         <div class="table__container">
             <table id="rankTable" class="stripe" style="width: 100%">
